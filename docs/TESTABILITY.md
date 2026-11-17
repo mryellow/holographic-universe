@@ -53,7 +53,7 @@ extension that meets the necessary condition over a broad range of scales.
 |---|---|---|
 | `T_b/M₅ ≈ 0.171` is fixed by the CMB amplitude | `eq49`, `eq49_planck2013_sharp`, `eq49_planck2018` | One parameter is already used up by data. Planck 2013 gives `[0.17061, 0.17216]`; Planck 2018 gives `[0.1697, 0.17051]` |
 | `r_c = M₄²/(2M₅³) ≳ 3/H₀` | `rc_eq_planck`, `eq51` | Gravity changes at **Hubble** scales, not at short distances |
-| `ρ_BH ∝ a⁻⁴` | `rhoBH_scaling` | Behaves like radiation, so BBN and `N_eff` can see it |
+| `ρ_BH ∝ a⁻⁴`, but suppressed | `rhoBH_scaling`, `BraneCosmology.darkRadiation_le`, `abs_deltaNeff_bbn` | Scales like radiation, but enters `H²` with weight `1/(r_c H)`, not `1`. BBN and `N_eff` cannot see it: `\|ΔN_eff\| ≤ 3×10⁻¹⁴` at BBN |
 | `𝒦 > 0` (closed slicing) | `BraneCosmology.K_pos` | Predicts `Ω_k < 0` |
 | Bounds on `ρ̃_s/ρ` per branch | `eq33`–`eq35` | Restrict the allowed parameter region |
 | Normal-branch sign tension | `orientation_minus_branch`, `pressure_of_timelike_junction` | **Resolved** (M3.1): the paper's `ε = -1` is too strong. `ε` follows the sign of `ρ̃`, so the normal branch with `ρ_BH < ρ` has `ε = +1` |
@@ -258,7 +258,8 @@ ruled out in this form. That is a legitimate result.
 
 ### P3: Background: closed curvature, dark radiation, BBN
 
-- **Status:** idea
+- **Status:** dark-radiation route **closed** (proved in Lean, 2026-11-18). What remains is
+  standard closed curvature and the late-time expansion, where `r_c H ∼ 1`.
 - **Hypothesis:** The extended model fits BBN, the CMB and BAO with `Ω_k < 0` and a
   bulk-black-hole contribution that acts like `ΔN_eff`, with values inside current bounds.
 - **Model inputs:** `Ω_k`, `r_h`, `ρ̃_s`, branch; `ρ_BH ∝ a⁻⁴` (`rhoBH_scaling`).
@@ -272,11 +273,25 @@ ruled out in this form. That is a legitimate result.
   the normal branch with `0 ≤ ρ_BH ≤ ρ`, `|H² + 𝒦/a² − H_std²| ≤ H_std/r_c`, where
   `H_std² = (8πG_N/3)ρ`. So the bulk black hole changes `H²` by a relative amount of at most
   `1/(r_c H_std)`. It does not act as `ΔN_eff` where `r_c H ≫ 1`.
-- **Next concrete step:** write `H²(a)` on the normal branch in closed form as a function of
-  `(ρ_m, ρ_r, ρ_Λ, ρ_BH, ρ̃_s, 𝒦)`. Plot it against flat ΛCDM for `ρ_BH/ρ_r ∈ {0.01, 0.1}`.
+  `DarkRadiation.lean` removes both hypotheses (the branch and `ρ_BH ≤ ρ`):
+  `|H² + 𝒦/a² − H_std²| ≤ (y + (3/2)y²)H_std²` with `y = 1/(r_c H_std)`, on either branch and for
+  any `ρ_BH ≥ 0` (`BraneCosmology.abs_frw_sub_le`). On the normal branch the black hole's own part
+  of `ρ̃` is `0 ≤ Δ ≤ ρ_BH/(r_c H_std)` (`BraneCosmology.darkRadiation_le`): it acts like dark
+  radiation, but with weight `1/(r_c H)`, not `1` as in Randall–Sundrum. With `r_c ≥ 3/H₀`, the
+  `ΔN_eff` inferred from `H²` is at most `3×10⁻¹⁴` during BBN (`H ≥ 10¹⁴H₀`, `ρ ≤ 8ρ_ν`;
+  `abs_deltaNeff_bbn`) and at most `1.1×10⁻³` up to recombination (`H ≥ 10⁴H₀`, `ρ ≤ 32ρ_ν`;
+  `abs_deltaNeff_recombination`). The epoch values of `H/H₀` and `ρ/ρ_ν` are ΛCDM hypotheses.
+- **Consequence:** the early background passes G2 trivially: it is FRW to `10⁻¹⁴` at BBN. For
+  the same reason it offers no early-universe signature for G3. Any background signature has to
+  come from late times, where `r_c H ∼ 1` (DGP-type expansion, already constrained by BAO and
+  supernovae), or from `Ω_k < 0`, which is standard curvature.
+- **Next concrete step:** none for the dark-radiation route. For the rest of P3: check whether the
+  paper's `−Ω_k ∼ M₅/M_*` (Sec. 5) is compatible with `|Ω_k| ≲ 0.002` given `M₅ ≲ 9 MeV`.
 - **Log:** 2026-11-17: created. 2026-11-17: the Lean bound above suggests that, on the normal
   branch with `ρ_BH ≤ ρ`, the `ΔN_eff` route needs `r_c H ≲ 1` at BBN. That conflicts with
-  `r_c ≳ 1/H₀`. A numerical check with BBN values is still to do.
+  `r_c ≳ 1/H₀`. A numerical check with BBN values is still to do. 2026-11-18: done in Lean, with
+  no branch and no `ρ_BH ≤ ρ` hypothesis (`DarkRadiation.lean`). `|ΔN_eff| ≤ 3×10⁻¹⁴` at BBN. The
+  dark-radiation route is closed.
 
 *(Add P4 onward from O2, O3 and O7 with the template.)*
 

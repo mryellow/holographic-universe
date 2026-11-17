@@ -33,6 +33,7 @@ import HolographicUniverse.RadialIntegrals
 import HolographicUniverse.SecondOrder
 import HolographicUniverse.BlueTilt
 import HolographicUniverse.Cascade
+import HolographicUniverse.DarkRadiation
 
 /-!
 # Axiom audit (ROADMAP M0.1)
@@ -889,3 +890,19 @@ open WhiteHole
 /-- info: 'WhiteHole.abs_dphiB_le_exp' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms abs_dphiB_le_exp
+
+/-- info: 'WhiteHole.BraneCosmology.abs_frw_sub_le' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.abs_frw_sub_le
+
+/-- info: 'WhiteHole.BraneCosmology.darkRadiation_le' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.darkRadiation_le
+
+/-- info: 'WhiteHole.BraneCosmology.abs_deltaNeff_bbn' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.abs_deltaNeff_bbn
+
+/-- info: 'WhiteHole.BraneCosmology.abs_deltaNeff_recombination' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.abs_deltaNeff_recombination

@@ -29,7 +29,7 @@ Equation numbers refer to Pourhasan, Afshordi & Mann, arXiv:1309.1487v2.
 | Induced pressure (Eq. 16) | derived from continuity (Eqs. 12–13) |
 | General bulk `f` (M5) | Eqs. (26), (30), (16) and the singularity results proved for any `f` (`GeneralBulk.lean`); Schwarzschild derived as a special case. Schwarzschild–AdS₅ (`AdSBulk.lean`, M5.2) and Reissner–Nordström₅ (`ChargedBulk.lean`, M5.3) done |
 | Observational bounds (Eqs. 33–35) | proved (Eq. 35 with fewer hypotheses than stated) |
-| Leading-order amplitude (Eq. 48), `T_b/M₅` (Eq. 49), `M₅` bound (Eq. 51) | proved, with `M(0) = 15ζ(5)/π²` as the only remaining hypothesis. The integral, `ζ(5)` and the coefficient range are proved (`Integrals.lean`, `Zeta.lean`, `ampCoeff_bounds`) |
+| Leading-order amplitude (Eq. 48), `T_b/M₅` (Eq. 49), `M₅` bound (Eq. 51) | proved. `M(0) = 15ζ(5)/π²` is proved from the thermal integral (`thermalM_zero`, M7.1), so Eq. (48) no longer assumes it (`eq48_leading_thermalM`). The integral, `ζ(5)` and the coefficient range are proved (`Integrals.lean`, `Zeta.lean`, `ampCoeff_bounds`) |
 | Brane geometry, Brown–York, Gauss–Codazzi (Eqs. 3–10), Friedmann (11) | **assumed** |
 | Extrinsic curvature of the embedding (Eqs. 21–25) | **assumed** |
 | Thermal correlators (Eqs. 39–47) | **assumed** |
@@ -39,6 +39,7 @@ Equation numbers refer to Pourhasan, Afshordi & Mann, arXiv:1309.1487v2.
 | Pressure singularity (M3.4) | proved (`Singularity.lean`): at the saturated reality bound, where the branches meet; inside the horizon exactly when `\|H\| ≥ 1/(2r_c)` |
 | Non-vacuity (does any `BraneCosmology` exist?) | proved (`Instances.lean`): a static family for both `ε = ±1` and any `r_h` outside the brane, and the self-accelerating de Sitter vacuum. An expanding solution with `r_h > 0` and radiation, in closed form (`Bounce.lean`, M2.2). With `ε = -1` on the normal branch there is **no** solution for ordinary matter (`NormalBranch.lean`, M2.3) |
 | Dynamics (M4) | reduction to `ȧ² = F(a)` for `P = wρ` proved (`Dynamics.lean`, M4.1). Local existence and uniqueness away from the singularity proved, turning points included (`LocalExistence.lean`, `TurningPoint.lean`, M4.2). Maximal solutions proved, with escape from compact sets at a finite end (`MaximalSolution.lean`, M4.2). A global solution defines a `BraneCosmology` (`FromSolution.lean`, M4.2). Horizon-crossing time proved (`Horizon.lean`, M4.3). Late-time limits, the FRW limit and the singularity proved (`Asymptotics.lean`, M4.4) |
+| Background vs BBN and CMB (TESTABILITY P3) | proved (`DarkRadiation.lean`): on either branch and for any `ρ_BH ≥ 0`, `H²` is standard FRW up to a relative `1/(r_c H_std)`. The bulk black hole is not dark radiation: `\|ΔN_eff\| ≤ 3×10⁻¹⁴` at BBN (`abs_deltaNeff_bbn`) |
 | Axiom audit | enforced at build time (`Audit.lean`) |
 | Acceleration equation | **derived** wherever `H ≠ 0`, with no smoothness assumption beyond the structure (`Acceleration.lean`). Not implied at `H = 0`: the static instances violate it. `BraneCosmology.IsSolution` adds it (M2.5) |
 

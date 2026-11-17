@@ -17,6 +17,10 @@ the brane suppresses every effect of the bulk, by a factor `1/(r_c H_std)`, wher
 `|H² + 𝒦/a² - H_std²| ≤ (y + (3/2)y²)·H_std²` (`BraneCosmology.abs_frw_sub_le`). This
 strengthens `normal_branch_frw_rc_of_le`: no branch and no bound `ρ_BH ≤ ρ` are assumed.
 
+**Any bulk.** For a bulk density of either sign (Schwarzschild–AdS, Reissner–Nordström, any
+`f`), `|ρ̃| ≤ (y² + y√(1 + |ρ_bulk|/ρ))ρ` (`abs_le_rel_of_isInduced_any`), so
+`|H² + 𝒦/a² - H_std²| ≤ (y² + y√(1 + |ρ_bulk|/ρ))·H_std²` (`BulkCosmology.abs_frw_sub_le`).
+
 **The black-hole part.** On the normal branch, write `ρ̃ = ρ̃_-(0, ρ) + Δ`, where `Δ` is the
 part due to the black hole. Then `0 ≤ Δ ≤ ρ_BH/(r_c H_std)` (`rhoTilde_minus_sub_le`,
 `BraneCosmology.darkRadiation_le`). The black hole does act like dark radiation (`Δ ≥ 0`), but
@@ -78,6 +82,56 @@ theorem abs_le_rel_of_isInduced {s b ρ x y : ℝ} (hs : 0 < s) (hρ : 0 < ρ) (
     (sqrt_le_sqrt hsq).trans_eq (sqrt_sq (by positivity))
   have := abs_le_of_isInduced hs h
   linear_combination this + hu - (3 / 2 : ℝ) * hyρ
+
+/-- **Any bulk.** For a bulk density `b` of either sign (Schwarzschild–AdS, Reissner–Nordström,
+any `f`), with `y ≥ 0` and `y²ρ = 2ρ̃_s`: `|ρ̃| ≤ (y² + y√(1 + |b|/ρ))ρ`. The bulk enters with
+weight `y = 1/(r_c H_std)`, under a square root. -/
+theorem abs_le_rel_of_isInduced_any {s b ρ x y : ℝ} (hs : 0 < s) (hρ : 0 < ρ) (hy : 0 ≤ y)
+    (hyρ : y ^ 2 * ρ = 2 * s) (h : IsInduced s b ρ x) :
+    |x| ≤ (y ^ 2 + y * √(1 + |b| / ρ)) * ρ := by
+  have h1 := abs_le_of_isInduced hs h
+  have e : 2 * s * (ρ + |b|) = (y * ρ) ^ 2 * (1 + |b| / ρ) := by
+    rw [← hyρ]; field_simp
+  have htri : |ρ - b| ≤ ρ + |b| :=
+    abs_le.2 ⟨by linarith [le_abs_self b], by linarith [neg_abs_le b]⟩
+  have hle : 2 * s * |ρ - b| ≤ (y * ρ) ^ 2 * (1 + |b| / ρ) := by
+    rw [← e]; exact mul_le_mul_of_nonneg_left htri (by positivity)
+  have hu : √(2 * s * |ρ - b|) ≤ y * ρ * √(1 + |b| / ρ) := by
+    calc _ ≤ √((y * ρ) ^ 2 * (1 + |b| / ρ)) := sqrt_le_sqrt hle
+      _ = _ := by rw [sqrt_mul (sq_nonneg _), sqrt_sq (by positivity)]
+  linear_combination h1 + hu - hyρ
+
+/-- `y = 1/(r_c √((8πG_N/3)ρ))` satisfies `y²ρ = 2ρ̃_s`. -/
+theorem Couplings.inv_rc_sqrt_sq_mul (c : Couplings) {ρ : ℝ} (hρ : 0 < ρ) :
+    (1 / (c.rc * √(8 * π * c.GN / 3 * ρ))) ^ 2 * ρ = 2 * c.rhoS := by
+  have hG : 0 < 8 * π * c.GN / 3 := by have := c.GN_pos; positivity
+  have hrc := c.rc_pos
+  have hg := c.gN_mul_rhoS
+  rw [div_pow, mul_pow, sq_sqrt (by positivity)]
+  have hs : c.rhoS = 1 / (2 * c.rc ^ 2) / (8 * π * c.GN / 3) := by
+    rw [eq_div_iff hG.ne', mul_comm, hg]; ring
+  rw [hs]
+  field_simp
+
+/-- **Standard FRW for any bulk.** In a `BulkCosmology` with `ρ > 0`, and with
+`H_std = √((8πG_N/3)ρ)` and `y = 1/(r_c H_std)`:
+`|H² + 𝒦/a² - H_std²| ≤ (y² + y√(1 + |ρ_bulk|/ρ))·H_std²`, on either branch. -/
+theorem BulkCosmology.abs_frw_sub_le (M : BulkCosmology) {t : ℝ} (hρ : 0 < M.ρ t) :
+    |M.H t ^ 2 + M.K / M.a t ^ 2 - 8 * π * M.c.GN / 3 * M.ρ t|
+      ≤ ((1 / (M.c.rc * √(8 * π * M.c.GN / 3 * M.ρ t))) ^ 2
+          + 1 / (M.c.rc * √(8 * π * M.c.GN / 3 * M.ρ t)) * √(1 + |M.rhoBulk t| / M.ρ t))
+        * (8 * π * M.c.GN / 3 * M.ρ t) := by
+  have hG : 0 < 8 * π * M.c.GN / 3 := by have := M.c.GN_pos; positivity
+  have hy : 0 ≤ 1 / (M.c.rc * √(8 * π * M.c.GN / 3 * M.ρ t)) := by
+    have := M.c.rc_pos; positivity
+  have hx := abs_le_rel_of_isInduced_any M.c.rhoS_pos hρ hy (M.c.inv_rc_sqrt_sq_mul hρ)
+    (M.isInduced t)
+  have hF := M.friedmann t
+  rw [show M.H t ^ 2 + M.K / M.a t ^ 2 - 8 * π * M.c.GN / 3 * M.ρ t
+      = 8 * π * M.c.GN / 3 * M.ρt t by unfold BulkCosmology.H; linarith, abs_mul, abs_of_pos hG]
+  calc 8 * π * M.c.GN / 3 * |M.ρt t| ≤ 8 * π * M.c.GN / 3 * (_ * M.ρ t) :=
+        mul_le_mul_of_nonneg_left hx hG.le
+    _ = _ := by ring
 
 /-! ### The black-hole part on the normal branch -/
 
@@ -147,15 +201,8 @@ theorem Hstd_pos {t : ℝ} (hρ : 0 < M.ρ t) : 0 < M.Hstd t := by
 
 /-- `y = 1/(r_c H_std)` satisfies `y²ρ = 2ρ̃_s`. -/
 theorem inv_rc_Hstd_sq_mul {t : ℝ} (hρ : 0 < M.ρ t) :
-    (1 / (M.c.rc * M.Hstd t)) ^ 2 * M.ρ t = 2 * M.c.rhoS := by
-  have hG : 0 < 8 * π * M.c.GN / 3 := by have := M.c.GN_pos; positivity
-  have hrc := M.c.rc_pos
-  have hg := M.c.gN_mul_rhoS
-  rw [div_pow, mul_pow, M.Hstd_sq hρ.le]
-  have hs : M.c.rhoS = 1 / (2 * M.c.rc ^ 2) / (8 * π * M.c.GN / 3) := by
-    rw [eq_div_iff hG.ne', mul_comm, hg]; ring
-  rw [hs]
-  field_simp
+    (1 / (M.c.rc * M.Hstd t)) ^ 2 * M.ρ t = 2 * M.c.rhoS :=
+  M.c.inv_rc_sqrt_sq_mul hρ
 
 /-- **Standard FRW on both branches, for any `ρ_BH`.** With `ρ > 0` and `y = 1/(r_c H_std)`,
 `|H² + 𝒦/a² - H_std²| ≤ (y + (3/2)y²)·H_std²`. Unlike `normal_branch_frw_rc_of_le`, this

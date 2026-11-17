@@ -65,7 +65,7 @@ extension that meets the necessary condition over a broad range of scales.
 | `G_N` (`M₄`) | 4D Newton constant | measured |
 | `G_b` (`M₅`) | 5D gravitational constant | bounded: `M₅ ≤ 9 MeV` (Eq. 51, `eq51_numeric`), from `r_c ≳ 3/H₀` |
 | `T_b` | temperature of the brane's thermal atmosphere | fixed relative to `M₅` by `A_s` (Eq. 49) |
-| `𝒦`, i.e. `Ω_k` | spatial curvature | free; paper estimates `−Ω_k ∼ M₅/M_*` (Sec. 5) |
+| `𝒦`, i.e. `Ω_k` | spatial curvature | set by the parent's mass `M_*`: the paper's `−Ω_k ∼ M₅/M_*` (Sec. 5) holds at the start, when `H ∼ M₅`. Today, `−Ω_k ≈ 5×10⁻²²·(M_⊙/M_*)` for `M₅ = 9 MeV` (estimate, see O4) |
 | `r_h`, i.e. `μ` | bulk black-hole horizon / mass | free; enters through `ρ_BH` |
 | `ε` (Eq. 32) | allowed size of `ρ̃/ρ` | modeling choice, `~0.1` in the paper |
 | branch, orientation | `ρ̃_±`, normal orientation | normal branch preferred (no ghosts); orientation fixed by the sign of `ρ̃` (`orientation_iff`) |
@@ -86,13 +86,13 @@ Verdicts:
 | O1 | Spectral tilt `n_s` and its running | **Core** (gate) | Yes, through how the tilt arises and the running it implies | Planck, ACT, SPT, Simons Observatory | Theory: hard |
 | O2 | Primordial non-Gaussianity (`f_NL`, bispectrum shape) | **Core** | Probably: thermal correlators give a specific shape | Planck limits, future LSS surveys | Theory: hard |
 | O3 | Tensor-to-scalar ratio `r` | **Core** | Yes, if the model predicts `r ≈ 0` or a distinct tensor tilt | BICEP/Keck, LiteBIRD | Theory: medium |
-| O4 | Spatial curvature `Ω_k < 0`, together with large-scale anisotropy | **Core** (paper, Sec. 5) | Yes: the paired signal is unusual | Planck + BAO (`|Ω_k| ≲ 0.002`), future 21 cm / LSS | Medium |
-| O5 | Dark radiation `ΔN_eff` and BBN abundances | **Core** (paper, Sec. 5) | Partly; many models add dark radiation | Planck, BBN (D/H, Yₚ), Simons Observatory | Medium |
+| O4 | Spatial curvature `Ω_k < 0`, together with large-scale anisotropy | **Not applicable** for a stellar-mass parent: `−Ω_k ≈ 5×10⁻²²·(M_⊙/M_*)` today (estimate) | Would, but is unobservable unless `M_* ≲ 10¹³ kg` | Planck + BAO (`|Ω_k| ≲ 0.002`), future 21 cm / LSS | Done (estimate) |
+| O5 | Dark radiation `ΔN_eff` and BBN abundances | **Not applicable**: ruled out as a signal (`abs_deltaNeff_bbn`: `\|ΔN_eff\| ≤ 3×10⁻¹⁴`) | No | Planck, BBN (D/H, Yₚ), Simons Observatory | Done (Lean) |
 | O6 | Late-time expansion `H(z)` (DGP normal branch) | **Core** | Weakly; the normal branch needs dark energy anyway | DESI BAO, SNe (Pantheon+, DES-Y5) | Low to medium |
 | O7 | GW leakage: `d_L^GW ≠ d_L^EM` at Hubble distances | **Core**, small effect | Yes, if detected | LIGO/Virgo/KAGRA dark sirens, LISA, ET/CE | Medium |
 | O8 | Large-angle power deficit (low `ℓ`) from the finite parent star | **Extension** | Weak; cosmic variance dominates at low `ℓ` | Planck, LiteBIRD | Medium |
 | O9 | Hemispherical asymmetry from an asymmetric collapse | **Extension** (non-spherical bulk) | Yes, but the bulk Schwarzschild is spherical, so the current model predicts none | Planck | Hard |
-| O10 | Charged / AdS bulk corrections (`a⁻⁶` term) | **Extension** | Indirect, through BBN and the expansion | BBN, CMB | Low (Lean `M5.3`) |
+| O10 | Charged / AdS bulk corrections (`a⁻⁶` term) | **Extension**; reduces to O6 | Indirect, through the late-time expansion only: the relative effect on `H²` grows with time (`BulkCosmology.abs_frw_sub_le` and scaling) | DESI BAO, SNe | Done (Lean bound + scaling) |
 | O11 | GW "horizon echoes" | **Not applicable** | No: comes from other black-hole work, not derived here | — | — |
 | O12 | Analogue gravity (BEC, fluid white holes) | **Weak** | No: tests the mechanism (thermal boundary → spectrum), not this cosmology | Lab experiments | — |
 | O13 | Sub-millimetre deviations from Newton's law | **Not applicable** | — | Torsion balances | Ruled out by `eq51`: the crossover `r_c` is Hubble-sized, so DGP changes gravity at large distances, not small ones |
@@ -117,16 +117,41 @@ field source scalar curvature. What sources tensors here, and at what level? If 
 "nothing significant", then a detected `r` (for example by LiteBIRD) rules the model out.
 Inflation predicts a range that reaches down to `r ~ 10⁻³`.
 
-**O4, curvature with anisotropy.** The Lean structure requires `𝒦 > 0`, i.e. a closed
+**O4, curvature with anisotropy.** *Update 2026-11-18: unobservable for a stellar-mass parent
+(an order-of-magnitude estimate, not a Lean result).* Sec. 5 of the paper, item 2, reads:
+"If one assumes that the initial Hubble constant is the ∼ 5D Planck mass ... we have
+`−Ω_k ∼ (M₅r_h)⁻² ∼ M₅/M_*`". So this is the curvature at the start, when `H ∼ M₅`, not today.
+`Ω_k ∝ 1/(aH)²` then grows with standard ΛCDM expansion (Planck 2018 values) from `H = M₅` to
+`H₀`, by a factor `≈ 6×10³⁷` for `M₅ = 9 MeV` (the `eq51_numeric` bound) and `≈ 7×10³⁶` for
+`M₅ = 1 MeV`. Today's value is about `M₅²/M_*` times a constant, so the bound on `M₅` caps it:
+`−Ω_k ≈ 5×10⁻²²·(M_⊙/M_*)`. Meeting `|Ω_k| ≲ 0.002` only needs `M_* ≳ 5×10¹¹ kg`, so the
+flatness problem is solved with a wide margin. But a *detectable* `Ω_k ≳ 10⁻⁴` needs
+`M_* ≲ 10¹³ kg`, the mass of a mountain, not a star. The anisotropy that the paper pairs
+with curvature appears "on the scale of the curvature", so it is unobservable too. The
+estimate assumes standard radiation-era scaling from `H ∼ M₅` and ignores changes in `g_*`;
+it is good to an order of magnitude.
+
+The original note: the Lean structure requires `𝒦 > 0`, i.e. a closed
 universe. The paper estimates `−Ω_k ∼ M₅/M_*` for a parent star of mass `M_*`, and says that a
 detected curvature "should come with" large-scale anisotropy. The *pairing* is the distinctive
 prediction. First check whether the closed slicing is essential or a choice: flat and open
 slicings exist, with planar and hyperbolic black branes.
 
-**O5, dark radiation and BBN.** In the radiation era `ρ_BH/ρ` is constant, since both scale as
+**O5, dark radiation and BBN.** *Update 2026-11-18: ruled out as a signal, in Lean
+(`DarkRadiation.lean`, see P3).* The bulk black hole enters `H²` with weight `1/(r_c H)`, not
+`1`, so `|ΔN_eff| ≤ 3×10⁻¹⁴` at BBN. The original note follows. It assumed the black hole
+would act like full-weight extra radiation, which is false. In the radiation era `ρ_BH/ρ` is constant, since both scale as
 `a⁻⁴` (`BraneCosmology.radiation_era_ratio`, M3.2). So the bulk black hole behaves like extra radiation at BBN and at
 recombination. It enters the expansion through the quadratic (26), not by simple addition, so
 work out the effective `ΔN_eff` through that equation.
+
+**O10, charged and AdS bulks.** For any bulk, `|H² + 𝒦/a² − H_std²| ≤ (y² + y√(1 +
+|ρ_bulk|/ρ))H_std²` with `y = 1/(r_c H_std)` (`BulkCosmology.abs_frw_sub_le`). On the normal
+branch the leading term is attained when `|ρ − ρ_bulk| ≫ ρ̃_s`, since then
+`ρ̃_- ≈ −√(2ρ̃_s(ρ − ρ_bulk))`. For a charge term `ρ_Q ∝ a⁻⁶`, the relative effect
+`y√(1 + ρ_Q/ρ)` scales as `a√(a² + C)` in the radiation era and as `√(a³ + C)` in the matter
+era (a scaling argument, not a Lean theorem). Both grow with `a`. So the charge is most visible
+at late times, and BBN constrains it less than the late-time expansion does. O10 reduces to O6.
 
 **O6, expansion history.** The normal DGP branch does not self-accelerate, so it still needs
 dark energy. Since `r_c ≳ 3/H₀`, the departures from ΛCDM are small. Most useful as a
@@ -258,8 +283,9 @@ ruled out in this form. That is a legitimate result.
 
 ### P3: Background: closed curvature, dark radiation, BBN
 
-- **Status:** dark-radiation route **closed** (proved in Lean, 2026-11-18). What remains is
-  standard closed curvature and the late-time expansion, where `r_c H ∼ 1`.
+- **Status:** **closed** (2026-11-18). Dark radiation: proved in Lean for any bulk. Curvature:
+  unobservable for a stellar-mass parent (order-of-magnitude estimate, O4). What remains is the
+  late-time expansion, where `r_c H ∼ 1` (O6).
 - **Hypothesis:** The extended model fits BBN, the CMB and BAO with `Ω_k < 0` and a
   bulk-black-hole contribution that acts like `ΔN_eff`, with values inside current bounds.
 - **Model inputs:** `Ω_k`, `r_h`, `ρ̃_s`, branch; `ρ_BH ∝ a⁻⁴` (`rhoBH_scaling`).
@@ -285,13 +311,17 @@ ruled out in this form. That is a legitimate result.
   the same reason it offers no early-universe signature for G3. Any background signature has to
   come from late times, where `r_c H ∼ 1` (DGP-type expansion, already constrained by BAO and
   supernovae), or from `Ω_k < 0`, which is standard curvature.
-- **Next concrete step:** none for the dark-radiation route. For the rest of P3: check whether the
-  paper's `−Ω_k ∼ M₅/M_*` (Sec. 5) is compatible with `|Ω_k| ≲ 0.002` given `M₅ ≲ 9 MeV`.
+- **Next concrete step:** none. The early background is FRW to high precision (O5, O10), and the
+  curvature is unobservable for a stellar-mass parent (O4). What remains of the background is
+  the late-time expansion (O6).
 - **Log:** 2026-11-17: created. 2026-11-17: the Lean bound above suggests that, on the normal
   branch with `ρ_BH ≤ ρ`, the `ΔN_eff` route needs `r_c H ≲ 1` at BBN. That conflicts with
   `r_c ≳ 1/H₀`. A numerical check with BBN values is still to do. 2026-11-18: done in Lean, with
   no branch and no `ρ_BH ≤ ρ` hypothesis (`DarkRadiation.lean`). `|ΔN_eff| ≤ 3×10⁻¹⁴` at BBN. The
-  dark-radiation route is closed.
+  dark-radiation route is closed. 2026-11-18: extended to any bulk
+  (`BulkCosmology.abs_frw_sub_le`): O10 reduces to O6. The paper's curvature estimate is for
+  the initial time; evolved to today it gives `−Ω_k ≈ 5×10⁻²²·(M_⊙/M_*)`, unobservable for a
+  stellar-mass parent (O4).
 
 *(Add P4 onward from O2, O3 and O7 with the template.)*
 

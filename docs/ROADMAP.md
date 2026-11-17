@@ -68,8 +68,8 @@ Small and cheap, and makes every later milestone trustworthy.
   docstrings, so every `BraneCosmology` field and every physics hypothesis is listed with its
   equation number. Partly done: `scripts/check_ledger.py` checks that every module is imported
   and listed, that every Lean name cited in `README.md`, `docs/NOTE.md` and `docs/ROADMAP.md`
-  exists, and that the equation map cites every `BraneCosmology` field. Not done: the physics
-  hypotheses of individual theorems, and running the script in CI.
+  exists, and that the equation map cites every `BraneCosmology` field. CI runs it after the
+  build (`lean_action_ci.yml`). Not done: the physics hypotheses of individual theorems.
 
 ## Milestone 1: Close the numerical gaps in Sec. 4
 

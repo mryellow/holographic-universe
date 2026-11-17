@@ -18,4 +18,8 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: leanprover/lean-action@v1
+      # ROADMAP M0.3: the README ledger, the docs and the Lean sources stay in sync.
+      # Runs after lean-action, which fetches the Mathlib sources the script searches.
+      - name: Check the assumption ledger
+        run: python3 scripts/check_ledger.py
       - uses: leanprover-community/docgen-action@v1

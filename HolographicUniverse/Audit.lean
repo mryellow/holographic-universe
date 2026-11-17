@@ -16,6 +16,8 @@ import HolographicUniverse.Instances
 import HolographicUniverse.Orientation
 import HolographicUniverse.History
 import HolographicUniverse.Singularity
+import HolographicUniverse.Bounce
+import HolographicUniverse.Dynamics
 
 /-!
 # Axiom audit (ROADMAP M0.1)
@@ -416,3 +418,39 @@ open WhiteHole
 /-- info: 'WhiteHole.BraneCosmology.deSitter_selfAccelerating' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms BraneCosmology.deSitter_selfAccelerating
+
+/-- info: 'WhiteHole.exists_expanding_radiation' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms exists_expanding_radiation
+
+/-- info: 'WhiteHole.BraneCosmology.radiationBounce_accelAt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.radiationBounce_accelAt
+
+/-- info: 'WhiteHole.BraneCosmology.radiationBounce_pressure' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.radiationBounce_pressure
+
+/-- info: 'WhiteHole.BraneCosmology.radiationBounce_selfAccelerating' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.radiationBounce_selfAccelerating
+
+/-- info: 'WhiteHole.BraneCosmology.radiationBounce_outside' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.radiationBounce_outside
+
+/-- info: 'WhiteHole.BraneCosmology.rho_barotropic' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.rho_barotropic
+
+/-- info: 'WhiteHole.BraneCosmology.branch_fixed' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.branch_fixed
+
+/-- info: 'WhiteHole.BraneCosmology.reduction' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.reduction
+
+/-- info: 'WhiteHole.BraneCosmology.radiationBounce_reduction' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.radiationBounce_reduction

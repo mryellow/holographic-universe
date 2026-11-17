@@ -129,8 +129,10 @@ equations, but not the acceleration equation. Where `H ≠ 0`, the fields imply 
 equation and the existence of `ä` (`BraneCosmology.accelAt_of_ne`). At `H = 0` they do not. A
 static brane satisfies every field with any pressure, and the static instances violate the
 acceleration equation (`static_not_accelAt`). These instances show that the hypotheses are
-consistent. They are not solutions of the equations of motion. Solutions are the subject of
-ROADMAP Milestone 4.
+consistent. They are not solutions of the equations of motion. `BraneCosmology.radiationBounce`
+is a solution: it has a bulk black hole and radiation, and obeys the acceleration equation at
+every time (`radiationBounce_accelAt`). It needs the tuning `ρ = ρ_BH`. General solutions are
+the subject of ROADMAP Milestone 4.
 
 ## What the formalization confirms
 

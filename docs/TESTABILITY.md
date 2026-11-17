@@ -108,7 +108,7 @@ prediction. First check whether the closed slicing is essential or a choice: fla
 slicings exist, with planar and hyperbolic black branes.
 
 **O5, dark radiation and BBN.** In the radiation era `ρ_BH/ρ` is constant, since both scale as
-`a⁻⁴` (`M3.2`). So the bulk black hole behaves like extra radiation at BBN and at
+`a⁻⁴` (`BraneCosmology.radiation_era_ratio`, M3.2). So the bulk black hole behaves like extra radiation at BBN and at
 recombination. It enters the expansion through the quadratic (26), not by simple addition, so
 work out the effective `ΔN_eff` through that equation.
 
@@ -147,7 +147,7 @@ Work in order. Do not spend effort past a gate that has not been passed.
 
 | Gate | Question | Passes when | Lean dependency |
 |---|---|---|---|
-| **G0** | Is the parameter region well defined? | The sign tension is resolved (done, M3.1) and the consistent (orientation, branch, `ρ_BH/ρ`) region is characterized across cosmic history (`normal_branch_no_crossing`; the era-by-era behaviour is M3.2) | `M3.1`, `M3.2`, `M2` |
+| **G0** | Is the parameter region well defined? | The sign tension is resolved (done, M3.1) and the consistent (orientation, branch, `ρ_BH/ρ`) region is characterized across cosmic history (done, M3.2: `normal_branch_no_crossing`, `ratio_antitoneOn`, `matter_era_growth_le_small`). A fixed `ε = -1` excludes a realistic matter era, so the white-hole history needs `ε` to change, which is possible only on or inside the horizon (`sign_change_inside`). Whether `ε` may change is open | `M3.1`, `M3.2`, `M2` |
 | **G1** | Can an extension produce the observed tilt? | Some extension (P1) gives `n_s` within 2σ of the data without fine-tuning | `M7.2`, `M7.3` |
 | **G2** | Is the background consistent? | The extended model fits BBN, CMB and BAO at least as well as ΛCDM + `ΔN_eff` | `M4`, `M8` |
 | **G3** | Is there a distinct prediction? | At least one observable (O2–O7) differs from inflation + ΛCDM by more than the forecast error of an instrument operating in the next ~10 years | `M8.2` |

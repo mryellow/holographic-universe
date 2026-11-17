@@ -37,6 +37,7 @@ conclusions **follow from the stated assumptions**. In this project:
 | `Acceleration.lean` | Acceleration equation derived from Friedmann + continuity where `H ≠ 0`; existence of `ä` |
 | `Instances.lean` | Non-vacuity: explicit `BraneCosmology` instances (static family, self-accelerating de Sitter vacuum) |
 | `Orientation.lean` | Normal orientation `ε`: Eq. (16) from the timelike junction condition for either `ε`; origin of Eq. (27); `ε` fixed by the sign of `ρ̃` |
+| `History.lean` | `ρ_BH/ρ` along a history: constant in a radiation era, `∝ 1/a` in a matter era, never rising while the universe expands; matter-era bound for `ε = -1`; an orientation change needs the brane on or inside the horizon |
 | `Audit.lean` | Build-time axiom audit: every declaration, plus a pinned `#print axioms` list for the headline theorems |
 
 ## Equation map
@@ -112,7 +113,7 @@ Issues 1–3 were checked against the TeX source of arXiv:1309.1487v2 (ROADMAP M
    `ε = -1` cannot be right in general. One consequence remains: `ε` is constant, so a
    normal-branch history cannot have `ρ_BH > ρ` at one time and `ρ_BH < ρ` at another
    (`BraneCosmology.normal_branch_no_crossing`). `ρ̃ = 0` only happens on or inside the horizon
-   (`rhoTilde_eq_zero_inside`).
+   (`rhoTilde_eq_zero_inside`). Issue 6 follows from this.
 4. **`BraneCosmology` has no acceleration equation, and admits non-solutions.** The structure
    holds the Friedmann and continuity equations only. Wherever `H ≠ 0` these imply the
    acceleration equation (`BraneCosmology.accelAt_of_ne`), and also that `ä` exists. At `H = 0`
@@ -125,6 +126,21 @@ Issues 1–3 were checked against the TeX source of arXiv:1309.1487v2 (ROADMAP M
    `GeV^{1/2}`. The radiation-era Friedmann equation gives `T = (180/π²)^{1/4}(M₄H)^{1/2}g_*^{-1/4}`
    (`radiation_T4`), and the paper's number `3×10⁴ TeV` matches this form up to the `O(1)`
    factor. The conclusion `T ≪ T_GUT` holds with a large margin (`eq52_below_GUT`).
+
+6. **The paper's white-hole history needs the orientation to change (ROADMAP M3.2).** That
+   history starts at the pressure singularity in the radiation era and ends today with
+   `ρ_BH ≪ ρ`. The singularity needs `ε = -1` (`eps_of_singularity`). Today's normal branch with
+   `ρ_BH < ρ` needs `ε = +1`. With a fixed `ε = -1`, the normal branch keeps `ρ ≤ ρ_BH`, and a
+   matter era can then grow `a` by at most the factor `(ρ_BH/ρ)` at its start
+   (`matter_era_growth_le`). With the paper's own bound (32), `|ρ̃| ≤ 0.1 ρ`, that factor is at
+   most 1.1 (`matter_era_growth_le_small`). The real matter era grows `a` by about `10³`. So
+   `ε` must change from `-1` to `+1` along the history. If `ε` may depend on time, it can change
+   only where `ρ̃ = 0`, and there the brane is on or inside the horizon (`sign_change_inside`).
+   The paper puts the horizon exit at `a ∼ 0.01–1`, so the crossing `ρ_BH = ρ` must happen
+   before that. The paper's black-hole history stays outside the horizon after it emerges, so
+   it keeps one orientation (`sign_const_outside`). Whether an orientation change is
+   geometrically allowed is open. `BraneCosmology` fixes `ε`, so it cannot describe the
+   white-hole history.
 
 ## Soundness
 

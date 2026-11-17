@@ -34,14 +34,15 @@ Equation numbers refer to Pourhasan, Afshordi & Mann, arXiv:1309.1487v2.
 | Thermal correlators (Eqs. 39–47) | **assumed** |
 | Eqs. (50)–(52) (Hubble, `M₅` and temperature bounds) | proved (`Monopoles.lean`), with `H₀`, `G_N`, the condition `H ≤ 2πT_b` and the radiation-era Friedmann equation as hypotheses |
 | Normal orientation `ε` (Eqs. 21, 24, 25, 27) | resolved against the TeX source (`Orientation.lean`): `ε` is fixed by the sign of `ρ̃`, not by Eq. (27) |
+| History of `ρ_BH/ρ` (M3.2) | proved (`History.lean`): era scaling, the matter-era bound for `ε = -1`, and orientation changes only on or inside the horizon |
 | Non-vacuity (does any `BraneCosmology` exist?) | proved (`Instances.lean`): a static family for both `ε = ±1` and any `r_h` outside the brane, and the self-accelerating de Sitter vacuum. An expanding instance with `r_h > 0` and matter is still **open** |
 | Axiom audit | enforced at build time (`Audit.lean`) |
 | Acceleration equation | **derived** wherever `H ≠ 0`, with no smoothness assumption beyond the structure (`Acceleration.lean`). Not implied at `H = 0`: the static instances violate it |
 
-The formalization has surfaced five issues: the Eq. (24) typo, Eq. (27) being wrong for
+The formalization has surfaced six issues: the Eq. (24) typo, Eq. (27) being wrong for
 `ε = +1`, the paper's too-strong `ε = -1` (which caused the apparent normal-branch tension,
-now resolved), the missing acceleration equation in `BraneCosmology` (M2.4), and a dimension
-error in Eq. (52). See the README for details. The TeX source of arXiv:1309.1487v2 was checked
+now resolved), the missing acceleration equation in `BraneCosmology` (M2.4), a dimension
+error in Eq. (52), and the white-hole history needing a change of orientation (M3.2). See the README for details. The TeX source of arXiv:1309.1487v2 was checked
 for issues 1–3 and 5. It is not committed: arXiv's default licence does not allow
 redistribution. Get it from `https://arxiv.org/src/1309.1487v2`.
 
@@ -168,10 +169,21 @@ decide which part of parameter space is physical.
   - `rhoTilde_eq_zero_inside`: `ρ̃ = 0` only on or inside the horizon.
   - Not yet decided: which side of the brane the `Z₂`-reflected bulk keeps for `ε = +1`, and
     whether that fits the paper's black-hole picture.
-- [ ] **3.2 Time dependence of `ρ_BH/ρ`.** `ρ_BH ∝ a⁻⁴` is already proved. Prove that
-  `ρ_BH/ρ` is constant in a radiation era (`ρ ∝ a⁻⁴`) and falls as `1/a` in a matter era
-  (`ρ ∝ a⁻³`). Then combine with 3.1: a cosmology can move between regions over time, so the
-  consistency condition has to hold along the whole history, not just at one instant.
+- [x] **3.2 Time dependence of `ρ_BH/ρ`.** Done in `History.lean`. Eras are hypotheses on an
+  interval (`P = ρ/3`, `P = 0`, or `P ≤ ρ/3` with `ȧ ≥ 0`).
+  - `radiation_era_ratio`: `ρ_BH/ρ` is constant. `matter_era_ratio`: `(ρ_BH/ρ) · a` is
+    constant. `ratio_antitoneOn`: the ratio never rises while the universe expands with
+    `P ≤ ρ/3`.
+  - `rho_le_rhoBH_of_eps_neg`, `rhoBH_le_rho_of_eps_pos`: a fixed `ε` keeps one sign of
+    `ρ_BH - ρ` on the normal branch. `eps_of_singularity`: the pressure singularity needs
+    `ε = -1`.
+  - `matter_era_growth_le_small`: with `ε = -1` and the bound (32) at its start, a normal-branch
+    matter era grows `a` by at most `1 + ϵ` (10 % for `ϵ = 0.1`).
+  - `sign_change_inside`, `sign_const_outside`: with a time-dependent `ε`, `ρ̃` can change sign
+    only through `ρ̃ = 0`, on or inside the horizon.
+  - Consequence (README issue 6): the paper's white-hole history needs `ε` to change from `-1`
+    to `+1` before the brane leaves the horizon. Not decided: whether such a change is
+    geometrically allowed. If it is, `BraneCosmology` needs a time-dependent `ε` (M4).
 - [x] **3.3 Eq. (27) at `ε = +1`.** Eq. (27) is wrong as printed for `ε = +1`.
   `pressure_of_timelike_junction`: Eq. (25) set equal to the `ττ` part of Eq. (10) gives
   Eq. (16) for either `ε`, once `X = -ε(8πG_b/3)ρ̃` is used. `eq27_of_dropped_sign`: Eq. (27) is
@@ -284,7 +296,8 @@ entry here.
 | ✓ | M1.1–1.6 | Done. Milestone 1 is complete |
 | ✓ | M7.2 (falsification theorem) | Done |
 | ✓ | M3.1, M3.3 | Done, against the TeX source |
-| 5 | M3.2, M3.4 | `BraneCosmology.normal_branch_no_crossing` already gives the history condition for 3.2. 3.2 adds the era-by-era behaviour of `ρ_BH/ρ` |
+| ✓ | M3.2 | Done |
+| 5 | M3.4 | Pressure singularity at the saturated reality bound; then the 3.5 write-up |
 | 6 | M5.1 (generic `f`) | Refactor before more theorems depend on the concrete `f` |
 | 7 | M4, M2.2 | Real solutions; needed for histories and BBN-era statements |
 | 8 | M8 | Grows alongside the testability pathways |

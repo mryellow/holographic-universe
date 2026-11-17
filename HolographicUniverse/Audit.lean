@@ -13,6 +13,7 @@ import HolographicUniverse.Model
 import HolographicUniverse.Acceleration
 import HolographicUniverse.Instances
 import HolographicUniverse.Orientation
+import HolographicUniverse.History
 
 /-!
 # Axiom audit (ROADMAP M0.1)
@@ -257,6 +258,38 @@ open WhiteHole
 /-- info: 'WhiteHole.BraneCosmology.normal_branch_no_crossing' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms BraneCosmology.normal_branch_no_crossing
+
+/-- info: 'WhiteHole.BraneCosmology.radiation_era_ratio' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.radiation_era_ratio
+
+/-- info: 'WhiteHole.BraneCosmology.matter_era_ratio' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.matter_era_ratio
+
+/-- info: 'WhiteHole.BraneCosmology.ratio_antitoneOn' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.ratio_antitoneOn
+
+/-- info: 'WhiteHole.BraneCosmology.eps_of_singularity' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.eps_of_singularity
+
+/-- info: 'WhiteHole.BraneCosmology.matter_era_growth_le' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.matter_era_growth_le
+
+/-- info: 'WhiteHole.BraneCosmology.matter_era_growth_le_small' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.matter_era_growth_le_small
+
+/-- info: 'WhiteHole.sign_change_inside' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms sign_change_inside
+
+/-- info: 'WhiteHole.sign_const_outside' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms sign_const_outside
 
 /-- info: 'WhiteHole.BraneCosmology.branches' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in

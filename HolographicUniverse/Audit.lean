@@ -34,6 +34,7 @@ import HolographicUniverse.SecondOrder
 import HolographicUniverse.BlueTilt
 import HolographicUniverse.Cascade
 import HolographicUniverse.DarkRadiation
+import HolographicUniverse.Running
 
 /-!
 # Axiom audit (ROADMAP M0.1)
@@ -910,3 +911,19 @@ open WhiteHole
 /-- info: 'WhiteHole.BulkCosmology.abs_frw_sub_le' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms BulkCosmology.abs_frw_sub_le
+
+/-- info: 'WhiteHole.runningIndex_le_of_tilt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms runningIndex_le_of_tilt
+
+/-- info: 'WhiteHole.RunningData.not_fits_of_tilt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms RunningData.not_fits_of_tilt
+
+/-- info: 'WhiteHole.planck2018Running_not_fits_local' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms planck2018Running_not_fits_local
+
+/-- info: 'WhiteHole.runningIndex_le_local_planck2018' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms runningIndex_le_local_planck2018

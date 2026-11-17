@@ -44,8 +44,12 @@ Three Lean results frame the situation:
 - Any extension that fits must have `d ln G/d ln k < −0.0309` at the Planck 2018 pivot
   (`planck2018_factor_slope`).
 
-`docs/NOTE.md`, Sec. 6, has the write-up. Open routes: a nonlinear or non-static P1, or a new
-extension that meets the necessary condition over a broad range of scales.
+A fourth result closes the class (P4): no **local** extension of the paper's static mechanism
+fits `n_s` and its running together (`planck2018Running_not_fits_local`). Local physics gives
+`α_s ≤ 2(n_s − 1) ≤ −0.063`; Planck 2018 measures `−0.0045 ± 0.0067`.
+
+`docs/NOTE.md`, Sec. 6, has the write-up of P1 and P2. What remains is outside the paper's
+mechanism: modes imprinted at different times, or scale-free long-range correlations (see P4).
 
 ### What the formalization already gives
 
@@ -69,7 +73,7 @@ extension that meets the necessary condition over a broad range of scales.
 | `r_h`, i.e. `μ` | bulk black-hole horizon / mass | free; enters through `ρ_BH` |
 | `ε` (Eq. 32) | allowed size of `ρ̃/ρ` | modeling choice, `~0.1` in the paper |
 | branch, orientation | `ρ̃_±`, normal orientation | normal branch preferred (no ghosts); orientation fixed by the sign of `ρ̃` (`orientation_iff`) |
-| *extension parameters* | whatever produces the red tilt | P1 (`τ`, `k_J`) and P2 (`M₆`, screening) both fail G1 at linear order. Any extension needs `d ln G/d ln k < −0.0309` at the pivot (`planck2018_factor_slope`) |
+| *extension parameters* | whatever produces the red tilt | P1 (`τ`, `k_J`) and P2 (`M₆`, screening) both fail G1 at linear order. Any extension needs `d ln G/d ln k < −0.0309` at the pivot (`planck2018_factor_slope`), and a red tilt of power `p < 0.36` in `k` (`planck2018Running_not_fits_tilt`), which local physics does not give (P4) |
 
 ## 2. Catalogue of options
 
@@ -83,7 +87,7 @@ Verdicts:
 
 | # | Option | Verdict | Distinguishes from inflation? | Data | Starting effort |
 |---|---|---|---|---|---|
-| O1 | Spectral tilt `n_s` and its running | **Core** (gate) | Yes, through how the tilt arises and the running it implies | Planck, ACT, SPT, Simons Observatory | Theory: hard |
+| O1 | Spectral tilt `n_s` and its running | **Core** (gate). Fails for every local extension (P4) | Yes, through how the tilt arises and the running it implies | Planck, ACT, SPT, Simons Observatory | Theory: hard |
 | O2 | Primordial non-Gaussianity (`f_NL`, bispectrum shape) | **Core** | Probably: thermal correlators give a specific shape | Planck limits, future LSS surveys | Theory: hard |
 | O3 | Tensor-to-scalar ratio `r` | **Core** | Yes, if the model predicts `r ≈ 0` or a distinct tensor tilt | BICEP/Keck, LiteBIRD | Theory: medium |
 | O4 | Spatial curvature `Ω_k < 0`, together with large-scale anisotropy | **Not applicable** for a stellar-mass parent: `−Ω_k ≈ 5×10⁻²²·(M_⊙/M_*)` today (estimate) | Would, but is unobservable unless `M_* ≲ 10¹³ kg` | Planck + BAO (`|Ω_k| ≲ 0.002`), future 21 cm / LSS | Done (estimate) |
@@ -323,7 +327,54 @@ ruled out in this form. That is a legitimate result.
   the initial time; evolved to today it gives `−Ω_k ≈ 5×10⁻²²·(M_⊙/M_*)`, unobservable for a
   stellar-mass parent (O4).
 
-*(Add P4 onward from O2, O3 and O7 with the template.)*
+### P4: Any local, static extension of the paper's mechanism
+
+- **Status:** **dead** (G1 fails for the whole class). Proved in Lean, given the form of the tilt.
+- **Hypothesis:** Some extension of the paper's mechanism, with every mode imprinted at the one
+  static equilibrium `(a_b, T_b)` (Sec. 4) and short-range physics with some scale `s`, gives
+  `n_s ≈ 0.965` with the observed running.
+- **Model inputs:** the paper's single imprinting moment; local physics, so the spectrum is
+  analytic in `k²` near `k = 0`. Near the pivot the tilt is then
+  `n_s − 1 = Σᵢ cᵢ (k/sᵢ)^{pᵢ}` with `pᵢ = 2, 4, …`. The thermal spectrum is one such term,
+  blue with `p = 2` (`next_order_blue`). P1 and P2 are two choices of the other terms.
+- **Why the obvious candidates fail:**
+  - A cooling atmosphere (time-dependent `T_b`): every mode is imprinted at the same moment, so
+    `T_b` changes only the amplitude.
+  - A steeper red term: each term contributes `pᵢ` times its own tilt to the running
+    (`runningIndex_of_tilt`). A single term gives `α_s = p(n_s − 1)` exactly.
+- **Prediction:** with red terms of power `≥ q` and blue terms of power `≤ q`,
+  `α_s ≤ q(n_s − 1)` (`runningIndex_le_of_tilt`). For local physics `q = 2`, so
+  `α_s ≤ 2(n_s − 1)`.
+- **Null comparison:** single-field slow roll, `α_s ~ (n_s − 1)² ~ 10⁻³`.
+- **Data:** Planck 2018 VI, ΛCDM + running, TT,TE,EE+lowE+lensing: `n_s = 0.9641 ± 0.0044`,
+  `dn_s/d ln k = −0.0045 ± 0.0067` (`planck2018Running`).
+- **Falsification criterion:** `q(n_s,hi − 1) < α_s,lo`, i.e. the steepest allowed running is
+  below the measured interval.
+- **Result:** Planck 2018 excludes every `q ≥ 0.36` (`planck2018Running_not_fits_tilt`): a red
+  tilt that fits must be nearly scale free in `k`. For local physics (`q = 2`) a fit to `n_s`
+  forces `α_s ≤ −0.063` (`runningIndex_le_local_planck2018`), 8.7σ from the measured value
+  (`planck2018Running_not_fits_local`). This generalizes P1's `α_s/(n_s − 1) ≥ 2` to every
+  local extension, P1 and P2 included.
+- **Lean link:** `Running.lean`; ROADMAP M8.3.
+- **What is not covered:**
+  1. A tilt that breaks the sign condition. Locally, that is a red `k²` term cancelled by a blue
+     `k⁴` term, so `α_s = 0` at the pivot only because the tilt has an extremum there. That is
+     a feature tuned to the pivot, like P1's window, and the tilt does not stay red over the
+     observed range.
+  2. The exact thermal tilt, which the theorem uses at leading order (`∝ κ²`). The exact tilt is
+     blue at every scale (`spectralIndex_thermal_gt_one`), which only makes the fit harder.
+- **Ways out (both new models, not extensions of this paper):**
+  1. Modes imprinted at different times, for example at horizon exit, as in inflation or
+     string-gas cosmology. This replaces the paper's single static equilibrium.
+  2. Scale-free, long-range correlations in the atmosphere (a near-critical state with an
+     anomalous dimension `≈ 0.035`). Local physics does not give `p < 0.36`.
+- **Next concrete step:** none within this paper's mechanism. By the rule in section 4, do not
+  pursue either way out unless a concrete model is proposed.
+- **Log:** 2026-11-18: created and closed. The cooling-atmosphere route fails because the paper
+  imprints all modes at once. The running bound is proved in Lean for any finite sum of
+  power-law tilts with the sign condition, and instantiated with Planck 2018 with running.
+
+*(Add P5 onward from O2, O3 and O7 with the template.)*
 
 ## 6. Shared tooling
 

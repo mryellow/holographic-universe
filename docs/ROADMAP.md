@@ -478,6 +478,13 @@ entry here.
     `d ln G/d ln k < n_s,hi − 1` at the pivot (`ObsData.Fits.factor_slope_lt`), so `G′ < 0`
     there (`ObsData.Fits.deriv_factor_neg`). For Planck 2018 the bound is `−0.0309`
     (`planck2018_factor_slope`). This names what a rescue of G1 must supply.
+  - **Any local extension** (`Running.lean`, TESTABILITY P4). If the tilt near the pivot is a
+    sum of power laws `Σᵢ cᵢ(k/sᵢ)^{pᵢ}`, the running is `Σᵢ pᵢcᵢ(k/sᵢ)^{pᵢ}`
+    (`runningIndex_of_tilt`). With red terms of power `≥ q` and blue terms of power `≤ q`,
+    `α_s ≤ q(n_s − 1)` (`runningIndex_le_of_tilt`). Planck 2018 with running excludes every
+    `q ≥ 0.36` (`planck2018Running_not_fits_tilt`). Local physics has `q = 2`
+    (`planck2018Running_not_fits_local`): it would need `α_s ≤ −0.063`
+    (`runningIndex_le_local_planck2018`).
 - [ ] **8.4 Golden values.** Evaluate the Lean definitions at fixed rational parameter points
   (`#eval` or `norm_num`). Use the results as test vectors for the numerical code (CLASS/CAMB
   modifications) in `TESTABILITY.md`, so the code and the proofs check the same formulas.

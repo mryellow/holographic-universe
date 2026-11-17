@@ -175,6 +175,8 @@ The main derivations of the paper hold as stated, under the hypotheses above:
 - the branches (26), the reality bound (30) and the induced pressure (16), from (11)–(13) and
   the junction condition;
 - the observational bounds (33)–(35);
+- the value `M(0) = 15ζ(5)/π² ≈ 1.576` of Eq. (46), from the integral with the vacuum term
+  dropped (`thermalM_zero`);
 - the amplitude inversion (49), from the Planck 2013 amplitude;
 - the bounds (50)–(51), and `T ≪ T_GUT` in (52).
 

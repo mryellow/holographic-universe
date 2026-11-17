@@ -27,4 +27,5 @@ import HolographicUniverse.Horizon
 import HolographicUniverse.Asymptotics
 import HolographicUniverse.AdSBulk
 import HolographicUniverse.ChargedBulk
+import HolographicUniverse.ThermalIntegral
 import HolographicUniverse.Audit

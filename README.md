@@ -30,6 +30,7 @@ conclusions **follow from the stated assumptions**. In this project:
 | `Integrals.lean` | `∫ dx/(1+x²)² = π/2` over the real line, used in Eq. (48) |
 | `Zeta.lean` | `ζ(5)` as a real series, identified with `riemannZeta 5`; `1.0369 ≤ ζ(5) ≤ 1.0370` |
 | `Perturbations.lean` | Eq. (48) algebra; inversion for `T_b/M₅` (49); `M₅` bound (51) |
+| `ThermalIntegral.lean` | M7.1: the thermal integral `M(κ)` of Eq. (46); `∫₀^∞ x⁵eˣ/(eˣ-1)² dx = 120ζ(5)`; `M(0) = 15ζ(5)/π²` |
 | `ObsData.lean` | Observational data as parameters (`ObsData`); Planck 2013 and Planck 2018 instances; Eqs. (49), (51) per release |
 | `ScaleInvariance.lean` | Spectral index; `n_s = 1` at leading order; the first falsification theorem against Planck 2013 and 2018 |
 | `Monopoles.lean` | Eq. (50); `H ≲ M₅ ≲ 9 MeV` (51); plasma temperature `T ≤ 8.5×10⁴ TeV ≪ T_GUT` (52) |
@@ -87,9 +88,10 @@ conclusions **follow from the stated assumptions**. In this project:
 | (33) + side remarks | `eq33`, `eq33_side` | proved |
 | (34) | `eq34` | proved |
 | (35) | `eq35` | proved, with fewer hypotheses than stated: the branch assumption is redundant, and positivity of the denominator follows |
-| (39)–(47) thermal correlators, `M(0) = 15ζ(5)/π²` | — | **assumed** (out of Mathlib's reach) |
+| (39)–(45), (47) thermal correlators | — | **assumed** (out of Mathlib's reach) |
+| (46) `M(0) = 15ζ(5)/π² ≈ 1.576` | `thermalM_zero`, `integral_bose`, `thermalM_zero_bounds` | proved from the integral (46), with the vacuum term `ω₊ω₋/4` dropped: `M(0) ∈ [1.5758, 1.5761]` |
 | (48) `∫dx/(1+x²)² = π/2` | `integral_univ_inv_one_add_sq_sq` | proved |
-| (48) `= 25ζ(5)/(3072π⁴)(T_b/M₅)⁶` | `eq48_leading` | proved, assuming `M(0)` |
+| (48) `= 25ζ(5)/(3072π⁴)(T_b/M₅)⁶` | `eq48_leading`, `eq48_leading_thermalM` | proved, with `M(0)` from (46) |
 | `ζ(5) ∈ [1.0369, 1.0370]` (enters the coefficient of (48)) | `zeta5_bounds`, `riemannZeta_five_bounds`; sharper `zeta5_upper : ζ(5) ≤ 1.03694` | proved |
 | (48) coefficient `25ζ(5)/(3072π⁴) ∈ [8.65, 8.67]×10⁻⁵` | `ampCoeff_bounds`; sharper `ampCoeff_sharp : [8.6627, 8.6631]×10⁻⁵` | proved |
 | (49) `T_b/M₅ ≈ 0.171` | `eq49`, `eq48_eq49` | proved: `[0.1705, 0.1723]` from the Planck 2013 amplitude, with no numerical hypotheses (`eq49_of_coeff` is the version for a general coefficient) |

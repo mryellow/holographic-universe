@@ -382,9 +382,15 @@ Replaces the geometric fields of `BraneCosmology` with theorems.
 
 ## Milestone 7: Perturbations (Sec. 4)
 
-- [ ] **7.1 `M(0) = 15ζ(5)/π²`.** Define `M(κ)` as the integral in the paper. The value at
-  zero needs the Bose–Einstein integral `∫₀^∞ x^{s-1}/(eˣ-1) dx = Γ(s)ζ(s)`. Check whether
-  Mathlib has it; if not, prove it with a geometric series and the Gamma integral.
+- [x] **7.1 `M(0) = 15ζ(5)/π²`.** Done in `ThermalIntegral.lean`. Define `M(κ)` as the integral
+  in the paper. The value at zero needs the Bose–Einstein integral
+  `∫₀^∞ x^{s-1}/(eˣ-1) dx = Γ(s)ζ(s)`. Mathlib does not have it, so it is proved for the case
+  needed with the Bose series `eˣ/(eˣ-1)² = Σ k e^{-kx}` (`hasSum_bose`) and the Gamma integral:
+  `∫₀^∞ x⁵eˣ/(eˣ-1)² dx = 120ζ(5)` (`integral_bose`). `thermalM` is the integral (46) over `ℝ⁴`
+  without the vacuum term `ω₊ω₋/4`. At `κ = 0` that term is `|κ'|²/4`, which has no scale, so
+  dimensional regularization sets it to zero. In polar coordinates (`integral_fun_norm_addHaar`,
+  unit ball volume `π²/2`), `M(0) = 15ζ(5)/π²` (`thermalM_zero`), in `[1.5758, 1.5761]`
+  (`thermalM_zero_bounds`). Eq. (48) no longer assumes `M(0)` (`eq48_leading_thermalM`).
 - [x] **7.2 Scale invariance at leading order.** Done in `ScaleInvariance.lean`.
   - `spectralIndex P k = 1 + kP′(k)/P(k)`. `spectralIndex_powerLaw` checks the definition: it
     gives `n` for `A(k/k₀)^(n−1)`.
@@ -450,4 +456,5 @@ entry here.
 | ✓ | M4.4 | Done (`Asymptotics.lean`) |
 | ✓ | M5.2, M5.3 | Done (`AdSBulk.lean`, `ChargedBulk.lean`) |
 | 8 | M8 | Grows alongside the testability pathways |
-| 9 | M6, M7.1 | Long-term foundations |
+| ✓ | M7.1 | Done (`ThermalIntegral.lean`) |
+| 9 | M6 | Long-term foundations |

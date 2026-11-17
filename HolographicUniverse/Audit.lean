@@ -27,6 +27,7 @@ import HolographicUniverse.Horizon
 import HolographicUniverse.Asymptotics
 import HolographicUniverse.AdSBulk
 import HolographicUniverse.ChargedBulk
+import HolographicUniverse.ThermalIntegral
 
 /-!
 # Axiom audit (ROADMAP M0.1)
@@ -707,3 +708,23 @@ open WhiteHole
 /-- info: 'WhiteHole.BulkCosmology.singularity_hubble_lt_RN' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms BulkCosmology.singularity_hubble_lt_RN
+
+/-- info: 'WhiteHole.hasSum_bose' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms hasSum_bose
+
+/-- info: 'WhiteHole.integral_bose' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms integral_bose
+
+/-- info: 'WhiteHole.thermalM_zero' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms thermalM_zero
+
+/-- info: 'WhiteHole.thermalM_zero_bounds' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms thermalM_zero_bounds
+
+/-- info: 'WhiteHole.eq48_leading_thermalM' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms eq48_leading_thermalM

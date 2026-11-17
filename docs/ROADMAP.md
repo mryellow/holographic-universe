@@ -40,6 +40,7 @@ Equation numbers refer to Pourhasan, Afshordi & Mann, arXiv:1309.1487v2.
 | Non-vacuity (does any `BraneCosmology` exist?) | proved (`Instances.lean`): a static family for both `ε = ±1` and any `r_h` outside the brane, and the self-accelerating de Sitter vacuum. An expanding solution with `r_h > 0` and radiation, in closed form (`Bounce.lean`, M2.2). With `ε = -1` on the normal branch there is **no** solution for ordinary matter (`NormalBranch.lean`, M2.3) |
 | Dynamics (M4) | reduction to `ȧ² = F(a)` for `P = wρ` proved (`Dynamics.lean`, M4.1). Local existence and uniqueness away from the singularity proved, turning points included (`LocalExistence.lean`, `TurningPoint.lean`, M4.2). Maximal solutions proved, with escape from compact sets at a finite end (`MaximalSolution.lean`, M4.2). A global solution defines a `BraneCosmology` (`FromSolution.lean`, M4.2). Horizon-crossing time proved (`Horizon.lean`, M4.3). Late-time limits, the FRW limit and the singularity proved (`Asymptotics.lean`, M4.4) |
 | Background vs BBN and CMB (TESTABILITY P3) | proved (`DarkRadiation.lean`): on either branch and for any `ρ_BH ≥ 0`, `H²` is standard FRW up to a relative `1/(r_c H_std)`. The bulk black hole is not dark radiation: `\|ΔN_eff\| ≤ 3×10⁻¹⁴` at BBN (`abs_deltaNeff_bbn`). For any bulk the bulk density enters with weight `1/(r_c H_std)` (`BulkCosmology.abs_frw_sub_le`) |
+| Spectral tilt (M7, M8.3) | the thermal spectrum is blue at every scale (`ObsData.not_fits_thermal`), and stays blue times any nondecreasing factor (`ObsData.not_fits_thermal_mul`), which includes linear cascading gravity (`ObsData.not_fits_cascade`). A red factor must fall faster than the observed tilt (`planck2018_factor_slope`). No local extension fits `n_s` and its running (`planck2018Running_not_fits_local`), and neither does the unprojected Jeans spectrum (`planck2018Running_not_fits_jeans`) |
 | Axiom audit | enforced at build time (`Audit.lean`) |
 | Acceleration equation | **derived** wherever `H ≠ 0`, with no smoothness assumption beyond the structure (`Acceleration.lean`). Not implied at `H = 0`: the static instances violate it. `BraneCosmology.IsSolution` adds it (M2.5) |
 
@@ -485,6 +486,13 @@ entry here.
     `q ≥ 0.36` (`planck2018Running_not_fits_tilt`). Local physics has `q = 2`
     (`planck2018Running_not_fits_local`): it would need `α_s ≤ −0.063`
     (`runningIndex_le_local_planck2018`).
+  - **P1, Jeans instability** (`Jeans.lean`). For the unprojected growth `e^{2τ√(1 − y²)}`,
+    `y = k/k_J`: below `k_J`, `n_s − 1 = −2τy²/√(1 − y²)` (`spectralIndex_jeans`) and
+    `α_s = (1 + 1/(1 − y²))(n_s − 1)` exactly (`runningIndex_jeans`), so `α_s ≤ 2(n_s − 1)`
+    (`runningIndex_jeans_le`). Above `k_J`, `n_s = 1` (`spectralIndex_jeans_above`). No such
+    spectrum fits Planck 2018 with running, for any `τ ≥ 0` and `k_J ≠ k_*`
+    (`planck2018Running_not_fits_jeans`). This is P1's exact result 1 at every order in `y`;
+    `Running.lean` gives the leading order. The projection onto the brane is not formalized.
 - [ ] **8.4 Golden values.** Evaluate the Lean definitions at fixed rational parameter points
   (`#eval` or `norm_num`). Use the results as test vectors for the numerical code (CLASS/CAMB
   modifications) in `TESTABILITY.md`, so the code and the proofs check the same formulas.

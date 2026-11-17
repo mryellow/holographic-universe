@@ -124,12 +124,18 @@ What could change the verdict, in order of importance:
 5. **One scalar degree of freedom**, as in the paper. More species change `K_J` only.
 6. **Projection by Eq. (48).** The `Z₂` boundary at the brane is ignored, as in the paper.
 
-## 7. Lean targets (M8)
+## 7. Lean (M8, `Jeans.lean`)
 
-- Result 1 is a one-variable identity: the spectral index of `exp(2τ√(1 - (k/k_J)²))` and its
-  derivative. `spectralIndex` already exists (`ScaleInvariance.lean`).
-- Result 2 follows from `F = 1` on `[1, ∞)` and Eq. (48) with `integral_univ_inv_one_add_sq_sq`.
-- Result 3 is the fundamental theorem of calculus for `ln I`.
+Result 1 is proved for the spectrum `C·e^{2τ√(1 - (k/k_J)²)}`, before the projection:
 
-Together they would give a fourth falsification theorem, for the extended model, in the style
-of `ObsData.not_fits_thermal`.
+- `spectralIndex_jeans`: below `k_J`, `n_s - 1 = -2τy²/√(1 - y²)`.
+- `runningIndex_jeans`: `α_s = (1 + 1/(1 - y²))(n_s - 1)`, exactly. `runningIndex_jeans_le`:
+  `α_s ≤ 2(n_s - 1)` for `τ ≥ 0`.
+- `spectralIndex_jeans_above`: above `k_J`, `n_s = 1` (the unprojected form of result 2).
+- `planck2018Running_not_fits_jeans`: no such spectrum fits Planck 2018 with running, for any
+  `C ≠ 0`, `τ ≥ 0` and `k_J ≠ k_*`.
+
+`Running.lean` (TESTABILITY P4) proves the leading-order form of result 1 for any local
+extension. Still open, and not needed for the verdict: results 2 and 3 for the projected
+spectrum `I(y)`. Result 2 follows from `F = 1` on `[1, ∞)` and `integral_univ_inv_one_add_sq_sq`.
+Result 3 is the fundamental theorem of calculus for `ln I`.

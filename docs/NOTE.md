@@ -34,7 +34,12 @@ build and fails if any declaration uses an axiom other than `propext`, `Classica
 | 1 | Typo in Eq. (24): `ȧ/√𝒦` must be `ȧ²/𝒦` | None |
 | 5 | Eq. (52) has a dimension error | None. The bound `T ≪ T_GUT` holds with a large margin |
 
-Issue 4 is a limitation of the formal model, not of the paper. It is described at the end.
+Issue 4 is a limitation of the formal model, not of the paper. It is described in section 5.
+
+Section 6 has the main physics result. The paper's spectrum is blue at every scale, so the
+observed red tilt has to come from an extension. Neither of the two extensions that the paper
+proposes gives it, and no local extension of its mechanism fits the tilt and its running
+together.
 
 ## 1. Orientation and the sign of the induced density (issues 2 and 3)
 
@@ -205,14 +210,14 @@ that pulls `M` down changes at no more than half the rate of the part that pushe
 (`b1_add_a1_pos`, `strictMonoOn_mRay`). So `n_s > 1` at every scale
 (`spectralIndex_thermal_gt_one`), and no spectrum `C·M(k/s)` fits `n_s < 1`, wherever the pivot
 is (`ObsData.not_fits_thermal`). A red tilt must come from outside the simple model. Section 6
-tests the two extensions that the paper suggests.
+tests the two extensions that the paper suggests, and then every local extension.
 
-## 6. The red tilt: the paper's two extensions fail
+## 6. The red tilt: no extension within the paper's mechanism works
 
 Sec. 5 of the paper proposes two ways to turn the scale-invariant spectrum red: a residual Jeans
 instability of the bulk atmosphere, and cascading gravity. The repository works out both at
-linear order (`phenomenology/p1_jeans/`, `phenomenology/p2_cascade/`). Neither gives the
-observed spectrum. The tilt results so far, in order:
+linear order (`phenomenology/p1_jeans/`, `phenomenology/p2_cascade/`), and then the whole class
+of local extensions. None gives the observed spectrum. The tilt results, in order:
 
 | | Spectrum | Result | Status |
 |---|---|---|---|
@@ -221,7 +226,8 @@ observed spectrum. The tilt results so far, in order:
 | 3 | full thermal spectrum `C·M(k/s)` | `n_s > 1` at every scale | proved (`ObsData.not_fits_thermal`) |
 | 4 | `C·M(k/s)·G(k/s′)`, `G` nondecreasing | `n_s > 1` at every scale | proved (`ObsData.not_fits_thermal_mul`) |
 | P2 | cascading gravity, linear | an instance of 4, for every `M₆` | proved, given the linear cascade factor (`ObsData.not_fits_cascade`) |
-| P1 | Jeans instability, linear | red, but `α_s ≈ 2(n_s − 1)`, ~9σ from Planck; or a tuned dip | numerical (`jeans_tilt.py`); three exact statements not yet in Lean |
+| P1 | Jeans instability, linear | red, but `α_s = (1 + 1/(1 − y²))(n_s − 1)`, ~9σ from Planck; or a tuned dip | unprojected spectrum proved (`planck2018Running_not_fits_jeans`); the projected window is numerical (`jeans_tilt.py`) |
+| P4 | any local extension: tilt `Σᵢ cᵢ(k/sᵢ)^{pᵢ}`, `pᵢ ≥ 2` red | `α_s ≤ 2(n_s − 1) ≤ −0.063` | proved, given the form of the tilt (`planck2018Running_not_fits_local`) |
 
 **Cascading gravity has the wrong sign.** The paper reads the red tilt as a bulk propagator that
 "is getting stronger in the IR", and expects the extra polarization of cascading gravity to
@@ -233,23 +239,42 @@ nothing (`spatialCoeff_radiation`). The 6D propagator `1/(K² + mK)` also weaken
 infrared. So the cascade multiplies the spectrum by a factor that does not decrease with `k`
 (`cascadeG_monotoneOn`), and the spectrum stays blue (`ObsData.not_fits_cascade`).
 
-**The Jeans instability has the wrong shape.** Linear growth with the pivot well inside the
-unstable range gives a running `α_s ≈ 2(n_s − 1) ≈ −0.065`, about 9σ from Planck 2018. A narrow
-window just below the Jeans scale fits `n_s` and `α_s` at the pivot. But it needs `k_J` tuned to
-within 10%, it leaves `n_s = 1` exactly for `k ≥ k_J`, and it misses the slope across
-`0.008–0.1 Mpc⁻¹` by `≥ 5σ`. These are numerical results with stated assumptions (linear,
-static background). A full Planck likelihood run would make them final.
+**The Jeans instability has the wrong shape.** For the unprojected growth `e^{2τ√(1 − y²)}`,
+`y = k/k_J`, the tilt is red below the Jeans scale, but the running is exactly
+`α_s = (1 + 1/(1 − y²))(n_s − 1)` (`runningIndex_jeans`), at least twice the tilt
+(`runningIndex_jeans_le`). Above the Jeans scale `n_s = 1` (`spectralIndex_jeans_above`). So no
+such spectrum fits Planck 2018 with running (`planck2018Running_not_fits_jeans`). After the
+projection onto the brane (numerical, `jeans_tilt.py`), a pivot well inside the unstable range
+gives `α_s ≈ 2(n_s − 1) ≈ −0.065`, about 9σ from Planck 2018. A narrow window just below the
+Jeans scale fits `n_s` and `α_s` at the pivot. But it needs `k_J` tuned to within 10%, it leaves
+`n_s = 1` exactly for `k ≥ k_J`, and it misses the slope across `0.008–0.1 Mpc⁻¹` by `≥ 5σ`.
+These numerical results assume linear growth and a static background. A full Planck likelihood
+run would make them final.
 
-**What any rescue needs.** The converse is also proved. If `C·M(k/s)·G(k/s′)` fits a release,
-then at the pivot `d ln G/d ln k < n_s,hi − 1` (`ObsData.Fits.factor_slope_lt`). For Planck 2018
-that is `< −0.0309` (`planck2018_factor_slope`), so `G′ < 0` at the pivot
+**No local extension works.** The paper imprints every mode at one moment, the static
+equilibrium `(a_b, T_b)` of Sec. 4. So a cooling atmosphere changes only the amplitude. Within
+that mechanism, an extension changes the shape through physics with some scale `s`. If that
+physics is local, the spectrum is analytic in `k²`, and near the pivot the tilt is
+`Σᵢ cᵢ(k/sᵢ)^{pᵢ}` with `pᵢ = 2, 4, …`. Each term contributes `pᵢ` times its own tilt to the
+running (`runningIndex_of_tilt`). With red terms of power `≥ q` and blue terms of power `≤ q`,
+`α_s ≤ q(n_s − 1)` (`runningIndex_le_of_tilt`). Planck 2018 with running excludes every
+`q ≥ 0.36` (`planck2018Running_not_fits_tilt`). For local physics, `q = 2`, a fit to `n_s` would
+force `α_s ≤ −0.063` (`runningIndex_le_local_planck2018`), against the measured
+`−0.0045 ± 0.0067`. P1 and P2 are both in this class. The theorem does not cover a red `k²` term
+cancelled by a blue `k⁴` term at the pivot. That is a feature tuned to the pivot, like P1's
+window.
+
+**What any rescue needs.** If `C·M(k/s)·G(k/s′)` fits a release, then at the pivot
+`d ln G/d ln k < n_s,hi − 1` (`ObsData.Fits.factor_slope_lt`). For Planck 2018 that is
+`< −0.0309` (`planck2018_factor_slope`), so `G′ < 0` at the pivot
 (`ObsData.Fits.deriv_factor_neg`). The thermal factor adds a blue tilt of its own, so `G` must
-carry more than the whole observed tilt. Planck's bound on the running adds that the strengthening
-must be broad in `ln k`: on a power-law tail of a feature, `|α_s/(n_s − 1)|` equals the power,
-and Planck allows only about `[−0.33, 0.67]` for this ratio at 2σ (`phenomenology/p2_cascade/`, Sec. 4).
+carry more than the whole observed tilt. With the running bound, that red part must also be
+nearly scale free: a power `p < 0.36` in `k`.
 
-**Conclusion.** In the form the paper gives, with either of its proposed extensions at linear
-order, the model does not produce the observed spectrum. This is the outcome that
-`docs/TESTABILITY.md` (gate G1) names as a legitimate result. What is left open: a nonlinear or
-non-static Jeans instability, and extensions outside the paper that strengthen gravity in the
-infrared by more than the observed tilt, over a broad range of scales.
+**Conclusion.** In the form the paper gives, the model does not produce the observed spectrum,
+with either of its proposed extensions or with any other local extension of its mechanism. This
+is the outcome that `docs/TESTABILITY.md` (gate G1) names as a legitimate result. Two routes
+remain, and both are new models rather than extensions of this paper: modes imprinted at
+different times (for example at horizon exit), which replaces the single static equilibrium;
+and scale-free, long-range correlations in the atmosphere (an anomalous dimension `≈ 0.035`),
+which local physics does not give.

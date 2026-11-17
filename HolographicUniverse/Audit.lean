@@ -35,6 +35,7 @@ import HolographicUniverse.BlueTilt
 import HolographicUniverse.Cascade
 import HolographicUniverse.DarkRadiation
 import HolographicUniverse.Running
+import HolographicUniverse.Jeans
 
 /-!
 # Axiom audit (ROADMAP M0.1)
@@ -927,3 +928,11 @@ open WhiteHole
 /-- info: 'WhiteHole.runningIndex_le_local_planck2018' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms runningIndex_le_local_planck2018
+
+/-- info: 'WhiteHole.runningIndex_jeans' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms runningIndex_jeans
+
+/-- info: 'WhiteHole.planck2018Running_not_fits_jeans' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms planck2018Running_not_fits_jeans

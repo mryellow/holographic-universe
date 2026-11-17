@@ -34,7 +34,8 @@ predictions. Pathway P1 below comes first, and is a gate for everything else.
 ### Where G1 stands (2026-11-18)
 
 **G1 has failed for both of the paper's extensions** at linear order:
-- **P1 (Jeans instability)** fails on shape. See P1 below.
+- **P1 (Jeans instability)** fails on shape. For the unprojected spectrum this is proved in Lean
+  (`planck2018Running_not_fits_jeans`). See P1 below.
 - **P2 (cascading gravity)** fails on sign. It is proved in Lean for every `M₆`
   (`ObsData.not_fits_cascade`).
 
@@ -225,10 +226,12 @@ ruled out in this form. That is a legitimate result.
   permits.
 - **Lean link:** `M7.2` (scale invariance at leading order → falsification theorem),
   `M7.3` (sign of the next-order term, `SecondOrder.lean`; `M′ > 0` at every scale,
-  `BlueTilt.lean`).
-- **Next concrete step:** to close the window below, run CAMB with the window spectrum through
-  the Planck 2018 likelihood (Cobaya). Otherwise move to P2, or to a nonlinear or
-  non-static version of P1 that breaks the assumptions listed in the P1 note.
+  `BlueTilt.lean`), `M8.3` (`Jeans.lean`: exact result 1 for the unprojected spectrum,
+  `runningIndex_jeans`, `planck2018Running_not_fits_jeans`; `Running.lean` for the class, P4).
+- **Next concrete step:** none required. Optional: run CAMB with the window spectrum through the
+  Planck 2018 likelihood (Cobaya), to make the numerical verdict on the window final. A
+  nonlinear or non-static P1 stays local, so P4 covers it unless it tunes a feature to the
+  pivot.
 - **Open questions:** Is the instability actually active for long enough before horizon
   exit? Does it disturb the Gaussianity assumed in Eq. (39)?
 - **Log:** 2026-11-17: created from Sec. 5 of the paper. 2026-11-18: M7.3 computation: in the
@@ -245,6 +248,9 @@ ruled out in this form. That is a legitimate result.
   `-0.089 ± 0.011`. Verdict: the falsification criterion is met, so P1 is dead in this form.
   G1 now rests on P2 or on a non-linear version of P1. 2026-11-18: P2 fails too (sign), so a
   non-linear or non-static P1 is the remaining route among the paper's suggestions.
+  2026-11-18: P4 closes that route for local physics (`planck2018Running_not_fits_local`).
+  Exact result 1 is proved in Lean for the unprojected spectrum, at every order in `y`
+  (`runningIndex_jeans`, `planck2018Running_not_fits_jeans`).
 
 ### P2: Red tilt from cascading-gravity polarizations
 
@@ -354,7 +360,8 @@ ruled out in this form. That is a legitimate result.
   tilt that fits must be nearly scale free in `k`. For local physics (`q = 2`) a fit to `n_s`
   forces `α_s ≤ −0.063` (`runningIndex_le_local_planck2018`), 8.7σ from the measured value
   (`planck2018Running_not_fits_local`). This generalizes P1's `α_s/(n_s − 1) ≥ 2` to every
-  local extension, P1 and P2 included.
+  local extension, P1 and P2 included. For P1 the exact form, at every order in `y`, is in
+  `Jeans.lean` (`runningIndex_jeans`).
 - **Lean link:** `Running.lean`; ROADMAP M8.3.
 - **What is not covered:**
   1. A tilt that breaks the sign condition. Locally, that is a red `k²` term cancelled by a blue

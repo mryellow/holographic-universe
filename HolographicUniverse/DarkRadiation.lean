@@ -295,4 +295,53 @@ theorem abs_deltaNeff_recombination {t ρν : ℝ} (hρ : 0 < M.ρ t) (hν : 0 <
 
 end BraneCosmology
 
+/-! ### Any bulk: BBN bounds a bulk charge only if it is enormous (M5.3) -/
+
+/-- **`ΔN_eff` for any bulk.** If `1/(r_c H_std) ≤ z`, `ρ ≤ g ρ_ν` and `|ρ_bulk| ≤ m ρ`, then the
+`ΔN_eff` inferred from `H² + 𝒦/a²` is at most `g(z² + z√(1 + m))`. -/
+theorem BulkCosmology.abs_deltaNeff_le (M : BulkCosmology) {t ρν g z m : ℝ} (hρ : 0 < M.ρ t)
+    (hν : 0 < ρν) (hg : M.ρ t ≤ g * ρν)
+    (hz : 1 / (M.c.rc * √(8 * π * M.c.GN / 3 * M.ρ t)) ≤ z) (hm : |M.rhoBulk t| ≤ m * M.ρ t) :
+    |(M.H t ^ 2 + M.K / M.a t ^ 2 - 8 * π * M.c.GN / 3 * M.ρ t) / (8 * π * M.c.GN / 3 * ρν)|
+      ≤ g * (z ^ 2 + z * √(1 + m)) := by
+  have hG : 0 < 8 * π * M.c.GN / 3 := by have := M.c.GN_pos; positivity
+  set y := 1 / (M.c.rc * √(8 * π * M.c.GN / 3 * M.ρ t))
+  have hy : 0 ≤ y := by have := M.c.rc_pos; positivity
+  have hz0 : 0 ≤ z := hy.trans hz
+  have hr : |M.rhoBulk t| / M.ρ t ≤ m := (div_le_iff₀ hρ).2 hm
+  have hsq : √(1 + |M.rhoBulk t| / M.ρ t) ≤ √(1 + m) := sqrt_le_sqrt (by linarith)
+  have hf : y ^ 2 + y * √(1 + |M.rhoBulk t| / M.ρ t) ≤ z ^ 2 + z * √(1 + m) := by
+    have := pow_le_pow_left₀ hy hz 2
+    have := mul_le_mul hz hsq (sqrt_nonneg _) hz0
+    linarith
+  have hfz : 0 ≤ z ^ 2 + z * √(1 + m) := by positivity
+  have hdev := M.abs_frw_sub_le hρ
+  have hden : 0 < 8 * π * M.c.GN / 3 * ρν := mul_pos hG hν
+  rw [abs_div, abs_of_pos hden, div_le_iff₀ hden]
+  calc |M.H t ^ 2 + M.K / M.a t ^ 2 - 8 * π * M.c.GN / 3 * M.ρ t|
+      ≤ (y ^ 2 + y * √(1 + |M.rhoBulk t| / M.ρ t)) * (8 * π * M.c.GN / 3 * M.ρ t) := hdev
+    _ ≤ (z ^ 2 + z * √(1 + m)) * (8 * π * M.c.GN / 3 * M.ρ t) := by gcongr
+    _ ≤ (z ^ 2 + z * √(1 + m)) * (8 * π * M.c.GN / 3 * (g * ρν)) := by gcongr
+    _ = _ := by ring
+
+/-- **BBN does not see a bulk charge below `10²⁴ ρ`.** During BBN, with `r_c H_std ≥ 3×10¹⁴`
+(`r_c ≥ 3/H₀`, `H_std ≥ 10¹⁴ H₀`) and `ρ ≤ 8ρ_ν`, any bulk density with `|ρ_bulk| ≤ 10²⁴ ρ`
+gives `|ΔN_eff| ≤ 0.03`. For Reissner–Nordström, `ρ_bulk = ρ_BH − ρ_Q` (`rhoBulk_blackenRN`), so
+BBN constrains the charge only if `ρ_Q` exceeds the brane density by about `10²⁴`. -/
+theorem BulkCosmology.abs_deltaNeff_bbn (M : BulkCosmology) {t ρν : ℝ} (hρ : 0 < M.ρ t)
+    (hν : 0 < ρν) (hg : M.ρ t ≤ 8 * ρν)
+    (hrc : 3e14 ≤ M.c.rc * √(8 * π * M.c.GN / 3 * M.ρ t))
+    (hm : |M.rhoBulk t| ≤ 1e24 * M.ρ t) :
+    |(M.H t ^ 2 + M.K / M.a t ^ 2 - 8 * π * M.c.GN / 3 * M.ρ t) / (8 * π * M.c.GN / 3 * ρν)|
+      ≤ 0.03 := by
+  have hz : 1 / (M.c.rc * √(8 * π * M.c.GN / 3 * M.ρ t)) ≤ 1 / 3e14 :=
+    one_div_le_one_div_of_le (by norm_num) hrc
+  refine (M.abs_deltaNeff_le hρ hν hg hz hm).trans ?_
+  have hs : √(1 + 1e24 : ℝ) ≤ 1e12 + 1 :=
+    calc √(1 + 1e24 : ℝ) ≤ √((1e12 + 1) ^ 2) := sqrt_le_sqrt (by norm_num)
+      _ = 1e12 + 1 := sqrt_sq (by norm_num)
+  have : (1 / 3e14 : ℝ) * √(1 + 1e24) ≤ 1 / 3e14 * (1e12 + 1) :=
+    mul_le_mul_of_nonneg_left hs (by norm_num)
+  nlinarith
+
 end WhiteHole

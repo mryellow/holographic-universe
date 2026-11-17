@@ -136,6 +136,11 @@ Result 1 is proved for the spectrum `C·e^{2τ√(1 - (k/k_J)²)}`, before the p
   `C ≠ 0`, `τ ≥ 0` and `k_J ≠ k_*`.
 
 `Running.lean` (TESTABILITY P4) proves the leading-order form of result 1 for any local
-extension. Still open, and not needed for the verdict: results 2 and 3 for the projected
-spectrum `I(y)`. Result 2 follows from `F = 1` on `[1, ∞)` and `integral_univ_inv_one_add_sq_sq`.
-Result 3 is the fundamental theorem of calculus for `ln I`.
+extension.
+
+Result 2 is proved for the projected spectrum, with the exact growth `cosh²(τ√(1 - z²))`:
+`I(y) = π/2` for `y ≥ 1` (`jeansProjected_of_one_le`), so `C·I(k/k_J)` has `n_s = 1` exactly for
+`k > k_J` (`spectralIndex_jeansProjected_above`).
+
+Still open, and not needed for the verdict: result 3. It needs `I` differentiable in `y`
+(differentiation under the integral) and the limit `I(0⁺) = (π/2)cosh²τ`.

@@ -366,8 +366,12 @@ Needed by several testability pathways (curvature with anisotropy, AdS embedding
   `2ρ_Q` (`reality_RN`). `ρ_Q/ρ_BH = 𝒦q²/(r_h²a²)`, so the bulk density is negative exactly
   when `r_h²a² < 𝒦q²` (`rhoBulk_RN_neg_iff`). Above extremality, `r_h⁴ < 4q²`, `f > 0`
   everywhere, so there is no horizon and no white hole, and at the singularity
-  `|H| < 1/(2r_c)` (`singularity_hubble_lt_RN`). Not done: the numerical BBN bound on `q`. It
-  needs the BBN constraint on extra energy density as an input.
+  `|H| < 1/(2r_c)` (`singularity_hubble_lt_RN`). The BBN bound on `q` is weak: for any bulk,
+  the `ΔN_eff` inferred from `H²` is at most `g(z² + z√(1 + m))` with `z = 1/(r_c H_std)`,
+  `ρ ≤ gρ_ν` and `|ρ_bulk| ≤ mρ` (`BulkCosmology.abs_deltaNeff_le`). During BBN
+  (`r_c H_std ≥ 3×10¹⁴`, `ρ ≤ 8ρ_ν`) any `|ρ_bulk| ≤ 10²⁴ρ` gives `|ΔN_eff| ≤ 0.03`
+  (`BulkCosmology.abs_deltaNeff_bbn`). So BBN constrains the charge only if `ρ_Q` exceeds the
+  brane density by about `10²⁴`. The late-time expansion constrains it better (TESTABILITY O10).
 
 ## Milestone 6: Geometry from first principles (long term)
 
@@ -492,7 +496,14 @@ entry here.
     (`runningIndex_jeans_le`). Above `k_J`, `n_s = 1` (`spectralIndex_jeans_above`). No such
     spectrum fits Planck 2018 with running, for any `τ ≥ 0` and `k_J ≠ k_*`
     (`planck2018Running_not_fits_jeans`). This is P1's exact result 1 at every order in `y`;
-    `Running.lean` gives the leading order. The projection onto the brane is not formalized.
+    `Running.lean` gives the leading order. After the projection onto the brane,
+    `I(y) = π/2` for `y ≥ 1` (`jeansProjected_of_one_le`), so `n_s = 1` exactly above `k_J`
+    (`spectralIndex_jeansProjected_above`). The projected spectrum below `k_J` is numerical.
+  - **P2, Part B: an infrared boost** (`Boost.lean`). The counterfactual step
+    `exp(B/(1 + u))`, `u = (K/K_V)^q`, has `n_s − 1 = −Bq·u/(1 + u)²` (`spectralIndex_boost`), so
+    `|n_s − 1| ≤ |B|q/4` (`abs_boostTilt_le`), and `α_s = q(1 − u)/(1 + u)·(n_s − 1)` exactly
+    (`runningIndex_boost`), so `|α_s| ≤ q|n_s − 1|` (`abs_runningIndex_boost_le`). On a tail
+    the ratio tends to `±q`, and P4 excludes `q ≥ 0.36` there.
 - [ ] **8.4 Golden values.** Evaluate the Lean definitions at fixed rational parameter points
   (`#eval` or `norm_num`). Use the results as test vectors for the numerical code (CLASS/CAMB
   modifications) in `TESTABILITY.md`, so the code and the proofs check the same formulas.

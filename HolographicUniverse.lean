@@ -36,4 +36,5 @@ import HolographicUniverse.Cascade
 import HolographicUniverse.DarkRadiation
 import HolographicUniverse.Running
 import HolographicUniverse.Jeans
+import HolographicUniverse.Boost
 import HolographicUniverse.Audit

@@ -161,5 +161,12 @@ As in the earlier files, the Lean spectrum is `C·M(k/s)` times the factor. The 
 integral over `x` is not formalized. It preserves the conclusion because the integrand increases
 with `k` pointwise (Sec. 3).
 
-Still open: the Part B bounds `|n_s − 1| ≤ Bq/4` and `α_s/(n_s − 1) → ∓q`. These are
-one-variable calculus.
+Part B (`Boost.lean`), for the unprojected step `C·exp(B/(1 + u))`, `u = (K/K_V)^q`:
+
+- `spectralIndex_boost`: `n_s − 1 = −Bq·u/(1 + u)²`. `abs_boostTilt_le`: `|n_s − 1| ≤ |B|q/4`.
+  The brane tilt is a weighted average of this, so the bound carries over.
+- `runningIndex_boost`: `α_s = q(1 − u)/(1 + u)·(n_s − 1)`, exactly. The ratio tends to `q` as
+  `u → 0` and to `−q` as `u → ∞` (the `∓q` of Sec. 4, with `n_s − 1 < 0` for `B > 0`).
+  `abs_runningIndex_boost_le`: `|α_s| ≤ q|n_s − 1|`.
+
+The numerical table of Sec. 4 is not formalized.

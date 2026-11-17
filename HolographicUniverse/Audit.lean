@@ -36,6 +36,7 @@ import HolographicUniverse.Cascade
 import HolographicUniverse.DarkRadiation
 import HolographicUniverse.Running
 import HolographicUniverse.Jeans
+import HolographicUniverse.Boost
 
 /-!
 # Axiom audit (ROADMAP M0.1)
@@ -936,3 +937,19 @@ open WhiteHole
 /-- info: 'WhiteHole.planck2018Running_not_fits_jeans' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms planck2018Running_not_fits_jeans
+
+/-- info: 'WhiteHole.spectralIndex_jeansProjected_above' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms spectralIndex_jeansProjected_above
+
+/-- info: 'WhiteHole.runningIndex_boost' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms runningIndex_boost
+
+/-- info: 'WhiteHole.abs_boostTilt_le' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms abs_boostTilt_le
+
+/-- info: 'WhiteHole.BulkCosmology.abs_deltaNeff_bbn' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BulkCosmology.abs_deltaNeff_bbn

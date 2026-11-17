@@ -269,7 +269,9 @@ window.
 `< −0.0309` (`planck2018_factor_slope`), so `G′ < 0` at the pivot
 (`ObsData.Fits.deriv_factor_neg`). The thermal factor adds a blue tilt of its own, so `G` must
 carry more than the whole observed tilt. With the running bound, that red part must also be
-nearly scale free: a power `p < 0.36` in `k`.
+nearly scale free: a power `p < 0.36` in `k`. For a smooth step `G = exp(B/(1 + (k/k_V)^q))`, the tilt is at most
+`|B|q/4` (`abs_boostTilt_le`), and `α_s/(n_s − 1) = q(1 − u)/(1 + u)` with `u = (k/k_V)^q`
+(`runningIndex_boost`). So the pivot must sit near the centre of a broad, large step.
 
 **Conclusion.** In the form the paper gives, the model does not produce the observed spectrum,
 with either of its proposed extensions or with any other local extension of its mechanism. This

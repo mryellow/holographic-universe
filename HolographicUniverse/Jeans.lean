@@ -149,4 +149,40 @@ theorem planck2018Running_not_fits_jeans {C τ kJ : ℝ} (hC : C ≠ 0) (hτ : 0
     norm_num [planck2018Running] at hns has hle
     linarith
 
+/-! ### The brane spectrum above the Jeans scale (P1, result 2) -/
+
+/-- The exact linear growth of a 4D mode with `z = K/K_J`, started from rest:
+`cosh²(τ√(1 − z²))`. For `z ≥ 1` the square root is `0`, so the growth is `1`: those modes
+oscillate and do not grow. -/
+noncomputable def jeansGrowthExact (τ z : ℝ) : ℝ := cosh (τ * √(1 - z ^ 2)) ^ 2
+
+/-- The projection of Eq. (48) with growth: `I(y) = ∫ (1 + x²)⁻² F(y√(1 + x²)) dx`,
+`y = k/k_J`. Without growth, `I = π/2`. -/
+noncomputable def jeansProjected (τ y : ℝ) : ℝ :=
+  ∫ x : ℝ, 1 / (1 + x ^ 2) ^ 2 * jeansGrowthExact τ (y * √(1 + x ^ 2))
+
+theorem jeansGrowthExact_of_one_le {τ z : ℝ} (hz : 1 ≤ z) : jeansGrowthExact τ z = 1 := by
+  have h : 1 - z ^ 2 ≤ 0 := by nlinarith
+  simp [jeansGrowthExact, sqrt_eq_zero'.2 h]
+
+/-- **Above the Jeans scale nothing happens.** For `y ≥ 1`, every 4D mode in the projection has
+`K ≥ k ≥ k_J`, so `I(y) = π/2`, the value without growth. -/
+theorem jeansProjected_of_one_le {τ y : ℝ} (hy : 1 ≤ y) : jeansProjected τ y = π / 2 := by
+  rw [← integral_univ_inv_one_add_sq_sq, jeansProjected]
+  congr 1
+  ext x
+  have hx : 1 ≤ √(1 + x ^ 2) := by
+    exact (le_sqrt zero_le_one (by positivity)).2 (by nlinarith [sq_nonneg x])
+  rw [jeansGrowthExact_of_one_le (one_le_mul_of_one_le_of_one_le hy hx), mul_one]
+
+/-- **The brane spectrum is scale invariant above the Jeans scale.** For `k > k_J > 0`,
+`C · I(k/k_J)` has `n_s = 1` exactly. -/
+theorem spectralIndex_jeansProjected_above {C τ kJ k : ℝ} (hkJ : 0 < kJ) (hk : kJ < k) :
+    spectralIndex (fun k ↦ C * jeansProjected τ (k / kJ)) k = 1 := by
+  apply spectralIndex_of_eventuallyEq
+  have hconst : ∀ x, kJ < x → C * jeansProjected τ (x / kJ) = C * (π / 2) := fun x hx ↦ by
+    rw [jeansProjected_of_one_le ((one_le_div hkJ).2 hx.le)]
+  filter_upwards [lt_mem_nhds hk] with x hx
+  rw [hconst x hx, hconst k hk]
+
 end WhiteHole

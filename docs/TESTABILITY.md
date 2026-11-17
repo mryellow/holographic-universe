@@ -157,6 +157,8 @@ branch the leading term is attained when `|ρ − ρ_bulk| ≫ ρ̃_s`, since th
 `y√(1 + ρ_Q/ρ)` scales as `a√(a² + C)` in the radiation era and as `√(a³ + C)` in the matter
 era (a scaling argument, not a Lean theorem). Both grow with `a`. So the charge is most visible
 at late times, and BBN constrains it less than the late-time expansion does. O10 reduces to O6.
+In Lean: during BBN any bulk density with `|ρ_bulk| ≤ 10²⁴ρ` gives `|ΔN_eff| ≤ 0.03`
+(`BulkCosmology.abs_deltaNeff_bbn`).
 
 **O6, expansion history.** The normal DGP branch does not self-accelerate, so it still needs
 dark energy. Since `r_c ≳ 3/H₀`, the departures from ΛCDM are small. Most useful as a
@@ -290,6 +292,8 @@ ruled out in this form. That is a legitimate result.
 
   G1 has now failed for both of the paper's extensions. 2026-11-18: proved in Lean for every
   `M₆`, `c² ≤ 1/4` and decreasing screening profile (`ObsData.not_fits_cascade`).
+  2026-11-18: the exact Part B statements are in Lean (`Boost.lean`): `|n_s − 1| ≤ |B|q/4`, and
+  `α_s/(n_s − 1) = q(1 − u)/(1 + u)` (`runningIndex_boost`).
 
 ### P3: Background: closed curvature, dark radiation, BBN
 

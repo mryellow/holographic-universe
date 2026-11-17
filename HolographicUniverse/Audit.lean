@@ -23,6 +23,7 @@ import HolographicUniverse.TurningPoint
 import HolographicUniverse.MaximalSolution
 import HolographicUniverse.FromSolution
 import HolographicUniverse.NormalBranch
+import HolographicUniverse.Horizon
 
 /-!
 # Axiom audit (ROADMAP M0.1)
@@ -583,3 +584,31 @@ open WhiteHole
 /-- info: 'WhiteHole.BraneCosmology.not_isSolution_minus_branch' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms BraneCosmology.not_isSolution_minus_branch
+
+/-- info: 'WhiteHole.exists_first_exit' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms exists_first_exit
+
+/-- info: 'WhiteHole.BraneCosmology.deriv_ne_zero_of_inside' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.deriv_ne_zero_of_inside
+
+/-- info: 'WhiteHole.BraneCosmology.white_hole_past' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.white_hole_past
+
+/-- info: 'WhiteHole.BraneCosmology.black_hole_future' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.black_hole_future
+
+/-- info: 'WhiteHole.BraneCosmology.exists_exit' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.exists_exit
+
+/-- info: 'WhiteHole.BraneCosmology.exists_unique_exit' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.exists_unique_exit
+
+/-- info: 'WhiteHole.BraneCosmology.hubble_sq_at_horizon' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.hubble_sq_at_horizon

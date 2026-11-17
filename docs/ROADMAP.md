@@ -38,7 +38,7 @@ Equation numbers refer to Pourhasan, Afshordi & Mann, arXiv:1309.1487v2.
 | History of `ρ_BH/ρ` (M3.2) | proved (`History.lean`): era scaling, the matter-era bound for `ε = -1`, and orientation changes only on or inside the horizon |
 | Pressure singularity (M3.4) | proved (`Singularity.lean`): at the saturated reality bound, where the branches meet; inside the horizon exactly when `\|H\| ≥ 1/(2r_c)` |
 | Non-vacuity (does any `BraneCosmology` exist?) | proved (`Instances.lean`): a static family for both `ε = ±1` and any `r_h` outside the brane, and the self-accelerating de Sitter vacuum. An expanding solution with `r_h > 0` and radiation, in closed form (`Bounce.lean`, M2.2). With `ε = -1` on the normal branch there is **no** solution for ordinary matter (`NormalBranch.lean`, M2.3) |
-| Dynamics (M4) | reduction to `ȧ² = F(a)` for `P = wρ` proved (`Dynamics.lean`, M4.1). Local existence and uniqueness away from the singularity proved, turning points included (`LocalExistence.lean`, `TurningPoint.lean`, M4.2). Maximal solutions proved, with escape from compact sets at a finite end (`MaximalSolution.lean`, M4.2). A global solution defines a `BraneCosmology` (`FromSolution.lean`, M4.2). M4.3–4.4 are **open** |
+| Dynamics (M4) | reduction to `ȧ² = F(a)` for `P = wρ` proved (`Dynamics.lean`, M4.1). Local existence and uniqueness away from the singularity proved, turning points included (`LocalExistence.lean`, `TurningPoint.lean`, M4.2). Maximal solutions proved, with escape from compact sets at a finite end (`MaximalSolution.lean`, M4.2). A global solution defines a `BraneCosmology` (`FromSolution.lean`, M4.2). Horizon-crossing time proved (`Horizon.lean`, M4.3). M4.4 is **open** |
 | Axiom audit | enforced at build time (`Audit.lean`) |
 | Acceleration equation | **derived** wherever `H ≠ 0`, with no smoothness assumption beyond the structure (`Acceleration.lean`). Not implied at `H = 0`: the static instances violate it. `BraneCosmology.IsSolution` adds it (M2.5) |
 
@@ -293,9 +293,18 @@ Turns the algebraic constraints into statements about whole histories.
     derivative. If `ä = F'(a)/2` also holds, the instance is a solution
     (`ofSolution_isSolution`). For a maximal solution with interval `ℝ`:
     `BraneCosmology.exists_of_maximal`.
-- [ ] **4.3 Horizon-crossing time.** Prove there is a `t*` with `a(t*)/√𝒦 = r_h`, and that it
-  is unique while the brane is expanding. This is the moment the universe "leaves the white
-  hole".
+- [x] **4.3 Horizon-crossing time.** Done in `Horizon.lean`. Prove there is a `t*` with
+  `a(t*)/√𝒦 = r_h`, and that it is unique while the brane is expanding. This is the moment the
+  universe "leaves the white hole". Strictly inside the horizon, `a < a_h = √𝒦 r_h`, the
+  junction condition gives `H² ≥ (𝒦/a⁴)(a_h² - a²) > 0`, so `ȧ ≠ 0`
+  (`BraneCosmology.deriv_ne_zero_of_inside`). By Darboux, `ȧ` keeps one sign while the brane
+  stays inside. A brane that expands inside the horizon was inside and expanding at every
+  earlier time (`white_hole_past`). A brane that contracts inside stays inside and contracting
+  (`black_hole_future`). If an expanding brane inside the horizon is on or outside it at some
+  time, there is exactly one `t*` with `a(t*) = a_h` and the brane inside before it, and the
+  brane expands before `t*` (`BraneCosmology.exists_unique_exit`). On the horizon,
+  `H² = (8πG_b ρ̃/3)²` (`hubble_sq_at_horizon`). Not proved: that the brane reaches the
+  horizon. That is a hypothesis, because `a` could approach `a_h` without reaching it.
 - [ ] **4.4 Asymptotics.** Late times: on the self-accelerating branch `H → 1/r_c` (de Sitter).
   On the normal branch, recover standard FRW when `ρ ≫ ρ̃_s`. Early times: behavior near the
   singularity.
@@ -403,6 +412,7 @@ entry here.
 | ✓ | M4.2, maximal solutions | Done (`MaximalSolution.lean`) |
 | ✓ | M4.2, instance from a global solution | Done (`FromSolution.lean`) |
 | ✓ | M2.3 | Done, negative (`NormalBranch.lean`) |
-| 7 | M4.3–4.4 | Later histories; needed for BBN-era statements |
+| ✓ | M4.3 | Done (`Horizon.lean`) |
+| 7 | M4.4 | Later histories; needed for BBN-era statements |
 | 8 | M8 | Grows alongside the testability pathways |
 | 9 | M6, M7.1 | Long-term foundations |

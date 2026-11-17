@@ -46,6 +46,7 @@ conclusions **follow from the stated assumptions**. In this project:
 | `MaximalSolution.lean` | Maximal solutions of an autonomous ODE with a `C¹` field on an open set: existence, uniqueness, escape from compact sets at a finite end. For `ä = F'(a)/2`: a history ends only at `a → 0`, the singularity or `a → ∞`; a brane cosmology is the global maximal solution of its data |
 | `FromSolution.lean` | The converse: a global solution of `ȧ² = F(a)` in the domain, with an orientation `ε` that obeys `ε ρ̃ ≤ 0`, defines a `BraneCosmology`. It is a solution of the equations of motion if `ä = F'(a)/2` |
 | `NormalBranch.lean` | M2.3: with `ε = -1`, on the normal branch, and for matter with `ρ + 3P > 0`, `3P ≤ ρ`, every solution has `ä < 0` at every time, so no `BraneCosmology` is a solution |
+| `Horizon.lean` | M4.3: inside the horizon `ȧ ≠ 0`; an expanding brane inside was inside and expanding at every earlier time, a contracting one stays inside; the exit time `t*` with `a(t*) = √𝒦 r_h` is unique; `H² = (8πG_b ρ̃/3)²` on the horizon |
 | `Singularity.lean` | Pressure singularity: `ρ̃ = ρ̃_s` ⇔ reality bound (30) saturated ⇔ branches meet; inside the horizon ⇔ `\|H\| ≥ 1/(2r_c)`; a floor on `a` in an expanding era |
 | `Audit.lean` | Build-time axiom audit: every declaration, plus a pinned `#print axioms` list for the headline theorems |
 
@@ -61,6 +62,7 @@ conclusions **follow from the stated assumptions**. In this project:
 | (16) induced pressure | `pressure_of_continuity`, `BraneCosmology.pressure` | **derived** from (11)–(13) + junction |
 | (16), (26), (30) for a general bulk `f` (not in the paper) | `pressure_of_continuity_bulk`, `isInduced_of_bulk`, `BulkCosmology.isInduced`, `BulkCosmology.reality`, `BulkCosmology.pressure` | proved: `ρ_BH` becomes `ρ_bulk` (`rhoBulk_blacken` for Schwarzschild), and Eq. (16) becomes `P̃ = (ρ̃² - 2ρ̃_s(P - P_b))/(2(ρ̃_s - ρ̃))` |
 | (20), horizon crossing `r = r_h` | `outside_horizon_iff`, `curv_mul_blacken` | proved |
+| Fig. 3: the universe leaves the white hole at one time `t*` | `BraneCosmology.exists_unique_exit`, `white_hole_past`, `black_hole_future`, `deriv_ne_zero_of_inside` | proved: no rest inside the horizon; if an expanding brane inside the horizon is on or outside it later, the first time on the horizon is unique and the brane expands before it. That the brane reaches the horizon is a hypothesis |
 | (24) `K_ij` | `BraneCosmology.junction` | **assumed** (with a typo corrected, see below) |
 | (25) `K_ττ` = (10), timelike junction | `pressure_of_timelike_junction` | proved: gives (16) for **either** `ε` (with (25) and the acceleration equation as hypotheses) |
 | Orientation `ε` vs branch and `ρ_BH/ρ` | `orientation_iff`, `orientation_plus_branch`, `orientation_minus_branch`, `minkowski_normal_branch`, `BraneCosmology.normal_branch_no_crossing` | proved: `ε = -1 ⇔ ρ̃ > 0`, `ε = +1 ⇔ ρ̃ < 0` |

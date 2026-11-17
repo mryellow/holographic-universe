@@ -79,7 +79,11 @@ Then it can change sign only where `ρ̃ = 0`, and there the brane is on or insi
 (`sign_change_inside`, `rhoTilde_eq_zero_inside`). The paper puts the exit from the horizon at
 `a ∼ 0.01–1`. So the crossing `ρ_BH = ρ` must happen before that exit. A history that stays
 outside the horizon keeps one orientation (`sign_const_outside`). This applies to the paper's
-black-hole history.
+black-hole history. Inside the horizon the brane is never at rest. A brane that expands inside
+the horizon was inside and expanding at every earlier time (`BraneCosmology.white_hole_past`),
+and its first time on the horizon is unique (`BraneCosmology.exists_unique_exit`). So before the
+exit the white-hole history is one expanding phase inside the horizon. These proofs use only
+the reality condition (22) on the brane's 4-velocity, not the orientation `ε`.
 
 **Open question.** Is a change of the normal orientation geometrically allowed for a brane
 inside the white-hole horizon? The formal model fixes `ε`, so it cannot describe the

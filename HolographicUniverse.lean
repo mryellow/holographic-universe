@@ -23,4 +23,5 @@ import HolographicUniverse.TurningPoint
 import HolographicUniverse.MaximalSolution
 import HolographicUniverse.FromSolution
 import HolographicUniverse.NormalBranch
+import HolographicUniverse.Horizon
 import HolographicUniverse.Audit

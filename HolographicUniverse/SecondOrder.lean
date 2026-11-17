@@ -31,8 +31,8 @@ second derivative, so differentiate once only:
 5. Radial integral: `∫_{ℝ⁴} g(|w|) = 2π² ∫₀^∞ r³ g(r) dr` (`integral_radial`). With
    `RadialIntegrals.lean`, `A″(0) = π⁶/10` and `B″(0) = -(π²/2)(2ζ(3) + π⁴/5 - 20ζ(5))`.
 
-**Scope.** This covers small `κ` only. Whether `κ = k/(a_b T_b)` is small at CMB scales is a
-physics input.
+**Scope.** This covers small `κ` only. `BlueTilt.lean` extends the sign of `m′` to every
+`t > 0`, with `a1_eq` and `b1_eq` from this file.
 -/
 
 namespace WhiteHole

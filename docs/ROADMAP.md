@@ -408,10 +408,10 @@ Replaces the geometric fields of `BraneCosmology` with theorems.
     any `T_b/M₅`. `planck2013_ns_excludes_one` (>5σ, the paper's figure) and
     `planck2018_ns_excludes_one` (>8σ) give the significance, under a Gaussian reading of the
     1σ intervals.
-  - Not proved: that next-order terms cannot rescue the model (M7.3).
+  - That next-order terms cannot rescue the model is M7.3 (`ObsData.not_fits_thermal`).
 - [x] **7.3 Next-order term.** Find the sign and size of the `O((k/a_bT_b)²)` correction in
-  Eq. (48). Show whether it can produce `n_s < 1` at CMB scales. Done for small `κ`, in
-  `NextOrder.lean`, `RadialIntegrals.lean` and `SecondOrder.lean`.
+  Eq. (48). Show whether it can produce `n_s < 1` at CMB scales. Done, in `NextOrder.lean`,
+  `RadialIntegrals.lean`, `SecondOrder.lean` (small `κ`) and `BlueTilt.lean` (all `κ`).
   - **Result.** Along a ray `κ = te`, `m(t) = M(te)` has `m′(0) = 0` (`deriv_mRay_zero`) and
     `m″(0) = (10ζ(5) - ζ(3))/(16π²) > 0` (`hasDerivAt_deriv_mRay`, `secondOrderCoeff_pos`). So
     `M(κ) = M(0) + (10ζ(5) - ζ(3))/(32π²)·κ² + o(κ²) ≈ 1.5759 + 0.02903κ²`, and
@@ -437,9 +437,18 @@ Replaces the geometric fields of `BraneCosmology` with theorems.
     (`hasDerivAt_a1_zero`) and `B″(0) = -(π²/2)∫r³φ′²` (`hasDerivAt_b1_zero`).
   - A direct quadrature of Eq. (46) agrees with the coefficient (`0.02901` at `κ = 0.25`,
     `0.02879` at `κ = 1`).
-  - **Open.** The theorems cover small `κ` only. Whether `κ = k/(a_bT_b)` is small at CMB scales
-    is a physics input. The quadrature suggests that `M` increases up to `κ = 1` at least. A
-    proof for all `κ` would need `M′ > 0` globally.
+  - **All `κ`** (`BlueTilt.lean`). With `w ↦ -w` in `b1_eq`, `B′(t) + A′(t) = ∫ g(w)φ(|w - te|)`
+    with `g(w) = ⟨w, e⟩/|w| · (1 + φ′(|w|))` (`b1_add_a1`). The reflection in `e^⊥` makes `g`
+    odd, so `2(B′ + A′) = ∫ g(w)[φ(|w - te|) - φ(|w + te|)]` (`two_mul_b1_add_a1`). Now
+    `1 + φ′ ≥ 1/2` and `φ` is strictly decreasing (`strictAntiOn_phiB`), so both factors have
+    the sign of `w₀` and the integrand is positive almost everywhere (`b1_add_a1_pos`). So `m` is
+    strictly increasing on `[0, ∞)` (`strictMonoOn_mRay`). Isometries preserve `M`
+    (`thermalM_map`), so `M(κ) = m(|κ|)` (`thermalM_eq_mRay`) and `M` is strictly increasing in
+    `|κ|` (`thermalM_lt_of_norm_lt`). Then `n_s > 1` at every `k > 0`
+    (`spectralIndex_thermal_gt_one`). **Third falsification theorem:** for a release with
+    `n_s < 1`, no spectrum `C·M(k/s)` fits it, for any `C ≠ 0` and `s > 0`
+    (`ObsData.not_fits_thermal`). The question whether `κ` is small at CMB scales no longer
+    matters.
 - [ ] **7.4 Thermal correlator (Eq. 39).** Out of reach for now. Keep it as a hypothesis, but
   state it precisely as a property of a function on `ℝ⁴`, not in prose.
 
@@ -489,5 +498,5 @@ entry here.
 | ✓ | M5.2, M5.3 | Done (`AdSBulk.lean`, `ChargedBulk.lean`) |
 | 8 | M8 | Grows alongside the testability pathways |
 | ✓ | M7.1 | Done (`ThermalIntegral.lean`) |
-| ✓ | M7.3 | Done for small `κ` (`SecondOrder.lean`) |
+| ✓ | M7.3 | Done for all `κ` (`SecondOrder.lean`, `BlueTilt.lean`) |
 | 9 | M6 | Long-term foundations |

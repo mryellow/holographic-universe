@@ -31,6 +31,7 @@ import HolographicUniverse.ThermalIntegral
 import HolographicUniverse.NextOrder
 import HolographicUniverse.RadialIntegrals
 import HolographicUniverse.SecondOrder
+import HolographicUniverse.BlueTilt
 
 /-!
 # Axiom audit (ROADMAP M0.1)
@@ -799,6 +800,34 @@ open WhiteHole
 /-- info: 'WhiteHole.ObsData.not_fits_next_order' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms ObsData.not_fits_next_order
+
+/-- info: 'WhiteHole.strictAntiOn_phiB' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms strictAntiOn_phiB
+
+/-- info: 'WhiteHole.b1_add_a1_pos' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms b1_add_a1_pos
+
+/-- info: 'WhiteHole.strictMonoOn_mRay' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms strictMonoOn_mRay
+
+/-- info: 'WhiteHole.thermalM_eq_mRay' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms thermalM_eq_mRay
+
+/-- info: 'WhiteHole.thermalM_lt_of_norm_lt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms thermalM_lt_of_norm_lt
+
+/-- info: 'WhiteHole.spectralIndex_thermal_gt_one' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms spectralIndex_thermal_gt_one
+
+/-- info: 'WhiteHole.ObsData.not_fits_thermal' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ObsData.not_fits_thermal
 
 /-- info: 'WhiteHole.integral_sq_coord_div' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in

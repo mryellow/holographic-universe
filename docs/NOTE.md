@@ -200,5 +200,9 @@ The next order in `κ = k/(a_bT_b)` does not help. `M(κ)` splits into a part wi
 `M(κ) = M(0) + (10ζ(5) − ζ(3))/(32π²)·κ² + o(κ²)`, with a positive coefficient
 (`hasDerivAt_deriv_mRay`, `secondOrderCoeff_pos`). The tilt is blue, `n_s − 1 ≈ 0.037κ²`, and no
 spectrum of this form fits `n_s < 1` with the pivot at small `κ` (`ObsData.not_fits_next_order`).
-Whether `κ` is small at the CMB pivot is a physics input that the theorem does not supply. A red tilt must come from outside the simple model, for example
+The restriction to small `κ` can be dropped. `M′(κ) > 0` for every `κ > 0`, because the part
+that pulls `M` down changes at no more than half the rate of the part that pushes it up
+(`b1_add_a1_pos`, `strictMonoOn_mRay`). So `n_s > 1` at every scale
+(`spectralIndex_thermal_gt_one`), and no spectrum `C·M(k/s)` fits `n_s < 1`, wherever the pivot
+is (`ObsData.not_fits_thermal`). A red tilt must come from outside the simple model, for example
 from the Jeans instability that the paper suggests.

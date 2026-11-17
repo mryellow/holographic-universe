@@ -28,6 +28,7 @@ import HolographicUniverse.Asymptotics
 import HolographicUniverse.AdSBulk
 import HolographicUniverse.ChargedBulk
 import HolographicUniverse.ThermalIntegral
+import HolographicUniverse.NextOrder
 
 /-!
 # Axiom audit (ROADMAP M0.1)
@@ -736,3 +737,23 @@ open WhiteHole
 /-- info: 'WhiteHole.BraneCosmology.normal_branch_frw_rc_of_le' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms BraneCosmology.normal_branch_frw_rc_of_le
+
+/-- info: 'WhiteHole.thermalM_eq' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms thermalM_eq
+
+/-- info: 'WhiteHole.convexOn_thermalA' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms convexOn_thermalA
+
+/-- info: 'WhiteHole.thermalA_zero_le' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms thermalA_zero_le
+
+/-- info: 'WhiteHole.thermalB_le_zero' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms thermalB_le_zero
+
+/-- info: 'WhiteHole.ObsData.not_fits_of_deriv_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ObsData.not_fits_of_deriv_nonneg

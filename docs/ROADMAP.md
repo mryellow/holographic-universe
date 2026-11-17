@@ -410,8 +410,32 @@ Replaces the geometric fields of `BraneCosmology` with theorems.
     1σ intervals.
   - Not proved: that next-order terms cannot rescue the model (M7.3).
 - [ ] **7.3 Next-order term.** Find the sign and size of the `O((k/a_bT_b)²)` correction in
-  Eq. (48). Show whether it can produce `n_s < 1` at CMB scales. (Expect not: it is
-  `k²`-suppressed, so it would tilt blue at large `k`.)
+  Eq. (48). Show whether it can produce `n_s < 1` at CMB scales. Partly done in
+  `NextOrder.lean`.
+  - Done: `ω_± = |κ' ± κ/2|` (`omegaPM_one`, `omegaPM_neg_one`). With `φ(x) = x/(eˣ - 1)`, a
+    shift of variable gives `(2π)⁴M(κ) = B(κ) + A(κ)` (`thermalM_eq`), with the autocorrelation
+    `B(κ) = ∫φ(|u|)φ(|u - κ|)` and `A(κ) = ∫|v + κ|φ(|v|)`. `A` is convex and even, so it is
+    smallest at `κ = 0` (`convexOn_thermalA`, `thermalA_zero_le`). `B` is largest at `κ = 0`
+    (`thermalB_le_zero`). So symmetry alone does not fix the sign.
+  - Done: the falsification step. If `M′ ≥ 0` at the pivot, `C·M(k/s)` fits no release with
+    `n_s < 1` (`ObsData.not_fits_of_deriv_nonneg`).
+  - Computed, not proved: `ΔA(0) = 2π⁶/5` and `ΔB(0) = -2π²(2ζ(3) + 18ζ(4) - 20ζ(5))`, so
+    `M(κ) = M(0) + (10ζ(5) - ζ(3))/(32π²)·|κ|² + o(|κ|²) ≈ 1.5759 + 0.02903|κ|²`. A direct
+    quadrature of Eq. (46) agrees (`0.02901` at `κ = 0.25`, `0.02879` at `κ = 1`). The `A` term
+    is about 17 times larger. So the next order tilts blue, `n_s - 1 ≈ 0.037κ²`, as expected.
+  - Not done, in order of size:
+    1. The radial integrals `∫₀^∞ r³/(eʳ - 1) dr = 6ζ(4)` and
+       `∫₀^∞ r³φ′(r)² dr = 2ζ(3) + 18ζ(4) - 20ζ(5)`. The Bose-series method of
+       `integral_bose` applies, with double series for `n²` and `(n(1 + n))²`. Medium.
+    2. The derivative form. `n_s` uses `M′`, so step 3 must give `M′` along a ray to first
+       order, `M′(κ) = 2c₂κ + o(κ)`, and not only the value of `M`. Then
+       `ObsData.not_fits_of_deriv_nonneg` closes the argument for small `κ`.
+    3. The second-order expansion of `A` and `B` at `κ = 0` in `ℝ⁴`. This needs
+       differentiation under the integral twice. The second derivative of `|v + κ|` behaves
+       like `1/|v|`, which is integrable in `ℝ⁴` but not bounded. Rotation invariance makes
+       each Hessian `Δ/4` times the identity. This is the hard part.
+  - Also open: whether `κ` is small at CMB scales is a physics input. The expansion covers only
+    small `κ`. The quadrature suggests that `M` increases up to `κ = 1` at least.
 - [ ] **7.4 Thermal correlator (Eq. 39).** Out of reach for now. Keep it as a hypothesis, but
   state it precisely as a property of a function on `ℝ⁴`, not in prose.
 
@@ -459,6 +483,7 @@ entry here.
 | ✓ | M4.3 | Done (`Horizon.lean`) |
 | ✓ | M4.4 | Done (`Asymptotics.lean`) |
 | ✓ | M5.2, M5.3 | Done (`AdSBulk.lean`, `ChargedBulk.lean`) |
+| 7 | M7.3, rest | Steps 1–3 above; step 3 is the hard part |
 | 8 | M8 | Grows alongside the testability pathways |
 | ✓ | M7.1 | Done (`ThermalIntegral.lean`) |
 | 9 | M6 | Long-term foundations |

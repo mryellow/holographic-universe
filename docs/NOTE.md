@@ -193,3 +193,10 @@ The leading-order spectrum of Eq. (48) has `n_s = 1` exactly (`leadingSpectrum_n
 says that this simple model is ruled out at more than 5σ. The formalization proves that this
 spectrum fits neither the Planck 2013 nor the Planck 2018 data
 (`leading_order_ruled_out_planck2013`, `leading_order_ruled_out_planck2018`).
+
+The next order in `κ = k/(a_bT_b)` does not help. `M(κ)` splits into a part with its minimum at
+`κ = 0` and a part with its maximum there (`thermalM_eq`, `thermalA_zero_le`,
+`thermalB_le_zero`). So the sign needs a computation. The computation, not yet a Lean proof,
+gives `M(κ) = M(0) + (10ζ(5) − ζ(3))/(32π²)·κ² + o(κ²)`, with a positive coefficient. The tilt
+is blue, `n_s − 1 ≈ 0.037κ²`. A red tilt must come from outside the simple model, for example
+from the Jeans instability that the paper suggests.

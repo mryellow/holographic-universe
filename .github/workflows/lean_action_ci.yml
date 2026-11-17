@@ -22,4 +22,12 @@ jobs:
       # Runs after lean-action, which fetches the Mathlib sources the script searches.
       - name: Check the assumption ledger
         run: python3 scripts/check_ledger.py
+      # ROADMAP M8.4: the numerical code agrees with the golden values proved in Golden.lean.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Check the numerical code against the golden values
+        run: |
+          python3 -m pip install --quiet numpy scipy
+          python3 phenomenology/tests/test_golden.py
       - uses: leanprover-community/docgen-action@v1

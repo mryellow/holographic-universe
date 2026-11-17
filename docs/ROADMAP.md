@@ -504,9 +504,21 @@ entry here.
     `|n_s − 1| ≤ |B|q/4` (`abs_boostTilt_le`), and `α_s = q(1 − u)/(1 + u)·(n_s − 1)` exactly
     (`runningIndex_boost`), so `|α_s| ≤ q|n_s − 1|` (`abs_runningIndex_boost_le`). On a tail
     the ratio tends to `±q`, and P4 excludes `q ≥ 0.36` there.
-- [ ] **8.4 Golden values.** Evaluate the Lean definitions at fixed rational parameter points
+- [x] **8.4 Golden values.** Evaluate the Lean definitions at fixed rational parameter points
   (`#eval` or `norm_num`). Use the results as test vectors for the numerical code (CLASS/CAMB
   modifications) in `TESTABILITY.md`, so the code and the proofs check the same formulas.
+  Done for the code that exists (`Golden.lean`, `phenomenology/tests/test_golden.py`, run in CI):
+  - Jeans, unprojected, `τ = 1`, `y = 3/5`: `n_s − 1 = −9/10` (`golden_jeans_tilt`),
+    `α_s = −369/160` (`golden_jeans_running`). Projected, `y = 6/5`: `I = π/2`
+    (`golden_jeansProjected`).
+  - Boost, `B = 1`: at the centre with `q = 2`, `−1/2` and `0`
+    (`golden_boost_centre_tilt`, `golden_boost_centre_running`); on the tail with `q = 1`,
+    `u = 2`, `−2/9` and `2/27` (`golden_boost_tilt`, `golden_boost_running`).
+  - The cascade ratios `3/4`, `9/8` (`coeff_dust`) and `1` for radiation
+    (`spatialCoeff_radiation`), and `I = π/2` without growth (`integral_univ_inv_one_add_sq_sq`).
+
+  The tests check the Python implementations (`jeans_tilt.py`, `cascade_tilt.py`) against these
+  numbers. When CLASS/CAMB code exists, add its test vectors here.
 
 ---
 

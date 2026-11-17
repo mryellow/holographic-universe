@@ -82,6 +82,9 @@ development headers, so `classy` does not compile with it. The setting
 
 To run code in the environment, use `uv run python <script>` from `phenomenology/`.
 
+To check the numerical code against the values proved in Lean (ROADMAP M8.4), run
+`uv run python tests/test_golden.py` from `phenomenology/`. CI runs the same tests.
+
 ## 4. PolyChord (optional)
 
 PolyChord is a nested sampler. It calculates the Bayesian evidence, which you need to compare

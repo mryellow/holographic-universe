@@ -37,4 +37,5 @@ import HolographicUniverse.DarkRadiation
 import HolographicUniverse.Running
 import HolographicUniverse.Jeans
 import HolographicUniverse.Boost
+import HolographicUniverse.Golden
 import HolographicUniverse.Audit

@@ -40,6 +40,7 @@ conclusions **follow from the stated assumptions**. In this project:
 | `Running.lean` | P4: running `α_s = d n_s/d ln k`; a tilt `Σᵢ cᵢ(k/sᵢ)^{pᵢ}` has `α_s = Σᵢ pᵢcᵢ(k/sᵢ)^{pᵢ}`; with red terms steep and blue terms shallow, `α_s ≤ q(n_s − 1)`; Planck 2018 with running excludes every `q ≥ 0.36`, so no local (`p ≥ 2`) extension of the paper's static mechanism fits |
 | `Jeans.lean` | P1: the unprojected Jeans spectrum `C·e^{2τ√(1 − (k/k_J)²)}`; below `k_J`, `n_s − 1 = −2τy²/√(1 − y²)` and `α_s = (1 + 1/(1 − y²))(n_s − 1)` exactly, so `α_s ≤ 2(n_s − 1)`; above `k_J`, `n_s = 1`; no such spectrum fits Planck 2018 with running; projected onto the brane, `n_s = 1` exactly above `k_J` |
 | `Boost.lean` | P2, Part B: a counterfactual infrared boost `C·exp(B/(1 + (K/K_V)^q))`; `n_s − 1 = −Bq·u/(1 + u)²` with `u = (K/K_V)^q`, so `\|n_s − 1\| ≤ \|B\|q/4`; `α_s = q(1 − u)/(1 + u)·(n_s − 1)` exactly, so `\|α_s\| ≤ q\|n_s − 1\|` |
+| `Golden.lean` | M8.4: golden values. Exact `n_s − 1` and `α_s` of the Jeans and boost spectra at rational points (`golden_jeans_running`: `−369/160`; `golden_boost_running`: `2/27`), used as test vectors by `phenomenology/tests/test_golden.py` |
 | `ObsData.lean` | Observational data as parameters (`ObsData`); Planck 2013 and Planck 2018 instances; Eqs. (49), (51) per release |
 | `ScaleInvariance.lean` | Spectral index; `n_s = 1` at leading order; the first falsification theorem against Planck 2013 and 2018 |
 | `Monopoles.lean` | Eq. (50); `H ≲ M₅ ≲ 9 MeV` (51); plasma temperature `T ≤ 8.5×10⁴ TeV ≪ T_GUT` (52) |

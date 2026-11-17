@@ -37,6 +37,7 @@ import HolographicUniverse.DarkRadiation
 import HolographicUniverse.Running
 import HolographicUniverse.Jeans
 import HolographicUniverse.Boost
+import HolographicUniverse.Golden
 
 /-!
 # Axiom audit (ROADMAP M0.1)
@@ -953,3 +954,11 @@ open WhiteHole
 /-- info: 'WhiteHole.BulkCosmology.abs_deltaNeff_bbn' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms BulkCosmology.abs_deltaNeff_bbn
+
+/-- info: 'WhiteHole.golden_jeans_running' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms golden_jeans_running
+
+/-- info: 'WhiteHole.golden_boost_running' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms golden_boost_running

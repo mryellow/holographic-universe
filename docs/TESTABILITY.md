@@ -395,7 +395,7 @@ ruled out in this form. That is a legitimate result.
 | Sampling | Cobaya | Standard Planck/ACT/DESI likelihoods are available |
 | Model comparison | Nested sampling (PolyChord) | Compute Bayesian evidence against ΛCDM, not only best-fit χ² |
 | Forecasts | Fisher matrices | For G3: Simons Observatory, LiteBIRD, LISA |
-| Agreement with Lean | Golden values (`M8.4`) | Unit tests that check the code against the formulas proved in Lean |
+| Agreement with Lean | Golden values (`M8.4`, `Golden.lean`) | `phenomenology/tests/test_golden.py` checks `jeans_tilt.py` and `cascade_tilt.py` against exact values proved in Lean; CI runs it. Add vectors for CLASS/CAMB code when it exists |
 
 Suggested layout once code exists: `phenomenology/` with one subdirectory per pathway, kept
 apart from the Lean library.

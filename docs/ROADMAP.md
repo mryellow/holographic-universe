@@ -28,7 +28,7 @@ Equation numbers refer to Pourhasan, Afshordi & Mann, arXiv:1309.1487v2.
 | Quadratic and branches `ρ̃_±` (Eq. 26), reality (Eq. 30) | derived from junction + Friedmann |
 | Induced pressure (Eq. 16) | derived from continuity (Eqs. 12–13) |
 | Observational bounds (Eqs. 33–35) | proved (Eq. 35 with fewer hypotheses than stated) |
-| Leading-order amplitude (Eq. 48), `T_b/M₅` (Eq. 49), `M₅` bound (Eq. 51) | proved, with `∫dx/(1+x²)² = π/2`, `M(0)` and the coefficient range as hypotheses |
+| Leading-order amplitude (Eq. 48), `T_b/M₅` (Eq. 49), `M₅` bound (Eq. 51) | proved, with `M(0)` and the coefficient range as hypotheses. `∫dx/(1+x²)² = π/2` is proved (`Integrals.lean`) |
 | Brane geometry, Brown–York, Gauss–Codazzi (Eqs. 3–10), Friedmann (11) | **assumed** |
 | Extrinsic curvature of the embedding (Eqs. 21–25) | **assumed** |
 | Thermal correlators (Eqs. 39–47) | **assumed** |
@@ -64,10 +64,12 @@ High value, and within reach of current Mathlib. When this is done, Eq. (49) dep
 the physics inputs (`M(0)`, the leading-order form of Eq. 48) and the data, not on hand-supplied
 numeric facts.
 
-- [ ] **1.1 `∫ dx/(1+x²)² = π/2`.** Mathlib has `integral_univ_inv_one_add_sq`
-  (`∫ (1+x²)⁻¹ = π`, in `Analysis/SpecialFunctions/ImproperIntegrals.lean`). For the square, use
-  the antiderivative `x/(2(1+x²)) + arctan(x)/2` together with the improper FTC
-  (`integral_of_hasDerivAt_of_tendsto`). This removes the integral hypothesis from `eq48_leading`.
+- [x] **1.1 `∫ dx/(1+x²)² = π/2`.** Done in `Integrals.lean`
+  (`integral_univ_inv_one_add_sq_sq`), with the antiderivative `x/(2(1+x²)) + arctan(x)/2` and
+  the improper FTC (`integral_of_hasDerivAt_of_tendsto`). `eq48_leading` now contains the
+  integral itself, not the value `π/2`. The integral is over the whole real line: that is the
+  domain that gives `π/2` (the half line gives `π/4`). Confirm the domain against the paper's
+  Eq. (48) when the TeX source is checked (M3.1).
 - [ ] **1.2 Bounds on `ζ(5)`.** Start from `zeta_nat_eq_tsum_of_gt_one`, bound the partial sum
   exactly, and bound the tail by an integral. Target: `1.0369 ≤ ζ(5) ≤ 1.0370`
   (`ζ(5) = 1.036927…`).
@@ -234,7 +236,7 @@ entry here.
 | ✓ | M0.1–0.2 (audit, CI) | Done |
 | ✓ | M2.1 (trivial instance) | Done |
 | ✓ | M2.4 (acceleration equation) | Done; M2.5 (fields at `H = 0`) is a decision to take before M4 |
-| 3 | M1.1–1.5 | Mathlib already has the pieces; finishes Sec. 4 numerics |
+| 3 | M1.2–1.5 (M1.1 done) | Mathlib already has the pieces; finishes Sec. 4 numerics |
 | 4 | M7.2 (falsification theorem) | Small, and shows the Lean ↔ data interface working end to end |
 | 5 | M3.1–3.2 | Blocks the testability gate G0 |
 | 6 | M5.1 (generic `f`) | Refactor before more theorems depend on the concrete `f` |

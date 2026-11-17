@@ -27,6 +27,7 @@ conclusions **follow from the stated assumptions**. In this project:
 | `InducedFluid.lean` | Friedmann + junction ⇒ quadratic; branches (26); reality (30); sign of `ρ̃` |
 | `Pressure.lean` | Eq. (16) derived from continuity (12)–(13); Eq. (27) vs (16) |
 | `Constraints.lean` | Observational bounds (33), (34), (35) |
+| `Integrals.lean` | `∫ dx/(1+x²)² = π/2` over the real line, used in Eq. (48) |
 | `Perturbations.lean` | Eq. (48) algebra; inversion for `T_b/M₅` (49); `M₅` bound (51) |
 | `Model.lean` | `BraneCosmology` structure and the results instantiated on it |
 | `Acceleration.lean` | Acceleration equation derived from Friedmann + continuity where `H ≠ 0`; existence of `ä` |
@@ -54,7 +55,8 @@ conclusions **follow from the stated assumptions**. In this project:
 | (34) | `eq34` | proved |
 | (35) | `eq35` | proved, with fewer hypotheses than stated: the branch assumption is redundant, and positivity of the denominator follows |
 | (39)–(47) thermal correlators, `M(0) = 15ζ(5)/π²` | — | **assumed** (out of Mathlib's reach) |
-| (48) `= 25ζ(5)/(3072π⁴)(T_b/M₅)⁶` | `eq48_leading` | proved, assuming `M(0)` and `∫dx/(1+x²)² = π/2` |
+| (48) `∫dx/(1+x²)² = π/2` | `integral_univ_inv_one_add_sq_sq` | proved |
+| (48) `= 25ζ(5)/(3072π⁴)(T_b/M₅)⁶` | `eq48_leading` | proved, assuming `M(0)` |
 | (49) `T_b/M₅ ≈ 0.171` | `eq49` | proved: `[0.1705, 0.1723]` from the Planck amplitude |
 | (51) `M₅³ ≤ H₀M₄²/6` | `eq51` | proved |
 | Acceleration equation `ä/a = -(4πG_N/3)(ρ + ρ̃ + 3(P + P̃))` | `accel_of_friedmann`, `BraneCosmology.accelAt_of_ne`, `acceleration` | **derived** from (11)–(13) wherever `H ≠ 0`; not implied at `H = 0` (`static_not_accelAt`) |

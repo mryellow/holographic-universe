@@ -1,5 +1,6 @@
 import HolographicUniverse.Basic
 import HolographicUniverse.Bulk
+import HolographicUniverse.Integrals
 import HolographicUniverse.InducedFluid
 import HolographicUniverse.Pressure
 import HolographicUniverse.Constraints
@@ -103,6 +104,10 @@ open WhiteHole
 /-- info: 'WhiteHole.eq35' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms eq35
+
+/-- info: 'WhiteHole.integral_univ_inv_one_add_sq_sq' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms integral_univ_inv_one_add_sq_sq
 
 /-- info: 'WhiteHole.eq48_leading' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in

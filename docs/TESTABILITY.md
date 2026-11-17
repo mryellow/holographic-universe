@@ -160,13 +160,17 @@ ruled out in this form. That is a legitimate result.
 
 ### P1: Red tilt from Jeans instability of the thermal atmosphere
 
-- **Status:** idea
+- **Status:** has code. **Dead in its linear form** (G1 fails); see
+  [`phenomenology/p1_jeans/README.md`](../phenomenology/p1_jeans/README.md)
 - **Hypothesis:** If the brane's thermal atmosphere is gravitationally Jeans-unstable below
   `k_J ≃ 0.2 T_b (T_b/M₅)^{3/2}`, the resulting growth of long-wavelength modes gives
   `n_s − 1 ≈ −0.035` at the CMB pivot scale.
 - **Model inputs:** `T_b/M₅` (fixed by `eq49`); the Jeans scale; the duration of the unstable
   phase relative to the Hubble time (the paper flags this as uncertain); normal branch.
-- **Prediction:** to be derived: `n_s(k)` and its running `α_s = dn_s/d ln k`.
+- **Prediction:** `Δ²_ζ ∝ ∫ dx (1+x²)⁻² F(y√(1+x²))`, `y = k/k_J`, with the 4D growth
+  `F(z) = cosh²(τ√(1-z²))` below the Jeans scale and `1` above it (`τ = Γ₀Δt`). Exact
+  consequences: in the bulk, `α_s/(n_s - 1) = 1 + 1/(1 - y²) ≥ 2`; on the brane, `n_s = 1`
+  exactly for `k ≥ k_J`; `∫(n_s - 1) d ln k = -2 ln cosh τ` over all scales.
 - **Null comparison:** single-field slow roll gives `n_s ≈ 0.965` with running
   `α_s ~ (n_s−1)² ~ 10⁻³`.
 - **Data:** Planck 2018 `n_s = 0.9649 ± 0.0042`. Running is currently consistent with zero at
@@ -177,9 +181,9 @@ ruled out in this form. That is a legitimate result.
 - **Lean link:** `M7.2` (scale invariance at leading order → falsification theorem),
   `M7.3` (sign of the next-order term, `SecondOrder.lean`; `M′ > 0` at every scale,
   `BlueTilt.lean`).
-- **Next concrete step:** write the linearized Poisson + fluid equations for the atmosphere on
-  the brane. Find the growth rate for `k < k_J` and estimate the tilt at the pivot scale
-  `k = 0.05 Mpc⁻¹`.
+- **Next concrete step:** to close the window below, run CAMB with the window spectrum through
+  the Planck 2018 likelihood (Cobaya). Otherwise move to P2, or to a nonlinear or
+  non-static version of P1 that breaks the assumptions listed in the P1 note.
 - **Open questions:** Is the instability actually active for long enough before horizon
   exit? Does it disturb the Gaussianity assumed in Eq. (39)?
 - **Log:** 2026-11-17: created from Sec. 5 of the paper. 2026-11-18: M7.3 computation: in the
@@ -188,6 +192,13 @@ ruled out in this form. That is a legitimate result.
   for small `κ` (`ObsData.not_fits_next_order`). 2026-11-18: proved for all `κ`: `n_s > 1` at
   every scale (`spectralIndex_thermal_gt_one`, `ObsData.not_fits_thermal`). The simple model
   gives a blue spectrum whatever `T_b` is, so P1 must reverse the sign, not just shift it.
+  2026-11-18: linear Jeans computation (`phenomenology/p1_jeans/`). With the pivot well inside
+  the unstable range, `n_s = 0.965` forces `α_s ≈ -0.065`: 8.6σ to 9.4σ from Planck 2018
+  (`α_s = -0.0045 ± 0.0067`). A window at `y = k/k_J ∈ [0.74, 0.81]`, `τ ∈ [0.165, 0.188]`
+  passes `(n_s, α_s)` at the pivot, but is fine-tuned (`k_J` within 10% of `0.065 Mpc⁻¹`), has
+  `n_s = 1` exactly for `k ≥ k_J`, and gives `ln P(0.1)/P(0.008) ≥ -0.034` against
+  `-0.089 ± 0.011`. Verdict: the falsification criterion is met, so P1 is dead in this form.
+  G1 now rests on P2 or on a non-linear version of P1.
 
 ### P2: Red tilt from cascading-gravity polarizations
 

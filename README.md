@@ -82,11 +82,12 @@ conclusions **follow from the stated assumptions**. In this project:
 ## Building
 
 ```bash
-# elan is installed in ~/.elan; add it to PATH if needed:
-export PATH="$HOME/.elan/bin:$PATH"
 lake exe cache get   # fetch prebuilt Mathlib
 lake build
 ```
+
+[`docs/TOOLING.md`](docs/TOOLING.md) has the full setup: how to install elan and Lean, the
+Python environment in `phenomenology/` (CAMB, CLASS, Cobaya), and PolyChord.
 
 Each module imports only the Mathlib files it needs, not all of `Mathlib`, so loading stays
 fast on slow disks.

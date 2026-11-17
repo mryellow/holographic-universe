@@ -8,6 +8,7 @@ import HolographicUniverse.Constraints
 import HolographicUniverse.Perturbations
 import HolographicUniverse.ObsData
 import HolographicUniverse.Monopoles
+import HolographicUniverse.ScaleInvariance
 import HolographicUniverse.Model
 import HolographicUniverse.Acceleration
 import HolographicUniverse.Instances

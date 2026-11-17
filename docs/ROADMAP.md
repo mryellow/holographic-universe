@@ -93,7 +93,7 @@ numeric facts.
   - `planck2013_planck2018_disjoint`: the two 1σ intervals do not overlap. This follows from the
     data alone (the 1σ amplitude intervals are disjoint), so it is not evidence against the
     model. It means a theorem proved with the 2013 numbers does not apply to the 2018 numbers.
-  - The `n_s` fields are not used yet. M7.2 will use them.
+  - The `n_s` fields are used by M7.2.
 - [x] **1.6 Eqs. (50) and (52).** Done in `Monopoles.lean`. Energies are in GeV.
   - `eq50`: `H ≤ 2πT_b` and `T_b/M₅ ≤ 0.1723` give `H < 1.09 M₅`. The condition `H ≤ 2πT_b` is
     a hypothesis.
@@ -220,11 +220,20 @@ Replaces the geometric fields of `BraneCosmology` with theorems.
 - [ ] **7.1 `M(0) = 15ζ(5)/π²`.** Define `M(κ)` as the integral in the paper. The value at
   zero needs the Bose–Einstein integral `∫₀^∞ x^{s-1}/(eˣ-1) dx = Γ(s)ζ(s)`. Check whether
   Mathlib has it; if not, prove it with a geometric series and the Gamma integral.
-- [ ] **7.2 Scale invariance at leading order.** Prove that the leading term of Eq. (48) does
-  not depend on `k`, so `n_s = 1` exactly. Combined with an `ObsData` interval for `n_s` that
-  excludes 1, this gives the **first falsification theorem**: the simple model contradicts the
-  data. Section 5 of the paper already says this ("ruled out … at >5σ"). The Lean statement
-  turns it into a machine-checked template for later pathways.
+- [x] **7.2 Scale invariance at leading order.** Done in `ScaleInvariance.lean`.
+  - `spectralIndex P k = 1 + kP′(k)/P(k)`. `spectralIndex_powerLaw` checks the definition: it
+    gives `n` for `A(k/k₀)^(n−1)`.
+  - `spectralIndex_comp`: for `P(k) = C·M(k/s)`, `n_s − 1 = κM′(κ)/M(κ)`. The tilt has the sign
+    of `M′`. This is the starting point for M7.3.
+  - `leadingSpectrum_ns`: the leading-order spectrum has `n_s = 1` at every `k`.
+  - `ObsData.Fits` and `ObsData.not_fits_of_locallyConst` are the template: if a release has
+    `ns_hi < 1`, no spectrum that is constant near the pivot fits it.
+  - **First falsification theorem:** `leading_order_ruled_out_planck2013` and
+    `leading_order_ruled_out_planck2018`. The leading-order spectrum fits neither release, for
+    any `T_b/M₅`. `planck2013_ns_excludes_one` (>5σ, the paper's figure) and
+    `planck2018_ns_excludes_one` (>8σ) give the significance, under a Gaussian reading of the
+    1σ intervals.
+  - Not proved: that next-order terms cannot rescue the model (M7.3).
 - [ ] **7.3 Next-order term.** Find the sign and size of the `O((k/a_bT_b)²)` correction in
   Eq. (48). Show whether it can produce `n_s < 1` at CMB scales. (Expect not: it is
   `k²`-suppressed, so it would tilt blue at large `k`.)
@@ -258,7 +267,7 @@ entry here.
 | ✓ | M2.1 (trivial instance) | Done |
 | ✓ | M2.4 (acceleration equation) | Done; M2.5 (fields at `H = 0`) is a decision to take before M4 |
 | ✓ | M1.1–1.6 | Done. Milestone 1 is complete |
-| 4 | M7.2 (falsification theorem) | Small, and shows the Lean ↔ data interface working end to end |
+| ✓ | M7.2 (falsification theorem) | Done |
 | 5 | M3.1–3.2 | Blocks the testability gate G0 |
 | 6 | M5.1 (generic `f`) | Refactor before more theorems depend on the concrete `f` |
 | 7 | M4, M2.2 | Real solutions; needed for histories and BBN-era statements |

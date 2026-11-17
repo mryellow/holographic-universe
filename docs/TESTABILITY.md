@@ -20,6 +20,11 @@ red tilt "is not predicted in our simple model". Sec. 5 says the model "is alrea
 cosmological observations at >5σ level". With Planck 2018 (`n_s = 0.9649 ± 0.0042`) the
 tension is about 8σ.
 
+This is now a theorem (`ScaleInvariance.lean`, M7.2). `leading_order_ruled_out_planck2013` and
+`leading_order_ruled_out_planck2018` prove that the leading-order spectrum fits neither release,
+for any value of `T_b/M₅`. `planck2013_ns_excludes_one` and `planck2018_ns_excludes_one` prove
+the >5σ and >8σ figures, reading each 1σ interval as a symmetric Gaussian error.
+
 The paper calls this "the most immediate phenomenological challenge for our scenario".
 
 **Consequence:** a testable hypothesis cannot be the 2014 model as written. It has to be an

@@ -8,6 +8,7 @@ import HolographicUniverse.Constraints
 import HolographicUniverse.Perturbations
 import HolographicUniverse.ObsData
 import HolographicUniverse.Monopoles
+import HolographicUniverse.ScaleInvariance
 import HolographicUniverse.Model
 import HolographicUniverse.Acceleration
 import HolographicUniverse.Instances
@@ -183,6 +184,38 @@ open WhiteHole
 /-- info: 'WhiteHole.eq52_planck2018' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms eq52_planck2018
+
+/-- info: 'WhiteHole.spectralIndex_powerLaw' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms spectralIndex_powerLaw
+
+/-- info: 'WhiteHole.spectralIndex_comp' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms spectralIndex_comp
+
+/-- info: 'WhiteHole.leadingSpectrum_ns' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms leadingSpectrum_ns
+
+/-- info: 'WhiteHole.ObsData.not_fits_of_locallyConst' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ObsData.not_fits_of_locallyConst
+
+/-- info: 'WhiteHole.leading_order_ruled_out_planck2013' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms leading_order_ruled_out_planck2013
+
+/-- info: 'WhiteHole.leading_order_ruled_out_planck2018' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms leading_order_ruled_out_planck2018
+
+/-- info: 'WhiteHole.planck2013_ns_excludes_one' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms planck2013_ns_excludes_one
+
+/-- info: 'WhiteHole.planck2018_ns_excludes_one' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms planck2018_ns_excludes_one
 
 /-- info: 'WhiteHole.BraneCosmology.branches' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in

@@ -42,7 +42,7 @@ predictions. Pathway P1 below comes first, and is a gate for everything else.
 | Parameter | Meaning | Status |
 |---|---|---|
 | `G_N` (`M₄`) | 4D Newton constant | measured |
-| `G_b` (`M₅`) | 5D gravitational constant | bounded: `M₅ ≲ 9 MeV` (Eq. 52), from `r_c ≳ 3/H₀` |
+| `G_b` (`M₅`) | 5D gravitational constant | bounded: `M₅ ≤ 9 MeV` (`eq52`), from `r_c ≳ 3/H₀` |
 | `T_b` | temperature of the brane's thermal atmosphere | fixed relative to `M₅` by `A_s` (Eq. 49) |
 | `𝒦`, i.e. `Ω_k` | spatial curvature | free; paper estimates `−Ω_k ∼ M₅/M_*` (Sec. 5) |
 | `r_h`, i.e. `μ` | bulk black-hole horizon / mass | free; enters through `ρ_BH` |

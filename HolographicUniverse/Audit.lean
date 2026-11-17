@@ -7,6 +7,7 @@ import HolographicUniverse.Pressure
 import HolographicUniverse.Constraints
 import HolographicUniverse.Perturbations
 import HolographicUniverse.ObsData
+import HolographicUniverse.Monopoles
 import HolographicUniverse.Model
 import HolographicUniverse.Acceleration
 import HolographicUniverse.Instances
@@ -154,6 +155,34 @@ open WhiteHole
 /-- info: 'WhiteHole.eq51' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms eq51
+
+/-- info: 'WhiteHole.eq50' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms eq50
+
+/-- info: 'WhiteHole.M5_cube_le' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms M5_cube_le
+
+/-- info: 'WhiteHole.eq52' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms eq52
+
+/-- info: 'WhiteHole.eq52_temperature' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms eq52_temperature
+
+/-- info: 'WhiteHole.eq52_below_GUT' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms eq52_below_GUT
+
+/-- info: 'WhiteHole.eq52_planck2013' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms eq52_planck2013
+
+/-- info: 'WhiteHole.eq52_planck2018' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms eq52_planck2018
 
 /-- info: 'WhiteHole.BraneCosmology.branches' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in

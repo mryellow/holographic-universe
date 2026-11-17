@@ -7,6 +7,7 @@ import HolographicUniverse.Pressure
 import HolographicUniverse.Constraints
 import HolographicUniverse.Perturbations
 import HolographicUniverse.ObsData
+import HolographicUniverse.Monopoles
 import HolographicUniverse.Model
 import HolographicUniverse.Acceleration
 import HolographicUniverse.Instances

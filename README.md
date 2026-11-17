@@ -31,6 +31,7 @@ conclusions **follow from the stated assumptions**. In this project:
 | `Zeta.lean` | `ζ(5)` as a real series, identified with `riemannZeta 5`; `1.0369 ≤ ζ(5) ≤ 1.0370` |
 | `Perturbations.lean` | Eq. (48) algebra; inversion for `T_b/M₅` (49); `M₅` bound (51) |
 | `ObsData.lean` | Observational data as parameters (`ObsData`); Planck 2013 and Planck 2018 instances; Eqs. (49), (51) per release |
+| `Monopoles.lean` | Temperature bound (50); `M₅ ≲ 9 MeV` and `T_b ≲ 1.56 MeV` (52); `T_b ≪ T_GUT` |
 | `Model.lean` | `BraneCosmology` structure and the results instantiated on it |
 | `Acceleration.lean` | Acceleration equation derived from Friedmann + continuity where `H ≠ 0`; existence of `ä` |
 | `Instances.lean` | Non-vacuity: explicit `BraneCosmology` instances (static family, self-accelerating de Sitter vacuum) |
@@ -65,7 +66,10 @@ conclusions **follow from the stated assumptions**. In this project:
 | (49) for any data release | `ObsData.tbm5_bounds`, `amplitude_inversion` | proved |
 | (49), Planck 2013, sharp | `eq49_planck2013_sharp` | proved: `[0.17061, 0.17216]`, the paper's `0.17139 ± 0.00077` |
 | (49), Planck 2018 | `eq49_planck2018` | proved: `[0.1697, 0.17051]`, i.e. `0.1701 ± 0.0004`. Disjoint from the 2013 interval (`planck2013_planck2018_disjoint`) |
-| (51) `M₅³ ≤ H₀M₄²/6` | `eq51`; `ObsData.eq51` for a general `r_c H₀` bound | proved |
+| (50) `H/2π ≲ T_b ≃ 0.17 M₅` | `eq50` | proved: `H ≤ 2πT_b` (a hypothesis) and `T_b/M₅ ≤ 0.1723` give `H < 1.09 M₅` |
+| (51) `M₅³ ≤ H₀M₄²/6` | `eq51`; `ObsData.eq51` for a general `r_c H₀` bound; `M5_cube_le` in terms of `G_N` | proved |
+| (52) `M₅ ≲ 9 MeV` | `eq52` | proved, assuming `H₀ ≤ 1.47×10⁻⁴² GeV` and `G_N ≥ 6.708×10⁻³⁹ GeV⁻²` |
+| (52) `T_b ≪ T_GUT` (no monopoles) | `eq52_temperature`, `eq52_planck2013`, `eq52_planck2018`, `eq52_below_GUT` | proved: `T_b ≤ 1.56 MeV`, so `T_b ≤ 1.6×10⁻¹⁸ T_GUT` for `T_GUT ≥ 10¹⁵ GeV`. That `T_b` is the highest brane temperature is **assumed** |
 | Acceleration equation `ä/a = -(4πG_N/3)(ρ + ρ̃ + 3(P + P̃))` | `accel_of_friedmann`, `BraneCosmology.accelAt_of_ne`, `acceleration` | **derived** from (11)–(13) wherever `H ≠ 0`; not implied at `H = 0` (`static_not_accelAt`) |
 | `ä` exists wherever `H ≠ 0` | `differentiableAt_deriv_of_sq_eq`, `BraneCosmology.deriv_a_differentiableAt` | proved (Darboux); the structure assumes only one derivative |
 | Non-vacuity of the assumptions | `BraneCosmology.nonempty`, `static`, `deSitter` | proved: instances exist for every coupling |

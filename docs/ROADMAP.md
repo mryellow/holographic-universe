@@ -32,7 +32,7 @@ Equation numbers refer to Pourhasan, Afshordi & Mann, arXiv:1309.1487v2.
 | Brane geometry, Brown–York, Gauss–Codazzi (Eqs. 3–10), Friedmann (11) | **assumed** |
 | Extrinsic curvature of the embedding (Eqs. 21–25) | **assumed** |
 | Thermal correlators (Eqs. 39–47) | **assumed** |
-| Eqs. (50), (52) (temperature and monopole bounds) | not yet formalized |
+| Eqs. (50), (52) (temperature and monopole bounds) | proved (`Monopoles.lean`), with `H₀`, `G_N` and the condition `H ≤ 2πT_b` as hypotheses |
 | Non-vacuity (does any `BraneCosmology` exist?) | proved (`Instances.lean`): a static family for both `ε = ±1` and any `r_h` outside the brane, and the self-accelerating de Sitter vacuum. An expanding instance with `r_h > 0` and matter is still **open** |
 | Axiom audit | enforced at build time (`Audit.lean`) |
 | Acceleration equation | **derived** wherever `H ≠ 0`, with no smoothness assumption beyond the structure (`Acceleration.lean`). Not implied at `H = 0`: the static instances violate it |
@@ -94,8 +94,17 @@ numeric facts.
     data alone (the 1σ amplitude intervals are disjoint), so it is not evidence against the
     model. It means a theorem proved with the 2013 numbers does not apply to the 2018 numbers.
   - The `n_s` fields are not used yet. M7.2 will use them.
-- [ ] **1.6 Eqs. (50) and (52).** Formalize the temperature bound `H/2π ≲ T_b ≃ 0.17 M₅` and
-  the monopole argument (`M₅ ≲ 9 MeV` from `r_c ≳ 3/H₀`, so `T ≪ T_GUT`), building on `eq51`.
+- [x] **1.6 Eqs. (50) and (52).** Done in `Monopoles.lean`. Energies are in GeV.
+  - `eq50`: `H ≤ 2πT_b` and `T_b/M₅ ≤ 0.1723` give `H < 1.09 M₅`. The condition `H ≤ 2πT_b` is
+    a hypothesis.
+  - `M5_cube_le`: Eq. (51) in terms of `G_N`, `M₅³ ≤ H₀/(96πG_N)`. It does not need `M₄`.
+  - `eq52`: `M₅ ≤ 9 MeV`, from `r_c ≥ 3/H₀`, `H₀ ≤ 1.47×10⁻⁴² GeV` (`h ≤ 0.689`) and
+    `G_N ≥ 6.708×10⁻³⁹ GeV⁻²`. The paper's `9 MeV` is reproduced.
+  - `eq52_temperature`, `eq52_planck2013`, `eq52_planck2018`: `T_b ≤ 1.56 MeV`, chained from the
+    measured amplitude for both releases.
+  - `eq52_below_GUT`: `T_b ≤ 1.6×10⁻¹⁸ T_GUT` for any `T_GUT ≥ 10¹⁵ GeV`. The claim that `T_b`
+    is the highest temperature the brane reaches stays a physics assumption. It is not stated
+    as a hypothesis, because no theorem here mentions the thermal history.
 
 ## Milestone 2: Non-vacuity
 
@@ -248,7 +257,7 @@ entry here.
 | ✓ | M0.1–0.2 (audit, CI) | Done |
 | ✓ | M2.1 (trivial instance) | Done |
 | ✓ | M2.4 (acceleration equation) | Done; M2.5 (fields at `H = 0`) is a decision to take before M4 |
-| ✓ | M1.1–1.5 | Done. M1.6 (Eqs. 50, 52) remains in Milestone 1 | Mathlib already has the pieces; finishes Sec. 4 numerics |
+| ✓ | M1.1–1.6 | Done. Milestone 1 is complete |
 | 4 | M7.2 (falsification theorem) | Small, and shows the Lean ↔ data interface working end to end |
 | 5 | M3.1–3.2 | Blocks the testability gate G0 |
 | 6 | M5.1 (generic `f`) | Refactor before more theorems depend on the concrete `f` |

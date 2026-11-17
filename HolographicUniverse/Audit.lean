@@ -32,6 +32,7 @@ import HolographicUniverse.NextOrder
 import HolographicUniverse.RadialIntegrals
 import HolographicUniverse.SecondOrder
 import HolographicUniverse.BlueTilt
+import HolographicUniverse.Cascade
 
 /-!
 # Axiom audit (ROADMAP M0.1)
@@ -828,6 +829,38 @@ open WhiteHole
 /-- info: 'WhiteHole.ObsData.not_fits_thermal' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms ObsData.not_fits_thermal
+
+/-- info: 'WhiteHole.spectralIndex_mul' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms spectralIndex_mul
+
+/-- info: 'WhiteHole.spectralIndex_thermal_mul_gt_one' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms spectralIndex_thermal_mul_gt_one
+
+/-- info: 'WhiteHole.ObsData.not_fits_thermal_mul' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ObsData.not_fits_thermal_mul
+
+/-- info: 'WhiteHole.spatialCoeff_quarter_le_third' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms spatialCoeff_quarter_le_third
+
+/-- info: 'WhiteHole.newtonCoeff_third_le_quarter' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms newtonCoeff_third_le_quarter
+
+/-- info: 'WhiteHole.cascadeL_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms cascadeL_nonneg
+
+/-- info: 'WhiteHole.cascadeG_monotoneOn' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms cascadeG_monotoneOn
+
+/-- info: 'WhiteHole.ObsData.not_fits_cascade' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ObsData.not_fits_cascade
 
 /-- info: 'WhiteHole.integral_sq_coord_div' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in

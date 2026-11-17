@@ -465,6 +465,14 @@ entry here.
   outside the proved interval, then a *named* hypothesis (a field of `BraneCosmology`, or a
   physics input) is false. This says *which* assumption failed, which most phenomenology does
   not.
+  - **P2, cascading gravity** (`Cascade.lean`). Tilts add (`spectralIndex_mul`), so M7.3
+    extends to `C·M(k/s)·G(k/s′)` for any positive `G` that is nondecreasing on `(0, ∞)`
+    (`spectralIndex_thermal_mul_gt_one`). **Fourth falsification theorem:**
+    `ObsData.not_fits_thermal_mul`. The linear cascade factor
+    `G = (K/(K + m))²·exp(−Lσ(K))` is such a `G` (`cascadeG_monotoneOn`), since a healthy
+    scalar coupled to the trace lowers the spatial potential for `c² ≤ 1/4`
+    (`spatialCoeff_quarter_le_third`, `cascadeL_nonneg`). Instance:
+    `ObsData.not_fits_cascade`.
 - [ ] **8.4 Golden values.** Evaluate the Lean definitions at fixed rational parameter points
   (`#eval` or `norm_num`). Use the results as test vectors for the numerical code (CLASS/CAMB
   modifications) in `TESTABILITY.md`, so the code and the proofs check the same formulas.

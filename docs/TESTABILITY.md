@@ -198,23 +198,47 @@ ruled out in this form. That is a legitimate result.
   passes `(n_s, α_s)` at the pivot, but is fine-tuned (`k_J` within 10% of `0.065 Mpc⁻¹`), has
   `n_s = 1` exactly for `k ≥ k_J`, and gives `ln P(0.1)/P(0.008) ≥ -0.034` against
   `-0.089 ± 0.011`. Verdict: the falsification criterion is met, so P1 is dead in this form.
-  G1 now rests on P2 or on a non-linear version of P1.
+  G1 now rests on P2 or on a non-linear version of P1. 2026-11-18: P2 fails too (sign), so a
+  non-linear or non-static P1 is the remaining route among the paper's suggestions.
 
 ### P2: Red tilt from cascading-gravity polarizations
 
-- **Status:** idea
+- **Status:** has code. **Dead in its linear form** (G1 fails, on the sign); see
+  [`phenomenology/p2_cascade/README.md`](../phenomenology/p2_cascade/README.md)
 - **Hypothesis:** If extra graviton polarizations unfreeze gradually (cascading gravity, i.e.
   6D embedding with scale `M₆`), the strengthening of the bulk propagator in the infrared
   produces a red tilt.
-- **Model inputs:** `M₅`, `M₆`; the transition scale `M₅³/M₆⁴`.
-- **Prediction:** to be derived.
+- **Model inputs:** `M₅`, `M₆`; the transition scale `M₅³/M₆⁴`; the Vainshtein profile.
+- **Prediction:** relative to 5D GR, the 4D power of `ζ` is multiplied by
+  `G(K) = (K/(K + m))² · r^{2s(K)}`, with `m ∼ M₆⁴/M₅³` and `r = 3/(4(1 − c²))`. The extra
+  scalar couples only to the trace `δT = -(1 − 4c²)δρ`. It boosts the Newtonian potential `g₀₀`,
+  but it lowers the spatial potential that the paper identifies with `ζ` (Eq. 47), for every
+  `0 ≤ c² ≤ 1/4`. For the paper's radiation atmosphere (`c² = 1/4`) it does nothing. `G` is
+  nondecreasing in `K`, so with `M7.3` the result is `n_s > 1` at every scale, for every `M₆`.
 - **Null comparison:** as P1.
 - **Data:** as P1, plus large-scale-structure tests of modified gravity.
 - **Falsification criterion:** as P1.
-- **Lean link:** `M5.1` (generic bulk), new work on 6D embeddings.
-- **Next concrete step:** literature review of cascading gravity (the paper's ref. [25]);
-  find how the effective Newton constant runs with scale.
-- **Log:** 2026-11-17: created from Sec. 5 of the paper.
+- **Lean link:** `M7.3` and `Cascade.lean` (M8.3). Tilts add (`spectralIndex_mul`), so `n_s > 1`
+  survives any positive nondecreasing factor (`spectralIndex_thermal_mul_gt_one`). **Fourth
+  falsification theorem:** `ObsData.not_fits_thermal_mul`, with the cascade instance
+  `ObsData.not_fits_cascade`. The tensor-structure signs are `spatialCoeff_quarter_le_third`
+  and `newtonCoeff_third_le_quarter`.
+- **Next concrete step:** none for this form. Escape routes, all outside the paper's model:
+  1. a ghost-like brane-bending mode, which the paper excises;
+  2. a stiff atmosphere (`ρ < 4p`);
+  3. a brane observable that follows `g₀₀`, not `g_ab`. The radiation atmosphere makes even
+     this one ineffective.
+- **Log:** 2026-11-17: created from Sec. 5 of the paper. 2026-11-18: linear computation
+  (`phenomenology/p2_cascade/`). The 6D propagator softens gravity in the IR, and the scalar's
+  `+(1/12)η_μν δT` term leaves `ζ` unchanged for radiation and lowers it by up to `3/4` for
+  dust. Both are blue, so P2 is dead in this form. It fails on the sign, not on the shape. A
+  counterfactual IR boost of `ζ`, `exp(B/(1 + (K/K_V)^q))`, would fit only if all three hold:
+  - it is broad (`q ≲ 1.5`; on a power-law tail `|α_s/(n_s − 1)| = q`);
+  - it is large (`B ≳ 0.1`, against `2 ln(9/8) = 0.24` for the dust Newtonian boost);
+  - it is centred within a factor of about 3 of the pivot.
+
+  G1 has now failed for both of the paper's extensions. 2026-11-18: proved in Lean for every
+  `M₆`, `c² ≤ 1/4` and decreasing screening profile (`ObsData.not_fits_cascade`).
 
 ### P3: Background: closed curvature, dark radiation, BBN
 
@@ -259,6 +283,12 @@ Check these before citing them in a paper.
 
 - R. Pourhasan, N. Afshordi, R. B. Mann, *Out of the White Hole*, arXiv:1309.1487, JCAP 04 (2014) 005.
 - G. Dvali, G. Gabadadze, M. Porrati, *4D gravity on a brane in 5D Minkowski space*, hep-th/0005016.
+- C. de Rham, G. Dvali, S. Hofmann, J. Khoury, O. Pujolàs, M. Redi, A. J. Tolley, *Cascading
+  gravity: extending the DGP model to higher dimension*, arXiv:0711.2072 (the paper's ref. [25]).
+- C. de Rham, S. Hofmann, J. Khoury, A. J. Tolley, *Cascading gravity and degravitation*,
+  arXiv:0712.2821.
+- C. de Rham, J. Khoury, A. J. Tolley, *Cascading gravity is ghost free*, arXiv:1002.1075.
+- J. Khoury, M. Wyman, *N-body simulations of DGP and degravitation theories*, arXiv:0903.1292.
 - Planck Collaboration, *Planck 2018 results VI: Cosmological parameters*, arXiv:1807.06209.
 - J. Pardo, M. Fishbach, D. Holz, D. Spergel, *Limits on the number of spacetime dimensions from GW170817*, arXiv:1801.08160.
 - E. Di Valentino, A. Melchiorri, J. Silk, *Planck evidence for a closed Universe…*, arXiv:1911.02087.

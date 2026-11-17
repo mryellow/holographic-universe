@@ -1,6 +1,7 @@
 import HolographicUniverse.Basic
 import HolographicUniverse.Bulk
 import HolographicUniverse.Integrals
+import HolographicUniverse.Zeta
 import HolographicUniverse.InducedFluid
 import HolographicUniverse.Pressure
 import HolographicUniverse.Constraints

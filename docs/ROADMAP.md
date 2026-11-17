@@ -70,9 +70,12 @@ numeric facts.
   integral itself, not the value `π/2`. The integral is over the whole real line: that is the
   domain that gives `π/2` (the half line gives `π/4`). Confirm the domain against the paper's
   Eq. (48) when the TeX source is checked (M3.1).
-- [ ] **1.2 Bounds on `ζ(5)`.** Start from `zeta_nat_eq_tsum_of_gt_one`, bound the partial sum
-  exactly, and bound the tail by an integral. Target: `1.0369 ≤ ζ(5) ≤ 1.0370`
-  (`ζ(5) = 1.036927…`).
+- [x] **1.2 Bounds on `ζ(5)`.** Done in `Zeta.lean`. `zeta5` is the real series `∑ 1/n⁵`, and
+  `riemannZeta_five` identifies it with `riemannZeta 5`. The lower bound is the exact sum of the
+  first ten terms (`1.0369073…`). The upper bound replaces the integral with a telescoping bound,
+  `1/(m+1)⁵ ≤ 1/(4m⁴) - 1/(4(m+1)⁴)`, so the tail is at most `1/(4·10⁴)`. Results:
+  `zeta5_bounds : 1.0369 ≤ ζ(5) ≤ 1.0370`, and the sharper `zeta5_upper : ζ(5) ≤ 1.03694`
+  (`ζ(5) = 1.036927…`). `riemannZeta_five_bounds` restates them for `riemannZeta 5`.
 - [ ] **1.3 Bounds on `π`.** These already exist: `Real.pi_gt_d6` and `Real.pi_lt_d6`.
 - [ ] **1.4 Coefficient theorem.** Prove `25ζ(5)/(3072π⁴) ∈ [8.65, 8.67]×10⁻⁵` (the value is
   `8.663×10⁻⁵`). Then restate `eq49` with this theorem replacing the `hk` hypothesis.
@@ -236,7 +239,7 @@ entry here.
 | ✓ | M0.1–0.2 (audit, CI) | Done |
 | ✓ | M2.1 (trivial instance) | Done |
 | ✓ | M2.4 (acceleration equation) | Done; M2.5 (fields at `H = 0`) is a decision to take before M4 |
-| 3 | M1.2–1.5 (M1.1 done) | Mathlib already has the pieces; finishes Sec. 4 numerics |
+| 3 | M1.3–1.5 (M1.1, M1.2 done) | Mathlib already has the pieces; finishes Sec. 4 numerics |
 | 4 | M7.2 (falsification theorem) | Small, and shows the Lean ↔ data interface working end to end |
 | 5 | M3.1–3.2 | Blocks the testability gate G0 |
 | 6 | M5.1 (generic `f`) | Refactor before more theorems depend on the concrete `f` |

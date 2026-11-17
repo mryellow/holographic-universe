@@ -154,6 +154,20 @@ exists for all time (`BraneCosmology.not_isSolution_normal_eps_neg`). This is th
 the closed-universe result of general relativity. It is not an issue with the paper, whose
 history starts at the singularity.
 
+The structure also needs `ρ̃` to be differentiable at every time. At the pressure singularity,
+`(ρ̃ − ρ̃_s)² = ρ̃_s² − 2ρ̃_s(ρ_BH − ρ)` then has derivative zero, which gives
+`H (3P − ρ − 2ρ̃_s) = 0` (`BraneCosmology.singularity_at_rest`). For `3P ≤ ρ`, the brane is at
+rest at the singularity and strictly outside the horizon (`singularity_outside_of_le`). So the
+singularity of the paper, with `H ≠ 0` inside the horizon, is not a time of any
+`BraneCosmology`. This agrees with the paper, where the singularity is the start of the
+history. Near it `P̃ → +∞` (`tendsto_pressureTilde_atTop`).
+
+At late times the formal model gives the expected limits (ROADMAP M4.4). On the
+self-accelerating branch, an expanding history with `a² > 2𝒦r_c²` approaches de Sitter space
+with `H → 1/r_c` (`BraneCosmology.tendsto_deSitter`). On the normal branch,
+`|ρ̃| ≤ √(2ρ̃_s|ρ − ρ_BH|)`, so the Friedmann equation is standard up to a relative error
+`√(2ρ̃_s/ρ)` (`BraneCosmology.normal_branch_frw_of_le`).
+
 ## What the formalization confirms
 
 The main derivations of the paper hold as stated, under the hypotheses above:

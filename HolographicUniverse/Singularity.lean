@@ -38,7 +38,8 @@ The horizon results hold for any blackening factor `f` (`BulkCosmology.singulari
 and its variants in `GeneralBulk.lean`). The versions here are the Schwarzschild case.
 
 Not proved: that a history actually reaches the singularity. That needs solutions of the
-equations of motion (M4).
+equations of motion (M4). `Asymptotics.lean` shows that a `BraneCosmology` with `3P ≤ ρ` is at
+rest at the singularity, and so outside the horizon (`BraneCosmology.singularity_outside_of_le`).
 -/
 
 namespace WhiteHole

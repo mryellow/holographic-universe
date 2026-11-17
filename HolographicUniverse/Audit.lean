@@ -24,6 +24,7 @@ import HolographicUniverse.MaximalSolution
 import HolographicUniverse.FromSolution
 import HolographicUniverse.NormalBranch
 import HolographicUniverse.Horizon
+import HolographicUniverse.Asymptotics
 
 /-!
 # Axiom audit (ROADMAP M0.1)
@@ -612,3 +613,43 @@ open WhiteHole
 /-- info: 'WhiteHole.BraneCosmology.hubble_sq_at_horizon' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms BraneCosmology.hubble_sq_at_horizon
+
+/-- info: 'WhiteHole.tendsto_rhoTilde' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms tendsto_rhoTilde
+
+/-- info: 'WhiteHole.abs_rhoTilde_minus_le' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms abs_rhoTilde_minus_le
+
+/-- info: 'WhiteHole.tendsto_pressureTilde_atTop' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms tendsto_pressureTilde_atTop
+
+/-- info: 'WhiteHole.BraneCosmology.tendsto_late' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.tendsto_late
+
+/-- info: 'WhiteHole.BraneCosmology.expands_of_self_acc' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.expands_of_self_acc
+
+/-- info: 'WhiteHole.BraneCosmology.tendsto_deSitter' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.tendsto_deSitter
+
+/-- info: 'WhiteHole.BraneCosmology.tendsto_normal' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.tendsto_normal
+
+/-- info: 'WhiteHole.BraneCosmology.normal_branch_frw_of_le' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.normal_branch_frw_of_le
+
+/-- info: 'WhiteHole.BraneCosmology.singularity_at_rest' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.singularity_at_rest
+
+/-- info: 'WhiteHole.BraneCosmology.singularity_outside_of_le' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.singularity_outside_of_le

@@ -38,7 +38,7 @@ Equation numbers refer to Pourhasan, Afshordi & Mann, arXiv:1309.1487v2.
 | History of `ρ_BH/ρ` (M3.2) | proved (`History.lean`): era scaling, the matter-era bound for `ε = -1`, and orientation changes only on or inside the horizon |
 | Pressure singularity (M3.4) | proved (`Singularity.lean`): at the saturated reality bound, where the branches meet; inside the horizon exactly when `\|H\| ≥ 1/(2r_c)` |
 | Non-vacuity (does any `BraneCosmology` exist?) | proved (`Instances.lean`): a static family for both `ε = ±1` and any `r_h` outside the brane, and the self-accelerating de Sitter vacuum. An expanding solution with `r_h > 0` and radiation, in closed form (`Bounce.lean`, M2.2). With `ε = -1` on the normal branch there is **no** solution for ordinary matter (`NormalBranch.lean`, M2.3) |
-| Dynamics (M4) | reduction to `ȧ² = F(a)` for `P = wρ` proved (`Dynamics.lean`, M4.1). Local existence and uniqueness away from the singularity proved, turning points included (`LocalExistence.lean`, `TurningPoint.lean`, M4.2). Maximal solutions proved, with escape from compact sets at a finite end (`MaximalSolution.lean`, M4.2). A global solution defines a `BraneCosmology` (`FromSolution.lean`, M4.2). Horizon-crossing time proved (`Horizon.lean`, M4.3). M4.4 is **open** |
+| Dynamics (M4) | reduction to `ȧ² = F(a)` for `P = wρ` proved (`Dynamics.lean`, M4.1). Local existence and uniqueness away from the singularity proved, turning points included (`LocalExistence.lean`, `TurningPoint.lean`, M4.2). Maximal solutions proved, with escape from compact sets at a finite end (`MaximalSolution.lean`, M4.2). A global solution defines a `BraneCosmology` (`FromSolution.lean`, M4.2). Horizon-crossing time proved (`Horizon.lean`, M4.3). Late-time limits, the FRW limit and the singularity proved (`Asymptotics.lean`, M4.4) |
 | Axiom audit | enforced at build time (`Audit.lean`) |
 | Acceleration equation | **derived** wherever `H ≠ 0`, with no smoothness assumption beyond the structure (`Acceleration.lean`). Not implied at `H = 0`: the static instances violate it. `BraneCosmology.IsSolution` adds it (M2.5) |
 
@@ -247,7 +247,7 @@ Turns the algebraic constraints into statements about whole histories.
   theorem: the branches meet only at the singularity). Then `ȧ² = F_sgn(a)` with
   `F = friedmannF` (`deriv_a_sq_eq`, `reduction`). The bounce of M2.2 solves it with `w = 1/3`,
   `sgn = +1` (`radiationBounce_reduction`).
-- [ ] **4.2 Local existence and uniqueness.** Use Mathlib's Picard–Lindelöf
+- [x] **4.2 Local existence and uniqueness.** Use Mathlib's Picard–Lindelöf
   (`Analysis/ODE/PicardLindelof.lean`, `Analysis/ODE/ExistUnique.lean`) away from `H = 0` and
   from the pressure singularity. Feeds Milestone 2.2. At `H = 0` the first-order equation is
   not enough (see M2.5): use the second-order acceleration equation there.
@@ -305,9 +305,27 @@ Turns the algebraic constraints into statements about whole histories.
   brane expands before `t*` (`BraneCosmology.exists_unique_exit`). On the horizon,
   `H² = (8πG_b ρ̃/3)²` (`hubble_sq_at_horizon`). Not proved: that the brane reaches the
   horizon. That is a hypothesis, because `a` could approach `a_h` without reaching it.
-- [ ] **4.4 Asymptotics.** Late times: on the self-accelerating branch `H → 1/r_c` (de Sitter).
-  On the normal branch, recover standard FRW when `ρ ≫ ρ̃_s`. Early times: behavior near the
-  singularity.
+- [x] **4.4 Asymptotics.** Done in `Asymptotics.lean`. Late times: on the self-accelerating
+  branch `H → 1/r_c` (de Sitter). On the normal branch, recover standard FRW when `ρ ≫ ρ̃_s`.
+  Early times: behavior near the singularity.
+  - **Late times.** For `P = wρ`, `w > -1`, on one branch `sgn`, and `a → ∞`: `ρ → 0`,
+    `ρ̃ → ρ̃_s(1 + sgn)` and `H² → (8πG_N/3) ρ̃_s(1 + sgn)` (`BraneCosmology.tendsto_late`). On
+    `ρ̃_+`, `H² ≥ 1/(2r_c²) - 𝒦/a²`. So a history with `ρ ≥ 0` that expands at a time with
+    `a² > 2𝒦r_c²` expands at every later time, has `a → ∞` (`expands_of_self_acc`), and has
+    `H → 1/r_c` (`tendsto_deSitter`). On `ρ̃_-`, if `a → ∞`, then `ρ̃ → 0` and `H → 0`
+    (`tendsto_normal`). There `a → ∞` is a hypothesis, because a closed universe can recollapse.
+  - **Standard FRW.** `|ρ̃_-| ≤ √(2ρ̃_s|ρ - ρ_BH|)` under the reality bound
+    (`abs_rhoTilde_minus_le`). So on the normal branch with `0 ≤ ρ_BH ≤ ρ`, the Friedmann
+    equation is the standard one up to a relative error `√(2ρ̃_s/ρ)`
+    (`BraneCosmology.normal_branch_frw_of_le`).
+  - **The singularity.** As `ρ̃ → ρ̃_s` from below with `3P - ρ < 2ρ̃_s`, `P̃ → +∞`
+    (`tendsto_pressureTilde_atTop`). In a `BraneCosmology`, `ρ̃` is differentiable, and
+    `(ρ̃ - ρ̃_s)² = ρ̃_s² - 2ρ̃_s(ρ_BH - ρ)`. The derivative of the left side is zero at the
+    singularity, so `H(3P - ρ - 2ρ̃_s) = 0` there (`BraneCosmology.singularity_at_rest`). For
+    `3P ≤ ρ` the brane is at rest at the singularity and strictly outside the horizon
+    (`singularity_outside_of_le`). A history that reaches the singularity with `H ≠ 0` has,
+    generically, `ρ̃ - ρ̃_s ∝ √|a - a_s|` by Eq. (26), which is not differentiable in `t`. Such a history can only start or
+    end at the singularity, as the paper's white-hole history does.
 
 ## Milestone 5: Generalize the bulk
 
@@ -413,6 +431,6 @@ entry here.
 | ✓ | M4.2, instance from a global solution | Done (`FromSolution.lean`) |
 | ✓ | M2.3 | Done, negative (`NormalBranch.lean`) |
 | ✓ | M4.3 | Done (`Horizon.lean`) |
-| 7 | M4.4 | Later histories; needed for BBN-era statements |
+| ✓ | M4.4 | Done (`Asymptotics.lean`) |
 | 8 | M8 | Grows alongside the testability pathways |
 | 9 | M6, M7.1 | Long-term foundations |

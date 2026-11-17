@@ -47,6 +47,7 @@ conclusions **follow from the stated assumptions**. In this project:
 | `FromSolution.lean` | The converse: a global solution of `ȧ² = F(a)` in the domain, with an orientation `ε` that obeys `ε ρ̃ ≤ 0`, defines a `BraneCosmology`. It is a solution of the equations of motion if `ä = F'(a)/2` |
 | `NormalBranch.lean` | M2.3: with `ε = -1`, on the normal branch, and for matter with `ρ + 3P > 0`, `3P ≤ ρ`, every solution has `ä < 0` at every time, so no `BraneCosmology` is a solution |
 | `Horizon.lean` | M4.3: inside the horizon `ȧ ≠ 0`; an expanding brane inside was inside and expanding at every earlier time, a contracting one stays inside; the exit time `t*` with `a(t*) = √𝒦 r_h` is unique; `H² = (8πG_b ρ̃/3)²` on the horizon |
+| `Asymptotics.lean` | M4.4: late times on each branch (de Sitter `H → 1/r_c` on `ρ̃_+`, `H → 0` on `ρ̃_-`); standard FRW on the normal branch up to a relative error `√(2ρ̃_s/ρ)`; `P̃ → ∞` at the singularity, and a `BraneCosmology` with `3P ≤ ρ` is at rest there |
 | `Singularity.lean` | Pressure singularity: `ρ̃ = ρ̃_s` ⇔ reality bound (30) saturated ⇔ branches meet; inside the horizon ⇔ `\|H\| ≥ 1/(2r_c)`; a floor on `a` in an expanding era |
 | `Audit.lean` | Build-time axiom audit: every declaration, plus a pinned `#print axioms` list for the headline theorems |
 
@@ -73,6 +74,11 @@ conclusions **follow from the stated assumptions**. In this project:
 | (30) reality constraint | `reality`, `BraneCosmology.reality` | **derived** |
 | (30) equality ⇔ pressure singularity | `isInduced_eq_rhoS_iff`, `BraneCosmology.singularity_iff`, `branches_meet_iff` | proved, both directions; the branches meet only there |
 | Sec. 5: the singularity is "always" inside the white-hole horizon | `BraneCosmology.singularity_inside_iff`, `singularity_inside_iff_curvature`, `singularity_inside_of_rc` | proved **with a condition**: inside exactly when `\|H\| ≥ 1/(2r_c)` (issue 7) |
+| Late times: de Sitter on the self-accelerating branch | `BraneCosmology.tendsto_deSitter`, `expands_of_self_acc`, `tendsto_late` | proved: for `P = wρ`, `w > -1`, `ρ ≥ 0`, an expanding history with `a(t₀)² > 2𝒦r_c²` has `a → ∞`, `ρ̃ → 2ρ̃_s`, `H → 1/r_c` |
+| Late times on the normal branch | `BraneCosmology.tendsto_normal` | proved: if `a → ∞`, then `ρ̃ → 0` and `H → 0` |
+| Normal branch is standard FRW when `ρ ≫ ρ̃_s` | `abs_rhoTilde_minus_le`, `BraneCosmology.normal_branch_frw`, `normal_branch_frw_of_le` | proved: `\|ρ̃_-\| ≤ √(2ρ̃_s\|ρ - ρ_BH\|)`, so the relative error is at most `√(2ρ̃_s/ρ)` for `0 ≤ ρ_BH ≤ ρ` |
+| (16) at the singularity: `P̃ → ∞` | `tendsto_pressureTilde_atTop` | proved, for `ρ̃ → ρ̃_s` from below and `3P - ρ < 2ρ̃_s` |
+| The singularity in the formal model | `BraneCosmology.singularity_at_rest`, `singularity_outside_of_le` | proved: with `ρ̃` differentiable, `H(3P - ρ - 2ρ̃_s) = 0` there. For `3P ≤ ρ`, `H = 0` and the brane is outside the horizon. A history that reaches the singularity with `H ≠ 0` can only start or end there (issue 4) |
 | (32) `|ρ̃| ≤ ερ` | hypothesis | **assumed** (observational input) |
 | (33) + side remarks | `eq33`, `eq33_side` | proved |
 | (34) | `eq34` | proved |
@@ -149,7 +155,11 @@ on the paper's conclusions (ROADMAP M3.5).
    M2.4. The predicate `BraneCosmology.IsSolution` (M2.5) adds the acceleration equation and
    Eq. (16) at every time. It holds automatically wherever `H ≠ 0` (`isSolution_of_ne`), and
    it excludes the static instances (`static_not_isSolution`). `BraneCosmology.radiationBounce`
-   is a solution, with `r_h > 0` and radiation (`radiationBounce_isSolution`).
+   is a solution, with `r_h > 0` and radiation (`radiationBounce_isSolution`). The structure
+   also needs `ρ̃` to be differentiable at every time. At the pressure singularity this forces
+   `H = 0` when `3P ≤ ρ` (`BraneCosmology.singularity_at_rest_of_le`). The paper's white-hole
+   history starts at the singularity with `H ≠ 0`, so a `BraneCosmology` cannot contain that
+   start.
 5. **Eq. (52) has a dimension error.** As printed, `T ∼ (M₄H/g_*²)^{1/4}` has dimension
    `GeV^{1/2}`. The radiation-era Friedmann equation gives `T = (180/π²)^{1/4}(M₄H)^{1/2}g_*^{-1/4}`
    (`radiation_T4`), and the paper's number `3×10⁴ TeV` matches this form up to the `O(1)`

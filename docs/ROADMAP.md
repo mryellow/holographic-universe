@@ -27,7 +27,7 @@ Equation numbers refer to Pourhasan, Afshordi & Mann, arXiv:1309.1487v2.
 | Bulk `f(r)`, `ρ_BH ∝ a⁻⁴`, horizon crossing (Eqs. 20, 28, 29) | proved |
 | Quadratic and branches `ρ̃_±` (Eq. 26), reality (Eq. 30) | derived from junction + Friedmann |
 | Induced pressure (Eq. 16) | derived from continuity (Eqs. 12–13) |
-| General bulk `f` (M5.1) | Eqs. (26), (30), (16) and the singularity results proved for any `f` (`GeneralBulk.lean`); Schwarzschild derived as a special case |
+| General bulk `f` (M5) | Eqs. (26), (30), (16) and the singularity results proved for any `f` (`GeneralBulk.lean`); Schwarzschild derived as a special case. Schwarzschild–AdS₅ (`AdSBulk.lean`, M5.2) and Reissner–Nordström₅ (`ChargedBulk.lean`, M5.3) done |
 | Observational bounds (Eqs. 33–35) | proved (Eq. 35 with fewer hypotheses than stated) |
 | Leading-order amplitude (Eq. 48), `T_b/M₅` (Eq. 49), `M₅` bound (Eq. 51) | proved, with `M(0) = 15ζ(5)/π²` as the only remaining hypothesis. The integral, `ζ(5)` and the coefficient range are proved (`Integrals.lean`, `Zeta.lean`, `ampCoeff_bounds`) |
 | Brane geometry, Brown–York, Gauss–Codazzi (Eqs. 3–10), Friedmann (11) | **assumed** |
@@ -342,10 +342,26 @@ Needed by several testability pathways (curvature with anisotropy, AdS embedding
   quadratic, the sign of `ρ̃`, Eq. (16) and the singularity results for `BraneCosmology` are now
   derived from the general ones. README issue 7 holds for every `f`. Results that use
   `ρ_BH ∝ a⁻⁴` (`History.lean`, `scale_factor_floor`) stay Schwarzschild-specific.
-- [ ] **5.2 Schwarzschild–AdS₅.** `f = 1 + r²/L² - r_h²/r²`. The paper says the results "need
-  not significantly change" (Sec. 5). Prove that, or state precisely how they change.
-- [ ] **5.3 Charged bulk (Reissner–Nordström).** `f = 1 - r_h²/r² + q²/r⁴`. This adds a
-  `∝ a⁻⁶` term, which BBN can bound.
+- [x] **5.2 Schwarzschild–AdS₅.** Done in `AdSBulk.lean`. `f = 1 + r²/L² - r_h²/r²`. The
+  paper says the results "need not significantly change" (Sec. 5). Prove that, or state
+  precisely how they change. The bulk density is `ρ_BH - ρ_Λ`, `ρ_Λ = 3/(8πG_N L²)`
+  (`rhoBulk_blackenAdS`): the "small constant" of Sec. 5, with a negative sign. Eqs. (26) and
+  (30) hold with `ρ_BH - ρ_Λ`, and the reality bound is relaxed by `2ρ_Λ` (`reality_AdS`).
+  Eq. (16) holds with `3P - ρ` replaced by `3P - ρ - 4ρ_Λ` (`pressure_AdS`). The general rule is
+  `pressureTildeBulk_extra`: an extra bulk term with density `d` and pressure `p` replaces `T` by
+  `T + d - 3p`. The horizon results are unchanged. At late times, with `a → ∞` and `ρ → 0`,
+  `H² → (1 + sgn √(1 + 4r_c²/L²))/(2r_c²)` (`tendsto_hubble_sq_AdS`). On the normal branch the
+  limit of `ρ̃` is negative, so no such history exists (`not_tendsto_atTop_normal_AdS`): without
+  a brane tension, an AdS bulk makes the normal branch recollapse, for every finite `L`.
+- [x] **5.3 Charged bulk (Reissner–Nordström).** Done in `ChargedBulk.lean`.
+  `f = 1 - r_h²/r² + q²/r⁴`. This adds a `∝ a⁻⁶` term, which BBN can bound. The bulk density is
+  `ρ_BH - ρ_Q`, `ρ_Q = 3𝒦³q²/(8πG_N a⁶)` (`rhoBulk_blackenRN`, `rhoQ_mul_a6`). Eq. (16) holds
+  with `3P - ρ` replaced by `3P - ρ + 2ρ_Q` (`pressure_RN`), and the reality bound is relaxed by
+  `2ρ_Q` (`reality_RN`). `ρ_Q/ρ_BH = 𝒦q²/(r_h²a²)`, so the bulk density is negative exactly
+  when `r_h²a² < 𝒦q²` (`rhoBulk_RN_neg_iff`). Above extremality, `r_h⁴ < 4q²`, `f > 0`
+  everywhere, so there is no horizon and no white hole, and at the singularity
+  `|H| < 1/(2r_c)` (`singularity_hubble_lt_RN`). Not done: the numerical BBN bound on `q`. It
+  needs the BBN constraint on extra energy density as an input.
 
 ## Milestone 6: Geometry from first principles (long term)
 
@@ -432,5 +448,6 @@ entry here.
 | ✓ | M2.3 | Done, negative (`NormalBranch.lean`) |
 | ✓ | M4.3 | Done (`Horizon.lean`) |
 | ✓ | M4.4 | Done (`Asymptotics.lean`) |
+| ✓ | M5.2, M5.3 | Done (`AdSBulk.lean`, `ChargedBulk.lean`) |
 | 8 | M8 | Grows alongside the testability pathways |
 | 9 | M6, M7.1 | Long-term foundations |

@@ -25,6 +25,8 @@ import HolographicUniverse.FromSolution
 import HolographicUniverse.NormalBranch
 import HolographicUniverse.Horizon
 import HolographicUniverse.Asymptotics
+import HolographicUniverse.AdSBulk
+import HolographicUniverse.ChargedBulk
 
 /-!
 # Axiom audit (ROADMAP M0.1)
@@ -653,3 +655,55 @@ open WhiteHole
 /-- info: 'WhiteHole.BraneCosmology.singularity_outside_of_le' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms BraneCosmology.singularity_outside_of_le
+
+/-- info: 'WhiteHole.rhoBulk_blackenAdS' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms rhoBulk_blackenAdS
+
+/-- info: 'WhiteHole.pressureTildeBulk_extra' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms pressureTildeBulk_extra
+
+/-- info: 'WhiteHole.BulkCosmology.pressure_AdS' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BulkCosmology.pressure_AdS
+
+/-- info: 'WhiteHole.BulkCosmology.reality_AdS' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BulkCosmology.reality_AdS
+
+/-- info: 'WhiteHole.BulkCosmology.tendsto_hubble_sq_AdS' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BulkCosmology.tendsto_hubble_sq_AdS
+
+/-- info: 'WhiteHole.BulkCosmology.not_tendsto_atTop_normal_AdS' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BulkCosmology.not_tendsto_atTop_normal_AdS
+
+/-- info: 'WhiteHole.rhoBulk_blackenRN' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms rhoBulk_blackenRN
+
+/-- info: 'WhiteHole.rhoBulk_RN_neg_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms rhoBulk_RN_neg_iff
+
+/-- info: 'WhiteHole.blackenRN_pos' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms blackenRN_pos
+
+/-- info: 'WhiteHole.BulkCosmology.pressure_RN' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BulkCosmology.pressure_RN
+
+/-- info: 'WhiteHole.BulkCosmology.reality_RN' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BulkCosmology.reality_RN
+
+/-- info: 'WhiteHole.BulkCosmology.tendsto_rhoBulk_RN' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BulkCosmology.tendsto_rhoBulk_RN
+
+/-- info: 'WhiteHole.BulkCosmology.singularity_hubble_lt_RN' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BulkCosmology.singularity_hubble_lt_RN

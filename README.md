@@ -34,6 +34,8 @@ conclusions **follow from the stated assumptions**. In this project:
 | `ScaleInvariance.lean` | Spectral index; `n_s = 1` at leading order; the first falsification theorem against Planck 2013 and 2018 |
 | `Monopoles.lean` | Eq. (50); `H ≲ M₅ ≲ 9 MeV` (51); plasma temperature `T ≤ 8.5×10⁴ TeV ≪ T_GUT` (52) |
 | `GeneralBulk.lean` | `BulkCosmology`: the model for any blackening factor `f`; Eqs. (26), (30), (16) and the pressure-singularity results in general form |
+| `AdSBulk.lean` | M5.2: Schwarzschild–AdS₅. `ρ_bulk = ρ_BH - ρ_Λ`, `ρ_Λ = 3/(8πG_N L²)`; Eq. (16) with `3P - ρ - 4ρ_Λ`; late-time `H²` on each branch; the normal branch cannot expand forever |
+| `ChargedBulk.lean` | M5.3: Reissner–Nordström₅. `ρ_bulk = ρ_BH - ρ_Q`, `ρ_Q ∝ a⁻⁶`; Eq. (16) with `3P - ρ + 2ρ_Q`; no horizon above extremality |
 | `Model.lean` | `BraneCosmology` structure (the Schwarzschild bulk); `toBulk`; the results instantiated on it |
 | `Acceleration.lean` | Acceleration equation derived from Friedmann + continuity where `H ≠ 0`; existence of `ä` |
 | `Instances.lean` | Non-vacuity: explicit `BraneCosmology` instances (static family, self-accelerating de Sitter vacuum) |
@@ -62,6 +64,8 @@ conclusions **follow from the stated assumptions**. In this project:
 | (15) ≡ (26) given (29) | `eq15_eq_eq26`, `mu_sq_term` | proved |
 | (16) induced pressure | `pressure_of_continuity`, `BraneCosmology.pressure` | **derived** from (11)–(13) + junction |
 | (16), (26), (30) for a general bulk `f` (not in the paper) | `pressure_of_continuity_bulk`, `isInduced_of_bulk`, `BulkCosmology.isInduced`, `BulkCosmology.reality`, `BulkCosmology.pressure` | proved: `ρ_BH` becomes `ρ_bulk` (`rhoBulk_blacken` for Schwarzschild), and Eq. (16) becomes `P̃ = (ρ̃² - 2ρ̃_s(P - P_b))/(2(ρ̃_s - ρ̃))` |
+| Sec. 5: an AdS bulk "need not significantly change" the results | `rhoBulk_blackenAdS`, `BulkCosmology.pressure_AdS`, `reality_AdS`, `tendsto_hubble_sq_AdS`, `not_tendsto_atTop_normal_AdS` | proved, with one qualification: `ρ_BH` becomes `ρ_BH - ρ_Λ` and `3P - ρ` becomes `3P - ρ - 4ρ_Λ`. The late-time rate on `ρ̃_+` is `H² → (1 + √(1 + 4r_c²/L²))/(2r_c²)`. On `ρ̃_-` the limit of `ρ̃` is negative, so without a brane tension no history with `ρ → 0` expands forever |
+| Charged bulk (not in the paper) | `rhoBulk_blackenRN`, `BulkCosmology.pressure_RN`, `reality_RN`, `rhoBulk_RN_neg_iff`, `singularity_hubble_lt_RN` | proved: `ρ_BH` becomes `ρ_BH - ρ_Q` with `ρ_Q ∝ a⁻⁶`, and `3P - ρ` becomes `3P - ρ + 2ρ_Q`. Above extremality, `r_h⁴ < 4q²`, there is no horizon, and at the singularity `\|H\| < 1/(2r_c)` |
 | (20), horizon crossing `r = r_h` | `outside_horizon_iff`, `curv_mul_blacken` | proved |
 | Fig. 3: the universe leaves the white hole at one time `t*` | `BraneCosmology.exists_unique_exit`, `white_hole_past`, `black_hole_future`, `deriv_ne_zero_of_inside` | proved: no rest inside the horizon; if an expanding brane inside the horizon is on or outside it later, the first time on the horizon is unique and the brane expands before it. That the brane reaches the horizon is a hypothesis |
 | (24) `K_ij` | `BraneCosmology.junction` | **assumed** (with a typo corrected, see below) |

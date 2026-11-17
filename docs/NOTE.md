@@ -178,6 +178,15 @@ The main derivations of the paper hold as stated, under the hypotheses above:
 - the amplitude inversion (49), from the Planck 2013 amplitude;
 - the bounds (50)–(51), and `T ≪ T_GUT` in (52).
 
+Sec. 5 says that an AdS bulk adds "a small constant" and "need not significantly change" the
+results. The formalization confirms the form of the change. The bulk density becomes
+`ρ_BH − ρ_Λ`, with `ρ_Λ = 3/(8πG_N L²)` (`rhoBulk_blackenAdS`), and Eq. (16) changes by
+`3P − ρ → 3P − ρ − 4ρ_Λ` (`BulkCosmology.pressure_AdS`). The constant is negative. On the
+normal branch it gives a negative late-time `ρ̃`, so without a brane tension no history with
+`ρ → 0` expands forever (`BulkCosmology.not_tendsto_atTop_normal_AdS`). The paper notes in
+Sec. 1 that the normal branch needs a brane tension to fit the data. That tension would also
+have to cancel this term.
+
 The leading-order spectrum of Eq. (48) has `n_s = 1` exactly (`leadingSpectrum_ns`). Sec. 5
 says that this simple model is ruled out at more than 5σ. The formalization proves that this
 spectrum fits neither the Planck 2013 nor the Planck 2018 data

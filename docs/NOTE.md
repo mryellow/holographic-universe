@@ -204,5 +204,52 @@ The restriction to small `κ` can be dropped. `M′(κ) > 0` for every `κ > 0`,
 that pulls `M` down changes at no more than half the rate of the part that pushes it up
 (`b1_add_a1_pos`, `strictMonoOn_mRay`). So `n_s > 1` at every scale
 (`spectralIndex_thermal_gt_one`), and no spectrum `C·M(k/s)` fits `n_s < 1`, wherever the pivot
-is (`ObsData.not_fits_thermal`). A red tilt must come from outside the simple model, for example
-from the Jeans instability that the paper suggests.
+is (`ObsData.not_fits_thermal`). A red tilt must come from outside the simple model. Section 6
+tests the two extensions that the paper suggests.
+
+## 6. The red tilt: the paper's two extensions fail
+
+Sec. 5 of the paper proposes two ways to turn the scale-invariant spectrum red: a residual Jeans
+instability of the bulk atmosphere, and cascading gravity. The repository works out both at
+linear order (`phenomenology/p1_jeans/`, `phenomenology/p2_cascade/`). Neither gives the
+observed spectrum. The tilt results so far, in order:
+
+| | Spectrum | Result | Status |
+|---|---|---|---|
+| 1 | leading order, `C·M(0)` | `n_s = 1`, fits no release with `n_s < 1` | proved (`leading_order_ruled_out_planck2018`) |
+| 2 | next order, small `κ` | `n_s − 1 ≈ 0.037κ² > 0` | proved (`ObsData.not_fits_next_order`) |
+| 3 | full thermal spectrum `C·M(k/s)` | `n_s > 1` at every scale | proved (`ObsData.not_fits_thermal`) |
+| 4 | `C·M(k/s)·G(k/s′)`, `G` nondecreasing | `n_s > 1` at every scale | proved (`ObsData.not_fits_thermal_mul`) |
+| P2 | cascading gravity, linear | an instance of 4, for every `M₆` | proved, given the linear cascade factor (`ObsData.not_fits_cascade`) |
+| P1 | Jeans instability, linear | red, but `α_s ≈ 2(n_s − 1)`, ~9σ from Planck; or a tuned dip | numerical (`jeans_tilt.py`); three exact statements not yet in Lean |
+
+**Cascading gravity has the wrong sign.** The paper reads the red tilt as a bulk propagator that
+"is getting stronger in the IR", and expects the extra polarization of cascading gravity to
+supply this. The extra polarization is a scalar that couples to the trace of the stress tensor.
+It strengthens the Newtonian potential `g₀₀` (`newtonCoeff_third_le_quarter`). But the paper
+identifies `ζ` with the spatial potential (Eq. 47), and the scalar lowers that for every gas
+with `ρ ≥ 4p` (`spatialCoeff_quarter_le_third`). For the paper's radiation atmosphere it does
+nothing (`spatialCoeff_radiation`). The 6D propagator `1/(K² + mK)` also weakens gravity in the
+infrared. So the cascade multiplies the spectrum by a factor that does not decrease with `k`
+(`cascadeG_monotoneOn`), and the spectrum stays blue (`ObsData.not_fits_cascade`).
+
+**The Jeans instability has the wrong shape.** Linear growth with the pivot well inside the
+unstable range gives a running `α_s ≈ 2(n_s − 1) ≈ −0.065`, about 9σ from Planck 2018. A narrow
+window just below the Jeans scale fits `n_s` and `α_s` at the pivot. But it needs `k_J` tuned to
+within 10%, it leaves `n_s = 1` exactly for `k ≥ k_J`, and it misses the slope across
+`0.008–0.1 Mpc⁻¹` by `≥ 5σ`. These are numerical results with stated assumptions (linear,
+static background). A full Planck likelihood run would make them final.
+
+**What any rescue needs.** The converse is also proved. If `C·M(k/s)·G(k/s′)` fits a release,
+then at the pivot `d ln G/d ln k < n_s,hi − 1` (`ObsData.Fits.factor_slope_lt`). For Planck 2018
+that is `< −0.0309` (`planck2018_factor_slope`), so `G′ < 0` at the pivot
+(`ObsData.Fits.deriv_factor_neg`). The thermal factor adds a blue tilt of its own, so `G` must
+carry more than the whole observed tilt. Planck's bound on the running adds that the strengthening
+must be broad in `ln k`: on a power-law tail of a feature, `|α_s/(n_s − 1)|` equals the power,
+and Planck allows only about `[−0.33, 0.67]` for this ratio at 2σ (`phenomenology/p2_cascade/`, Sec. 4).
+
+**Conclusion.** In the form the paper gives, with either of its proposed extensions at linear
+order, the model does not produce the observed spectrum. This is the outcome that
+`docs/TESTABILITY.md` (gate G1) names as a legitimate result. What is left open: a nonlinear or
+non-static Jeans instability, and extensions outside the paper that strengthen gravity in the
+infrared by more than the observed tilt, over a broad range of scales.

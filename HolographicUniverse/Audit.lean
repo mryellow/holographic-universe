@@ -862,6 +862,22 @@ open WhiteHole
 #guard_msgs in
 #print axioms ObsData.not_fits_cascade
 
+/-- info: 'WhiteHole.spectralIndex_thermal_mul' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms spectralIndex_thermal_mul
+
+/-- info: 'WhiteHole.ObsData.Fits.factor_slope_lt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ObsData.Fits.factor_slope_lt
+
+/-- info: 'WhiteHole.ObsData.Fits.deriv_factor_neg' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ObsData.Fits.deriv_factor_neg
+
+/-- info: 'WhiteHole.planck2018_factor_slope' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms planck2018_factor_slope
+
 /-- info: 'WhiteHole.integral_sq_coord_div' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms integral_sq_coord_div

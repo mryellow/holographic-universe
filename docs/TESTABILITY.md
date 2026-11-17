@@ -31,6 +31,22 @@ The paper calls this "the most immediate phenomenological challenge for our scen
 **extended model** that produces a red tilt, and that extension then has to make further
 predictions. Pathway P1 below comes first, and is a gate for everything else.
 
+### Where G1 stands (2026-11-18)
+
+**G1 has failed for both of the paper's extensions** at linear order:
+- **P1 (Jeans instability)** fails on shape. See P1 below.
+- **P2 (cascading gravity)** fails on sign. It is proved in Lean for every `M₆`
+  (`ObsData.not_fits_cascade`).
+
+Three Lean results frame the situation:
+- The full thermal spectrum is blue at every scale (`ObsData.not_fits_thermal`).
+- So is the thermal spectrum times any nondecreasing factor (`ObsData.not_fits_thermal_mul`).
+- Any extension that fits must have `d ln G/d ln k < −0.0309` at the Planck 2018 pivot
+  (`planck2018_factor_slope`).
+
+`docs/NOTE.md`, Sec. 6, has the write-up. Open routes: a nonlinear or non-static P1, or a new
+extension that meets the necessary condition over a broad range of scales.
+
 ### What the formalization already gives
 
 | Fact | Lean | Use for testing |
@@ -53,7 +69,7 @@ predictions. Pathway P1 below comes first, and is a gate for everything else.
 | `r_h`, i.e. `μ` | bulk black-hole horizon / mass | free; enters through `ρ_BH` |
 | `ε` (Eq. 32) | allowed size of `ρ̃/ρ` | modeling choice, `~0.1` in the paper |
 | branch, orientation | `ρ̃_±`, normal orientation | normal branch preferred (no ghosts); orientation fixed by the sign of `ρ̃` (`orientation_iff`) |
-| *extension parameters* | whatever produces the red tilt | **to be defined by P1** |
+| *extension parameters* | whatever produces the red tilt | P1 (`τ`, `k_J`) and P2 (`M₆`, screening) both fail G1 at linear order. Any extension needs `d ln G/d ln k < −0.0309` at the pivot (`planck2018_factor_slope`) |
 
 ## 2. Catalogue of options
 

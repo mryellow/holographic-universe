@@ -473,6 +473,10 @@ entry here.
     scalar coupled to the trace lowers the spatial potential for `c² ≤ 1/4`
     (`spatialCoeff_quarter_le_third`, `cascadeL_nonneg`). Instance:
     `ObsData.not_fits_cascade`.
+  - **Any extension** (`Cascade.lean`). The converse: a fit of `C·M(k/s)·G(k/s′)` forces
+    `d ln G/d ln k < n_s,hi − 1` at the pivot (`ObsData.Fits.factor_slope_lt`), so `G′ < 0`
+    there (`ObsData.Fits.deriv_factor_neg`). For Planck 2018 the bound is `−0.0309`
+    (`planck2018_factor_slope`). This names what a rescue of G1 must supply.
 - [ ] **8.4 Golden values.** Evaluate the Lean definitions at fixed rational parameter points
   (`#eval` or `norm_num`). Use the results as test vectors for the numerical code (CLASS/CAMB
   modifications) in `TESTABILITY.md`, so the code and the proofs check the same formulas.

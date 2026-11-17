@@ -18,13 +18,18 @@ relativity, the 4D power of the paper's `ζ = -Φ₄` gets multiplied by
 
 Both factors are nondecreasing in `K`. This file proves that this is enough.
 
-* `spectralIndex_mul`: `n_s(P·G) − 1 = (n_s(P) − 1) + (n_s(G) − 1)`.
+* `spectralIndex_mul`: `n_s(P·G) − 1 = (n_s(P) − 1) + (n_s(G) − 1)`;
+  `spectralIndex_thermal_mul` for `P = C·M(k/s)`.
 * `one_le_spectralIndex_comp`: a positive nondecreasing factor `G(k/s)` has `n_s ≥ 1`.
 * `spectralIndex_thermal_mul_gt_one`: `C·M(k/s)·G(k/s′)` has `n_s > 1` at every `k > 0`.
 * `ObsData.not_fits_thermal_mul`: **fourth falsification theorem.** No such spectrum fits a
   release with `n_s < 1`. This holds for any positive, differentiable `G` that is nondecreasing
   on `(0, ∞)`, so for any modification of the bulk propagator that weakens gravity in the
   infrared.
+* `ObsData.Fits.factor_slope_lt`, `ObsData.Fits.deriv_factor_neg`, `planck2018_factor_slope`:
+  **what any rescue needs.** A fit forces `d ln G/d ln k < n_s,hi − 1` at the pivot (below
+  `−0.0309` for Planck 2018), so `G` must be strictly decreasing there: gravity must get
+  stronger toward the infrared, by more than the observed tilt.
 * `spatialCoeff_le_of_le`, `spatialCoeff_quarter_le_third`, `newtonCoeff_third_le_quarter`: a
   healthy scalar coupled to the trace lowers `λ`. That lowers the spatial potential (`ζ`) and
   raises the Newtonian one, for every `0 ≤ c² ≤ 1/4`. The two coincide for radiation
@@ -70,12 +75,12 @@ theorem one_le_spectralIndex_comp {G : ℝ → ℝ} {s k : ℝ} (hs : 0 < s) (hk
   have := div_nonneg (mul_nonneg hκ.le (deriv_nonneg_of_monotoneOn hκ hG)) hG0.le
   linarith
 
-/-- **`M7.3` survives any nondecreasing factor.** `C·M(k/s)·G(k/s′)` has `n_s > 1` at every
-`k > 0`, if `G` is positive and nondecreasing on `(0, ∞)`. -/
-theorem spectralIndex_thermal_mul_gt_one {C s s' k : ℝ} {G : ℝ → ℝ} (hC : C ≠ 0) (hs : 0 < s)
-    (hs' : 0 < s') (hk : 0 < k) (hG : MonotoneOn G (Ioi 0))
-    (hGd : DifferentiableAt ℝ G (k / s')) (hG0 : 0 < G (k / s')) :
-    1 < spectralIndex (fun k ↦ C * mRay (k / s) * G (k / s')) k := by
+/-- **The tilt of `C·M(k/s)·G(k/s′)`** is the thermal tilt plus the log-slope of `G`:
+`n_s = n_s^thermal + κ′G′(κ′)/G(κ′)` with `κ′ = k/s′`. No condition on the sign of `G′`. -/
+theorem spectralIndex_thermal_mul {C s s' k : ℝ} {G : ℝ → ℝ} (hC : C ≠ 0) (hs : 0 < s)
+    (hs' : s' ≠ 0) (hk : 0 < k) (hGd : DifferentiableAt ℝ G (k / s')) (hG0 : G (k / s') ≠ 0) :
+    spectralIndex (fun k ↦ C * mRay (k / s) * G (k / s')) k =
+      spectralIndex (fun k ↦ C * mRay (k / s)) k + k / s' * deriv G (k / s') / G (k / s') := by
   have hκ : 0 < k / s := div_pos hk hs
   have hs1 : DifferentiableAt ℝ (fun k : ℝ ↦ k / s) k := differentiableAt_id.div_const s
   have hs2 : DifferentiableAt ℝ (fun k : ℝ ↦ k / s') k := differentiableAt_id.div_const s'
@@ -84,8 +89,21 @@ theorem spectralIndex_thermal_mul_gt_one {C s s' k : ℝ} {G : ℝ → ℝ} (hC 
   have hg1 := hGd.comp k hs2
   have hPd : DifferentiableAt ℝ (fun k ↦ C * mRay (k / s)) k := hm1.const_mul C
   have hGd' : DifferentiableAt ℝ (fun k ↦ G (k / s')) k := hg1
-  rw [spectralIndex_mul hPd hGd' (mul_ne_zero hC (mRay_pos hκ.le).ne') hG0.ne']
-  linarith [spectralIndex_thermal_gt_one hC hs hk, one_le_spectralIndex_comp hs' hk hG hGd hG0]
+  have hG := spectralIndex_comp (C := 1) one_ne_zero hs' hGd hG0
+  simp only [one_mul] at hG
+  rw [spectralIndex_mul hPd hGd' (mul_ne_zero hC (mRay_pos hκ.le).ne') hG0, hG]
+  ring
+
+/-- **`M7.3` survives any nondecreasing factor.** `C·M(k/s)·G(k/s′)` has `n_s > 1` at every
+`k > 0`, if `G` is positive and nondecreasing on `(0, ∞)`. -/
+theorem spectralIndex_thermal_mul_gt_one {C s s' k : ℝ} {G : ℝ → ℝ} (hC : C ≠ 0) (hs : 0 < s)
+    (hs' : 0 < s') (hk : 0 < k) (hG : MonotoneOn G (Ioi 0))
+    (hGd : DifferentiableAt ℝ G (k / s')) (hG0 : 0 < G (k / s')) :
+    1 < spectralIndex (fun k ↦ C * mRay (k / s) * G (k / s')) k := by
+  have hκ : 0 < k / s' := div_pos hk hs'
+  rw [spectralIndex_thermal_mul hC hs hs'.ne' hk hGd hG0.ne']
+  have := div_nonneg (mul_nonneg hκ.le (deriv_nonneg_of_monotoneOn hκ hG)) hG0.le
+  linarith [spectralIndex_thermal_gt_one hC hs hk]
 
 /-- **Fourth falsification theorem.** For a release with `n_s < 1`, no spectrum
 `C·M(k/s)·G(k/s′)` fits it, for any positive, differentiable `G` that is nondecreasing on
@@ -97,6 +115,49 @@ theorem ObsData.not_fits_thermal_mul (d : ObsData) (hns : d.ns_hi < 1) {C s s' :
   rintro ⟨-, -, h⟩
   have hκ : 0 < d.kPivot / s' := div_pos d.kPivot_pos hs'
   linarith [spectralIndex_thermal_mul_gt_one hC hs hs' d.kPivot_pos hG (hGd _ hκ) (hG0 _ hκ)]
+
+/-! ### What any rescue needs
+
+The converse direction. Whatever the extension, if `C·M(k/s)·G(k/s′)` fits a release, the
+factor `G` alone must carry more than the whole observed tilt at the pivot, because the thermal
+part pushes the other way. -/
+
+/-- **Necessary condition for any extension.** If `C·M(k/s)·G(k/s′)` fits release `d`, then the
+log-slope of `G` at the pivot is below `n_s,hi − 1`: `G` must fall by more than the observed
+tilt, since `M` adds a positive tilt of its own. -/
+theorem ObsData.Fits.factor_slope_lt {d : ObsData} {C s s' : ℝ} {G : ℝ → ℝ} (hC : C ≠ 0)
+    (hs : 0 < s) (hs' : 0 < s') (hGd : DifferentiableAt ℝ G (d.kPivot / s'))
+    (hG0 : G (d.kPivot / s') ≠ 0) (h : d.Fits (fun k ↦ C * mRay (k / s) * G (k / s'))) :
+    d.kPivot / s' * deriv G (d.kPivot / s') / G (d.kPivot / s') < d.ns_hi - 1 := by
+  have h2 := h.2.2
+  rw [spectralIndex_thermal_mul hC hs hs'.ne' d.kPivot_pos hGd hG0] at h2
+  linarith [spectralIndex_thermal_gt_one hC hs d.kPivot_pos]
+
+/-- **Gravity must strengthen toward the infrared at the pivot itself.** For a release with
+`n_s < 1` and a positive factor `G`, a fit forces `G′ < 0` at the pivot. This is local:
+`ObsData.not_fits_thermal_mul` needs `G` monotone everywhere, this needs nothing away from the
+pivot. -/
+theorem ObsData.Fits.deriv_factor_neg {d : ObsData} (hns : d.ns_hi < 1) {C s s' : ℝ}
+    {G : ℝ → ℝ} (hC : C ≠ 0) (hs : 0 < s) (hs' : 0 < s')
+    (hGd : DifferentiableAt ℝ G (d.kPivot / s')) (hG0 : 0 < G (d.kPivot / s'))
+    (h : d.Fits (fun k ↦ C * mRay (k / s) * G (k / s'))) : deriv G (d.kPivot / s') < 0 := by
+  have hlt := h.factor_slope_lt hC hs hs' hGd hG0.ne'
+  have hκ : 0 < d.kPivot / s' := div_pos d.kPivot_pos hs'
+  by_contra hd
+  have := div_nonneg (mul_nonneg hκ.le (not_lt.1 hd)) hG0.le
+  linarith
+
+/-- **Planck 2018.** Any extension of the form `C·M(k/s)·G(k/s′)` that fits needs
+`d ln G/d ln k < −0.0309` at `k = 0.05 Mpc⁻¹`. -/
+theorem planck2018_factor_slope {C s s' : ℝ} {G : ℝ → ℝ} (hC : C ≠ 0) (hs : 0 < s)
+    (hs' : 0 < s') (hGd : DifferentiableAt ℝ G (planck2018.kPivot / s'))
+    (hG0 : G (planck2018.kPivot / s') ≠ 0)
+    (h : planck2018.Fits (fun k ↦ C * mRay (k / s) * G (k / s'))) :
+    planck2018.kPivot / s' * deriv G (planck2018.kPivot / s') / G (planck2018.kPivot / s') <
+      -0.0309 := by
+  have := h.factor_slope_lt hC hs hs' hGd hG0
+  have e : planck2018.ns_hi - 1 = -0.0309 := by simp only [planck2018]; norm_num
+  linarith
 
 /-! ### Tensor structure: the scalar lowers `ζ` -/
 

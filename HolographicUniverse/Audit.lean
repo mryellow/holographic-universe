@@ -18,6 +18,7 @@ import HolographicUniverse.History
 import HolographicUniverse.Singularity
 import HolographicUniverse.Bounce
 import HolographicUniverse.Dynamics
+import HolographicUniverse.LocalExistence
 
 /-!
 # Axiom audit (ROADMAP M0.1)
@@ -454,3 +455,27 @@ open WhiteHole
 /-- info: 'WhiteHole.BraneCosmology.radiationBounce_reduction' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms BraneCosmology.radiationBounce_reduction
+
+/-- info: 'WhiteHole.BraneCosmology.isSolution_of_ne' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.isSolution_of_ne
+
+/-- info: 'WhiteHole.BraneCosmology.static_not_isSolution' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.static_not_isSolution
+
+/-- info: 'WhiteHole.BraneCosmology.radiationBounce_isSolution' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.radiationBounce_isSolution
+
+/-- info: 'WhiteHole.exists_local_solution' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms exists_local_solution
+
+/-- info: 'WhiteHole.local_unique' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms local_unique
+
+/-- info: 'WhiteHole.BraneCosmology.locally_determined' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.locally_determined

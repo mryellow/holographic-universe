@@ -131,8 +131,11 @@ static brane satisfies every field with any pressure, and the static instances v
 acceleration equation (`static_not_accelAt`). These instances show that the hypotheses are
 consistent. They are not solutions of the equations of motion. `BraneCosmology.radiationBounce`
 is a solution: it has a bulk black hole and radiation, and obeys the acceleration equation at
-every time (`radiationBounce_accelAt`). It needs the tuning `ρ = ρ_BH`. General solutions are
-the subject of ROADMAP Milestone 4.
+every time (`radiationBounce_accelAt`). It needs the tuning `ρ = ρ_BH`. The predicate
+`BraneCosmology.IsSolution` adds the acceleration equation and Eq. (16) as hypotheses. It
+excludes the static instances (`static_not_isSolution`). General solutions are the subject of
+ROADMAP Milestone 4. Away from `H = 0` and the singularity, a history is fixed locally by its
+data (`BraneCosmology.locally_determined`).
 
 ## What the formalization confirms
 

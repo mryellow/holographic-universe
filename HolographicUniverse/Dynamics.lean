@@ -3,7 +3,12 @@ import HolographicUniverse.Singularity
 import Mathlib.Analysis.SpecialFunctions.Pow.Deriv
 
 /-!
-# Reduction to an ODE (ROADMAP M4.1)
+# Solutions, and the reduction to an ODE (ROADMAP M2.5, M4.1)
+
+`IsSolution` (M2.5) is the predicate for a solution of the equations of motion: the fields
+of `BraneCosmology`, the acceleration equation, and Eq. (16). It is automatic wherever `H ≠ 0`
+(`isSolution_of_ne`). The static instances are not solutions (`static_not_isSolution`). The de
+Sitter vacuum and the radiation bounce are solutions.
 
 For a barotropic fluid `P = wρ`, a `BraneCosmology` is fixed by one first-order autonomous ODE
 for the scale factor, `ȧ² = F(a)`.
@@ -51,6 +56,38 @@ lemma le_rhoTilde_plus {s b ρ : ℝ} (hs : 0 < s) : s ≤ rhoTilde 1 s b ρ := 
 namespace BraneCosmology
 
 variable (M : BraneCosmology)
+
+/-! ### Solutions (ROADMAP M2.5) -/
+
+/-- **A solution of the equations of motion.** The fields of `BraneCosmology` are the
+Friedmann and continuity equations and the spatial junction condition. A solution also obeys
+the acceleration equation, and Eq. (16) wherever `ρ̃ ≠ ρ̃_s`, at every time. Eq. (16) has a zero
+denominator at the singularity, so the predicate does not constrain `P̃` there. Both parts follow
+from the fields wherever `H ≠ 0` (`isSolution_of_ne`). The predicate matters at `H = 0`, where
+the fields allow non-solutions (`static_not_isSolution`). -/
+def IsSolution : Prop :=
+  ∀ t, M.AccelAt t
+    ∧ (M.ρt t ≠ M.c.rhoS → M.Pt t = pressureTilde M.c.rhoS (M.ρt t) (3 * M.P t - M.ρ t))
+
+/-- A history that never has `H = 0` is a solution. -/
+theorem isSolution_of_ne (hH : ∀ t, deriv M.a t ≠ 0) : M.IsSolution :=
+  fun t ↦ ⟨M.accelAt_of_ne t (hH t), M.pressure t (hH t)⟩
+
+/-- The static instances are not solutions. -/
+theorem static_not_isSolution (c : Couplings) (K rh ε : ℝ) (hK : 0 < K) (hrh : 0 ≤ rh)
+    (hε : ε ^ 2 = 1) (hout : K * rh ^ 2 ≤ 1) : ¬(static c K rh ε hK hrh hε hout).IsSolution :=
+  fun h ↦ static_not_accelAt c K rh ε hK hrh hε hout 0 (h 0).1
+
+/-- The de Sitter vacuum is a solution. -/
+theorem deSitter_isSolution (c : Couplings) : (deSitter c).IsSolution :=
+  fun t ↦ ⟨deSitter_accelAt c t, fun _ ↦ deSitter_pressure c t⟩
+
+/-- The radiation bounce is a solution. -/
+theorem radiationBounce_isSolution {c : Couplings} {K rh : ℝ} (hK : 0 < K) (hrh : 0 ≤ rh)
+    (hrc : 2 * rh ≤ c.rc) : (radiationBounce c K rh hK hrh hrc).IsSolution :=
+  fun t ↦ ⟨radiationBounce_accelAt c hK hrh hrc t, fun _ ↦ radiationBounce_pressure c hK hrh hrc t⟩
+
+/-! ### Reduction (ROADMAP M4.1) -/
 
 /-- For `P = wρ`, `ρ a^{3(1+w)}` has zero derivative. -/
 theorem hasDerivAt_rho_rpow {w : ℝ} (hw : ∀ t, M.P t = w * M.ρ t) (t : ℝ) :

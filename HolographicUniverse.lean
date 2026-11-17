@@ -18,4 +18,5 @@ import HolographicUniverse.History
 import HolographicUniverse.Singularity
 import HolographicUniverse.Bounce
 import HolographicUniverse.Dynamics
+import HolographicUniverse.LocalExistence
 import HolographicUniverse.Audit

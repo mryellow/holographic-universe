@@ -40,7 +40,8 @@ conclusions **follow from the stated assumptions**. In this project:
 | `Orientation.lean` | Normal orientation `ε`: Eq. (16) from the timelike junction condition for either `ε`; origin of Eq. (27); `ε` fixed by the sign of `ρ̃` |
 | `History.lean` | `ρ_BH/ρ` along a history: constant in a radiation era, `∝ 1/a` in a matter era, never rising while the universe expands; matter-era bound for `ε = -1`; an orientation change needs the brane on or inside the horizon |
 | `Bounce.lean` | An expanding solution with `r_h > 0` and radiation (`ρ = ρ_BH`, closed form); it obeys the acceleration equation at every time |
-| `Dynamics.lean` | Reduction to an ODE: `ρ = ρ₀a^{-3(1+w)}` for `P = wρ`; the branch is fixed away from the singularity; `ȧ² = F(a)` |
+| `Dynamics.lean` | Solutions (`IsSolution`: acceleration equation and Eq. (16) at every time). Reduction to an ODE: `ρ = ρ₀a^{-3(1+w)}` for `P = wρ`; the branch is fixed away from the singularity; `ȧ² = F(a)` |
+| `LocalExistence.lean` | Picard–Lindelöf for `ȧ = ±√F(a)`: local existence and uniqueness away from `H = 0` and the singularity; a history is fixed locally by its data |
 | `Singularity.lean` | Pressure singularity: `ρ̃ = ρ̃_s` ⇔ reality bound (30) saturated ⇔ branches meet; inside the horizon ⇔ `\|H\| ≥ 1/(2r_c)`; a floor on `a` in an expanding era |
 | `Audit.lean` | Build-time axiom audit: every declaration, plus a pinned `#print axioms` list for the headline theorems |
 
@@ -94,6 +95,8 @@ conclusions **follow from the stated assumptions**. In this project:
 | An expanding solution with `r_h > 0` and radiation | `exists_expanding_radiation`, `BraneCosmology.radiationBounce`, `radiationBounce_accelAt`, `radiationBounce_pressure` | proved, in closed form, for `ρ = ρ_BH` and `2r_h ≤ r_c`: `a² = 𝒦r_c²/2 + q cosh(2t/r_c)`, self-accelerating branch, `ε = -1` |
 | `ε = -1` on the normal branch with `r_h > 0`, `ρ > 0` | `BraneCosmology.exists_normal_branch_eps_neg` | proved for a **static** witness only |
 | Reduction to `ȧ² = F(a)` for `P = wρ` | `BraneCosmology.rho_barotropic`, `branch_fixed`, `reduction` | proved: away from the singularity the branch is fixed for all time |
+| Solutions of the equations of motion | `BraneCosmology.IsSolution`, `isSolution_of_ne`, `static_not_isSolution`, `deSitter_isSolution`, `radiationBounce_isSolution` | defined; automatic wherever `H ≠ 0` |
+| Local existence and uniqueness for `ȧ = ±√F(a)` | `exists_local_solution`, `local_unique`, `BraneCosmology.locally_determined` | proved away from `H = 0` and the singularity; turning points and global solutions **open** |
 
 ## Issues the formalization surfaced
 
@@ -133,8 +136,10 @@ on the paper's conclusions (ROADMAP M3.5).
    instances provably violate the acceleration equation (`static_not_accelAt`). They show the
    fields are consistent, but they are not solutions of the equations of motion. The same gap
    leaves `P̃` free at `H = 0`, because Eq. (16) is also derived only for `H ≠ 0`. See ROADMAP
-   M2.4. `BraneCosmology.radiationBounce` is a solution of the full equations, with `r_h > 0`
-   and radiation (`radiationBounce_accelAt`).
+   M2.4. The predicate `BraneCosmology.IsSolution` (M2.5) adds the acceleration equation and
+   Eq. (16) at every time. It holds automatically wherever `H ≠ 0` (`isSolution_of_ne`), and
+   it excludes the static instances (`static_not_isSolution`). `BraneCosmology.radiationBounce`
+   is a solution, with `r_h > 0` and radiation (`radiationBounce_isSolution`).
 5. **Eq. (52) has a dimension error.** As printed, `T ∼ (M₄H/g_*²)^{1/4}` has dimension
    `GeV^{1/2}`. The radiation-era Friedmann equation gives `T = (180/π²)^{1/4}(M₄H)^{1/2}g_*^{-1/4}`
    (`radiation_T4`), and the paper's number `3×10⁴ TeV` matches this form up to the `O(1)`

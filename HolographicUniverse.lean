@@ -14,4 +14,5 @@ import HolographicUniverse.Acceleration
 import HolographicUniverse.Instances
 import HolographicUniverse.Orientation
 import HolographicUniverse.History
+import HolographicUniverse.Singularity
 import HolographicUniverse.Audit

@@ -38,6 +38,7 @@ conclusions **follow from the stated assumptions**. In this project:
 | `Instances.lean` | Non-vacuity: explicit `BraneCosmology` instances (static family, self-accelerating de Sitter vacuum) |
 | `Orientation.lean` | Normal orientation `ε`: Eq. (16) from the timelike junction condition for either `ε`; origin of Eq. (27); `ε` fixed by the sign of `ρ̃` |
 | `History.lean` | `ρ_BH/ρ` along a history: constant in a radiation era, `∝ 1/a` in a matter era, never rising while the universe expands; matter-era bound for `ε = -1`; an orientation change needs the brane on or inside the horizon |
+| `Singularity.lean` | Pressure singularity: `ρ̃ = ρ̃_s` ⇔ reality bound (30) saturated ⇔ branches meet; inside the horizon ⇔ `\|H\| ≥ 1/(2r_c)`; a floor on `a` in an expanding era |
 | `Audit.lean` | Build-time axiom audit: every declaration, plus a pinned `#print axioms` list for the headline theorems |
 
 ## Equation map
@@ -59,6 +60,8 @@ conclusions **follow from the stated assumptions**. In this project:
 | Origin of (27) | `eq27_of_dropped_sign` | proved: (27) is what (25) gives after substituting `X = +(8πG_b/3)ρ̃`, i.e. the `ε = -1` junction condition |
 | (28) `ρ_BH ∝ a⁻⁴` | `rhoBH_scaling` | proved |
 | (30) reality constraint | `reality`, `BraneCosmology.reality` | **derived** |
+| (30) equality ⇔ pressure singularity | `isInduced_eq_rhoS_iff`, `BraneCosmology.singularity_iff`, `branches_meet_iff` | proved, both directions; the branches meet only there |
+| Sec. 5: the singularity is "always" inside the white-hole horizon | `BraneCosmology.singularity_inside_iff`, `singularity_inside_iff_curvature`, `singularity_inside_of_rc` | proved **with a condition**: inside exactly when `\|H\| ≥ 1/(2r_c)` (issue 7) |
 | (32) `|ρ̃| ≤ ερ` | hypothesis | **assumed** (observational input) |
 | (33) + side remarks | `eq33`, `eq33_side` | proved |
 | (34) | `eq34` | proved |
@@ -89,6 +92,9 @@ conclusions **follow from the stated assumptions**. In this project:
 ## Issues the formalization surfaced
 
 Issues 1–3 were checked against the TeX source of arXiv:1309.1487v2 (ROADMAP M3.1).
+
+[`docs/NOTE.md`](docs/NOTE.md) collects these issues in a short note, ordered by their effect
+on the paper's conclusions (ROADMAP M3.5).
 
 1. **Typo in Eq. (24).** The square root contains `ȧ/√𝒦` in the source as well. Eq. (21) and
    the denominator of Eq. (25) both require `ȧ²/𝒦`. The corrected form is used here. Also,
@@ -142,6 +148,15 @@ Issues 1–3 were checked against the TeX source of arXiv:1309.1487v2 (ROADMAP M
    geometrically allowed is open. `BraneCosmology` fixes `ε`, so it cannot describe the
    white-hole history.
 
+7. **The pressure singularity is not always inside the horizon.** Sec. 5 says the
+   singularity "always" happens inside a white-hole horizon. At `ρ̃ = ρ̃_s` the junction
+   condition gives `(𝒦/a²) f(a) = 1/(2r_c)² - H²`. So the brane is on or inside the horizon
+   exactly when `|H| ≥ 1/(2r_c)` (`BraneCosmology.singularity_inside_iff`). Equivalently, the
+   curvature term `𝒦/a²` is at most `(8πG_N/3)(ρ + ρ̃_s/2)`
+   (`singularity_inside_iff_curvature`). The condition holds at early times, where `H r_c ≫ 1`
+   (`singularity_inside_of_rc`), so the paper's scenarios are not affected. But the claim is a
+   consequence of the singularity happening early, not a property of the singularity itself.
+
 ## Soundness
 
 `Audit.lean` runs on every build. It fails if any declaration in the library depends on an
@@ -152,6 +167,7 @@ axiom other than `propext`, `Classical.choice` and `Quot.sound`, which also catc
 - [`docs/ROADMAP.md`](docs/ROADMAP.md): the Lean side. Closes the numerical gaps in Sec. 4,
   proves that a `BraneCosmology` exists, resolves the surfaced issues, covers dynamics, a
   general bulk, geometry from first principles, and an interface for stating predictions.
+- [`docs/NOTE.md`](docs/NOTE.md): a short note on the issues above, for readers of the paper.
 - [`docs/TESTABILITY.md`](docs/TESTABILITY.md): the physics side. Lists the candidate
   observational tests with a verdict on each, decision gates, and a template for building each
   test into a pathway. Note: the paper's simple model predicts `n_s = 1` and is ruled out by its

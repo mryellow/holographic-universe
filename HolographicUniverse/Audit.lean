@@ -14,6 +14,7 @@ import HolographicUniverse.Acceleration
 import HolographicUniverse.Instances
 import HolographicUniverse.Orientation
 import HolographicUniverse.History
+import HolographicUniverse.Singularity
 
 /-!
 # Axiom audit (ROADMAP M0.1)
@@ -290,6 +291,38 @@ open WhiteHole
 /-- info: 'WhiteHole.sign_const_outside' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms sign_const_outside
+
+/-- info: 'WhiteHole.isInduced_eq_rhoS_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms isInduced_eq_rhoS_iff
+
+/-- info: 'WhiteHole.branches_meet_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms branches_meet_iff
+
+/-- info: 'WhiteHole.BraneCosmology.singularity_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.singularity_iff
+
+/-- info: 'WhiteHole.BraneCosmology.singularity_inside_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.singularity_inside_iff
+
+/-- info: 'WhiteHole.BraneCosmology.singularity_strictly_inside_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.singularity_strictly_inside_iff
+
+/-- info: 'WhiteHole.BraneCosmology.singularity_inside_iff_curvature' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.singularity_inside_iff_curvature
+
+/-- info: 'WhiteHole.BraneCosmology.singularity_inside_of_rc' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.singularity_inside_of_rc
+
+/-- info: 'WhiteHole.BraneCosmology.scale_factor_floor' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.scale_factor_floor
 
 /-- info: 'WhiteHole.BraneCosmology.branches' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in

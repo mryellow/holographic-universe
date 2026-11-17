@@ -35,15 +35,18 @@ Equation numbers refer to Pourhasan, Afshordi & Mann, arXiv:1309.1487v2.
 | Eqs. (50)–(52) (Hubble, `M₅` and temperature bounds) | proved (`Monopoles.lean`), with `H₀`, `G_N`, the condition `H ≤ 2πT_b` and the radiation-era Friedmann equation as hypotheses |
 | Normal orientation `ε` (Eqs. 21, 24, 25, 27) | resolved against the TeX source (`Orientation.lean`): `ε` is fixed by the sign of `ρ̃`, not by Eq. (27) |
 | History of `ρ_BH/ρ` (M3.2) | proved (`History.lean`): era scaling, the matter-era bound for `ε = -1`, and orientation changes only on or inside the horizon |
+| Pressure singularity (M3.4) | proved (`Singularity.lean`): at the saturated reality bound, where the branches meet; inside the horizon exactly when `\|H\| ≥ 1/(2r_c)` |
 | Non-vacuity (does any `BraneCosmology` exist?) | proved (`Instances.lean`): a static family for both `ε = ±1` and any `r_h` outside the brane, and the self-accelerating de Sitter vacuum. An expanding instance with `r_h > 0` and matter is still **open** |
 | Axiom audit | enforced at build time (`Audit.lean`) |
 | Acceleration equation | **derived** wherever `H ≠ 0`, with no smoothness assumption beyond the structure (`Acceleration.lean`). Not implied at `H = 0`: the static instances violate it |
 
-The formalization has surfaced six issues: the Eq. (24) typo, Eq. (27) being wrong for
+The formalization has surfaced seven issues: the Eq. (24) typo, Eq. (27) being wrong for
 `ε = +1`, the paper's too-strong `ε = -1` (which caused the apparent normal-branch tension,
 now resolved), the missing acceleration equation in `BraneCosmology` (M2.4), a dimension
-error in Eq. (52), and the white-hole history needing a change of orientation (M3.2). See the README for details. The TeX source of arXiv:1309.1487v2 was checked
-for issues 1–3 and 5. It is not committed: arXiv's default licence does not allow
+error in Eq. (52), the white-hole history needing a change of orientation (M3.2), and the
+horizon claim for the pressure singularity holding only when `|H| ≥ 1/(2r_c)` (M3.4). See the
+README for details, and `docs/NOTE.md` for a short write-up (M3.5). The TeX source of
+arXiv:1309.1487v2 was checked for issues 1–3 and 5. It is not committed: arXiv's default licence does not allow
 redistribution. Get it from `https://arxiv.org/src/1309.1487v2`.
 
 ---
@@ -188,12 +191,20 @@ decide which part of parameter space is physical.
   `pressure_of_timelike_junction`: Eq. (25) set equal to the `ττ` part of Eq. (10) gives
   Eq. (16) for either `ε`, once `X = -ε(8πG_b/3)ρ̃` is used. `eq27_of_dropped_sign`: Eq. (27) is
   what the same step gives with `X = +(8πG_b/3)ρ̃`, which is true only for `ε = -1`.
-- [ ] **3.4 Pressure singularity.** Prove that `ρ̃ = ρ̃_s` holds exactly when the reality bound
-  (30) is saturated, `2(ρ_BH - ρ) = ρ̃_s`. This is the point where the two branches meet. The
-  paper argues that the singularity always lies inside the white-hole horizon (Sec. 5). Formalize
-  that claim with `outside_horizon_iff`.
-- [ ] **3.5 Write-up.** Collect 3.1–3.4 in a short note. Contacting the authors is optional
-  and is the user's decision.
+- [x] **3.4 Pressure singularity.** Done in `Singularity.lean`. The horizon claim is in Sec. 5
+  of the TeX source.
+  - `isInduced_eq_rhoS_iff`, `BraneCosmology.singularity_iff`: `ρ̃ = ρ̃_s` exactly when
+    `2(ρ_BH - ρ) = ρ̃_s`. `branches_meet_iff`: under (30), `ρ̃_+ = ρ̃_-` exactly there, and
+    both equal `ρ̃_s` (`rhoTilde_at_saturation`).
+  - `BraneCosmology.singularity_inside_iff`: at the singularity, `f(a) ≤ 0` exactly when
+    `|H| ≥ 1/(2r_c)`. Strict form, density form (`𝒦/a² ≤ (8πG_N/3)(ρ + ρ̃_s/2)`) and an
+    early-time corollary (`singularity_inside_of_rc`). The paper's "always" is conditional
+    (README issue 7).
+  - `BraneCosmology.scale_factor_floor`: in an expanding era with `P ≤ ρ/3`, the reality bound
+    puts a floor under `a` once `ρ_BH > ρ`. That a history reaches the singularity needs M4.
+- [x] **3.5 Write-up.** Done in `docs/NOTE.md`. It collects README issues 1–7, orders them by
+  their effect on the paper's conclusions, and names the Lean theorem for each claim. Contacting
+  the authors is optional and is the user's decision.
 
 ## Milestone 4: Dynamics
 
@@ -297,7 +308,8 @@ entry here.
 | ✓ | M7.2 (falsification theorem) | Done |
 | ✓ | M3.1, M3.3 | Done, against the TeX source |
 | ✓ | M3.2 | Done |
-| 5 | M3.4 | Pressure singularity at the saturated reality bound; then the 3.5 write-up |
+| ✓ | M3.4 | Done |
+| ✓ | M3.5 | Done (`docs/NOTE.md`) |
 | 6 | M5.1 (generic `f`) | Refactor before more theorems depend on the concrete `f` |
 | 7 | M4, M2.2 | Real solutions; needed for histories and BBN-era statements |
 | 8 | M8 | Grows alongside the testability pathways |

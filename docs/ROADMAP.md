@@ -37,8 +37,8 @@ Equation numbers refer to Pourhasan, Afshordi & Mann, arXiv:1309.1487v2.
 | Normal orientation `ε` (Eqs. 21, 24, 25, 27) | resolved against the TeX source (`Orientation.lean`): `ε` is fixed by the sign of `ρ̃`, not by Eq. (27) |
 | History of `ρ_BH/ρ` (M3.2) | proved (`History.lean`): era scaling, the matter-era bound for `ε = -1`, and orientation changes only on or inside the horizon |
 | Pressure singularity (M3.4) | proved (`Singularity.lean`): at the saturated reality bound, where the branches meet; inside the horizon exactly when `\|H\| ≥ 1/(2r_c)` |
-| Non-vacuity (does any `BraneCosmology` exist?) | proved (`Instances.lean`): a static family for both `ε = ±1` and any `r_h` outside the brane, and the self-accelerating de Sitter vacuum. An expanding solution with `r_h > 0` and radiation, in closed form (`Bounce.lean`, M2.2). An expanding instance with `ε = -1` on the normal branch is still **open** (M2.3) |
-| Dynamics (M4) | reduction to `ȧ² = F(a)` for `P = wρ` proved (`Dynamics.lean`, M4.1). Local existence and uniqueness away from the singularity proved, turning points included (`LocalExistence.lean`, `TurningPoint.lean`, M4.2). Maximal solutions proved, with escape from compact sets at a finite end (`MaximalSolution.lean`, M4.2). A `BraneCosmology` built from a global solution is **open** |
+| Non-vacuity (does any `BraneCosmology` exist?) | proved (`Instances.lean`): a static family for both `ε = ±1` and any `r_h` outside the brane, and the self-accelerating de Sitter vacuum. An expanding solution with `r_h > 0` and radiation, in closed form (`Bounce.lean`, M2.2). With `ε = -1` on the normal branch there is **no** solution for ordinary matter (`NormalBranch.lean`, M2.3) |
+| Dynamics (M4) | reduction to `ȧ² = F(a)` for `P = wρ` proved (`Dynamics.lean`, M4.1). Local existence and uniqueness away from the singularity proved, turning points included (`LocalExistence.lean`, `TurningPoint.lean`, M4.2). Maximal solutions proved, with escape from compact sets at a finite end (`MaximalSolution.lean`, M4.2). A global solution defines a `BraneCosmology` (`FromSolution.lean`, M4.2). M4.3–4.4 are **open** |
 | Axiom audit | enforced at build time (`Audit.lean`) |
 | Acceleration equation | **derived** wherever `H ≠ 0`, with no smoothness assumption beyond the structure (`Acceleration.lean`). Not implied at `H = 0`: the static instances violate it. `BraneCosmology.IsSolution` adds it (M2.5) |
 
@@ -138,18 +138,26 @@ most important gap in the current development.
   horizon. `exists_expanding_radiation` is the statement with `r_h > 0`, `ρ > 0`, `ε = -1`.
   Limits: the fine tuning `ρ = ρ_BH`, and the self-accelerating branch. Dust, or radiation with
   `ρ ≠ ρ_BH`, has no closed form here and needs M4.2.
-- [ ] **2.3 Consistency of the sign convention.** Show that the instance from 2.2 can have
+- [x] **2.3 Consistency of the sign convention.** Show that the instance from 2.2 can have
   `ε = -1` on the normal branch. If it cannot, that is a sharp form of issue 3.
-  Partial result: `exists_normal_branch_eps_neg` gives a *static* instance with `ε = -1`,
-  `r_h > 0`, `ρ > 0`, `ρ̃ > 0` on the normal branch (with `ρ < ρ_BH`, as
-  `normal_branch_requires` demands). So the fields alone do not exclude it. The expanding case
-  is still open. The M2.2 instance is on the self-accelerating branch, so it does not help. With
-  the same tuning `ρ = ρ_BH`, the normal branch has `ρ̃ = 0`, and then `a² = A/𝒦 - 𝒦t²`
-  (closed radiation universe), which reaches `a = 0` in finite time. That is not an instance,
-  because the structure needs `a > 0` for all `t`. An expanding normal-branch instance needs
-  a global solution of `ä = F'(a)/2` (M4.2 gives the tools: `exists_maximal_history`, and
-  `eq_univ_of_fst_mem` when `a` stays in a compact part of the domain), and the converse of
-  `BraneCosmology.maximal_eq`.
+  **Answer: it cannot**, for matter with `ρ + 3P > 0` and `3P ≤ ρ` (dust and radiation with
+  `ρ > 0`). Done in `NormalBranch.lean`:
+  - `BraneCosmology.not_isSolution_normal_eps_neg`: no solution (`IsSolution`) has `ε = -1` and
+    `ρ̃ < ρ̃_s` at every time. With `ε = -1`, `ρ̃ ≥ 0`. Then Eq. (16) gives `P̃ ≥ 0`, and the
+    acceleration equation gives `ä < 0` at every time. A function with `ä < 0` on all of `ℝ`
+    is not positive at every time (`exists_nonpos_of_strictAnti_deriv`).
+  - `BraneCosmology.not_isSolution_minus_branch`: the same on the branch `ρ̃_-` away from the
+    singularity.
+  - The static witness `exists_normal_branch_eps_neg` is not a solution. So the fields alone
+    allow `ε = -1` on the normal branch, but the equations of motion do not, if time is all
+    of `ℝ`.
+  - Interpretation: this is the brane form of a result of general relativity. A closed
+    universe with `ρ + 3P > 0` decelerates at all times, so it has a finite past or a finite
+    future. The induced fluid adds to the deceleration. A normal-branch history with `ε = -1`
+    lives on a bounded interval of time (M4.2 gives it as a maximal solution). The paper's
+    white-hole history starts at the singularity, so it is such a history. The result does
+    not contradict the paper. It shows that `BraneCosmology`, with `a` at every time, cannot
+    hold that history. The case `ε = +1` (`ρ_BH < ρ`) is not covered.
 - [x] **2.4 Acceleration equation.** Done in `Acceleration.lean`:
   - `accel_of_friedmann`, `BraneCosmology.accelAt_of_ne`: Friedmann + continuity imply
     `ä/a = -(4πG_N/3)(ρ + ρ̃ + 3(P + P̃))` wherever `H ≠ 0`.
@@ -276,9 +284,15 @@ Turns the algebraic constraints into statements about whole histories.
     singularity, or at `a → ∞`. A brane-cosmology solution with `P = wρ` on a fixed branch that
     never reaches the singularity is the maximal solution of its data, and `J = ℝ`
     (`BraneCosmology.maximal_eq`).
-  - [ ] **From a global solution to a `BraneCosmology`.** The converse of `maximal_eq`: a
-    maximal solution with `J = ℝ` defines `ρ`, `ρ̃`, `P̃` and the orientation `ε`, and so an
-    instance. M2.3 needs it.
+  - [x] **From a global solution to a `BraneCosmology`.** Done in `FromSolution.lean`. The
+    converse of `maximal_eq`. A differentiable `a` in `braneDomain` with `ȧ² = F(a)` at every
+    time defines `ρ = ρ₀a^{-3(1+w)}`, `P = wρ`, `ρ̃ = ρ̃_sgn(a)` and `P̃` from Eq. (16)
+    (`BraneCosmology.ofSolution`). The orientation `ε` must obey `ε ρ̃ ≤ 0` at every time, as
+    in every instance (`eps_mul_ρt_nonpos`). The key step is `dρ̃/da = -3(ρ̃ + P̃)/a`
+    (`hasDerivAt_rhoTildeX`), which is Eq. (13); it follows from `F'` by uniqueness of the
+    derivative. If `ä = F'(a)/2` also holds, the instance is a solution
+    (`ofSolution_isSolution`). For a maximal solution with interval `ℝ`:
+    `BraneCosmology.exists_of_maximal`.
 - [ ] **4.3 Horizon-crossing time.** Prove there is a `t*` with `a(t*)/√𝒦 = r_h`, and that it
   is unique while the brane is expanding. This is the moment the universe "leaves the white
   hole".
@@ -387,6 +401,8 @@ entry here.
 | ✓ | M4.2, first-order part | Done (`LocalExistence.lean`) |
 | ✓ | M4.2, turning points | Done (`TurningPoint.lean`) |
 | ✓ | M4.2, maximal solutions | Done (`MaximalSolution.lean`) |
-| 7 | M4.2 (instance from a global solution), M2.3, M4.3–4.4 | Later histories; needed for BBN-era statements |
+| ✓ | M4.2, instance from a global solution | Done (`FromSolution.lean`) |
+| ✓ | M2.3 | Done, negative (`NormalBranch.lean`) |
+| 7 | M4.3–4.4 | Later histories; needed for BBN-era statements |
 | 8 | M8 | Grows alongside the testability pathways |
 | 9 | M6, M7.1 | Long-term foundations |

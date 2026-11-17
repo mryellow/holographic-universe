@@ -115,7 +115,8 @@ theorem nonempty : Nonempty BraneCosmology :=
 orientation `ε = -1`, a bulk black hole (`r_h > 0`), positive matter density, positive induced
 density, and `ρ̃` on the normal branch. By `normal_branch_requires` any such instance has
 `ρ ≤ ρ_BH`. The witness is static (`𝒦 = 1`, `r_h = 12/13`, `G_N = G_b = 1`), so the caveat in the
-module docstring applies: an expanding witness needs ROADMAP M2.2. -/
+module docstring applies: it is not a solution of the equations of motion. For ordinary matter no
+solution has these properties (`not_isSolution_normal_eps_neg`, ROADMAP M2.3). -/
 theorem exists_normal_branch_eps_neg :
     ∃ M : BraneCosmology, M.ε = -1 ∧ 0 < M.rh ∧ ∀ t, 0 < M.ρ t ∧ 0 < M.ρt t ∧
       M.ρt t = rhoTilde (-1) M.c.rhoS (M.rhoBH t) (M.ρ t) := by

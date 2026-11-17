@@ -140,7 +140,15 @@ So away from the singularity, `a` and `ȧ` at one time fix a solution locally, a
 (`BraneCosmology.locally_determined₂`). They also fix it globally: a solution that never
 reaches the singularity is the maximal solution of its data (`BraneCosmology.maximal_eq`). A
 maximal solution that ends in finite time ends at `a → 0`, at the singularity, or at
-`a → ∞` (`exists_maximal_history`).
+`a → ∞` (`exists_maximal_history`). Conversely, a global solution with a fixed orientation
+defines an instance (`BraneCosmology.exists_of_maximal`).
+
+The structure needs `a` at every time. This excludes the paper's orientation on the normal
+branch. With `ε = −1` and `ρ̃ < ρ̃_s`, Eq. (16) gives `P̃ ≥ 0`. For matter with `ρ + 3P > 0`
+and `P ≤ ρ/3`, the acceleration equation then gives `ä < 0` at every time. So no solution
+exists for all time (`BraneCosmology.not_isSolution_normal_eps_neg`). This is the brane form of
+the closed-universe result of general relativity. It is not an issue with the paper, whose
+history starts at the singularity.
 
 ## What the formalization confirms
 

@@ -33,7 +33,8 @@ Sitter vacuum.
 
 **Limits.** The instance needs the fine tuning `ρ = ρ_BH`. It is on the self-accelerating branch
 and stays outside the horizon, so it is a black-hole history, not the paper's white-hole
-history. It does not settle M2.3 (an expanding instance with `ε = -1` on the normal branch).
+history. On the normal branch with `ε = -1` there is no solution for ordinary matter (M2.3,
+`NormalBranch.lean`).
 -/
 
 namespace WhiteHole

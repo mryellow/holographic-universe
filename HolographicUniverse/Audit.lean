@@ -21,6 +21,8 @@ import HolographicUniverse.Dynamics
 import HolographicUniverse.LocalExistence
 import HolographicUniverse.TurningPoint
 import HolographicUniverse.MaximalSolution
+import HolographicUniverse.FromSolution
+import HolographicUniverse.NormalBranch
 
 /-!
 # Axiom audit (ROADMAP M0.1)
@@ -553,3 +555,31 @@ open WhiteHole
 /-- info: 'WhiteHole.BraneCosmology.maximal_eq' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms BraneCosmology.maximal_eq
+
+/-- info: 'WhiteHole.hasDerivAt_rhoTildeX' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms hasDerivAt_rhoTildeX
+
+/-- info: 'WhiteHole.junction_sq' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms junction_sq
+
+/-- info: 'WhiteHole.BraneCosmology.ofSolution_isSolution' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.ofSolution_isSolution
+
+/-- info: 'WhiteHole.BraneCosmology.exists_of_maximal' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.exists_of_maximal
+
+/-- info: 'WhiteHole.exists_nonpos_of_strictAnti_deriv' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms exists_nonpos_of_strictAnti_deriv
+
+/-- info: 'WhiteHole.BraneCosmology.not_isSolution_normal_eps_neg' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.not_isSolution_normal_eps_neg
+
+/-- info: 'WhiteHole.BraneCosmology.not_isSolution_minus_branch' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.not_isSolution_minus_branch

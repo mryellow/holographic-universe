@@ -122,6 +122,14 @@ open WhiteHole
 #guard_msgs in
 #print axioms eq48_leading
 
+/-- info: 'WhiteHole.ampCoeff_bounds' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ampCoeff_bounds
+
+/-- info: 'WhiteHole.eq48_eq49' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms eq48_eq49
+
 /-- info: 'WhiteHole.eq49' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms eq49

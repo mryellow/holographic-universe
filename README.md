@@ -59,7 +59,8 @@ conclusions **follow from the stated assumptions**. In this project:
 | (48) `∫dx/(1+x²)² = π/2` | `integral_univ_inv_one_add_sq_sq` | proved |
 | (48) `= 25ζ(5)/(3072π⁴)(T_b/M₅)⁶` | `eq48_leading` | proved, assuming `M(0)` |
 | `ζ(5) ∈ [1.0369, 1.0370]` (enters the coefficient of (48)) | `zeta5_bounds`, `riemannZeta_five_bounds`; sharper `zeta5_upper : ζ(5) ≤ 1.03694` | proved |
-| (49) `T_b/M₅ ≈ 0.171` | `eq49` | proved: `[0.1705, 0.1723]` from the Planck amplitude |
+| (48) coefficient `25ζ(5)/(3072π⁴) ∈ [8.65, 8.67]×10⁻⁵` | `ampCoeff_bounds`; sharper `ampCoeff_sharp : [8.6627, 8.6631]×10⁻⁵` | proved |
+| (49) `T_b/M₅ ≈ 0.171` | `eq49`, `eq48_eq49` | proved: `[0.1705, 0.1723]` from the Planck 2013 amplitude, with no numerical hypotheses (`eq49_of_coeff` is the version for a general coefficient) |
 | (51) `M₅³ ≤ H₀M₄²/6` | `eq51` | proved |
 | Acceleration equation `ä/a = -(4πG_N/3)(ρ + ρ̃ + 3(P + P̃))` | `accel_of_friedmann`, `BraneCosmology.accelAt_of_ne`, `acceleration` | **derived** from (11)–(13) wherever `H ≠ 0`; not implied at `H = 0` (`static_not_accelAt`) |
 | `ä` exists wherever `H ≠ 0` | `differentiableAt_deriv_of_sq_eq`, `BraneCosmology.deriv_a_differentiableAt` | proved (Darboux); the structure assumes only one derivative |

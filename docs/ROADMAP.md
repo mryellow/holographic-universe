@@ -28,7 +28,7 @@ Equation numbers refer to Pourhasan, Afshordi & Mann, arXiv:1309.1487v2.
 | Quadratic and branches `ρ̃_±` (Eq. 26), reality (Eq. 30) | derived from junction + Friedmann |
 | Induced pressure (Eq. 16) | derived from continuity (Eqs. 12–13) |
 | Observational bounds (Eqs. 33–35) | proved (Eq. 35 with fewer hypotheses than stated) |
-| Leading-order amplitude (Eq. 48), `T_b/M₅` (Eq. 49), `M₅` bound (Eq. 51) | proved, with `M(0)` and the coefficient range as hypotheses. `∫dx/(1+x²)² = π/2` is proved (`Integrals.lean`) |
+| Leading-order amplitude (Eq. 48), `T_b/M₅` (Eq. 49), `M₅` bound (Eq. 51) | proved, with `M(0) = 15ζ(5)/π²` as the only remaining hypothesis. The integral, `ζ(5)` and the coefficient range are proved (`Integrals.lean`, `Zeta.lean`, `ampCoeff_bounds`) |
 | Brane geometry, Brown–York, Gauss–Codazzi (Eqs. 3–10), Friedmann (11) | **assumed** |
 | Extrinsic curvature of the embedding (Eqs. 21–25) | **assumed** |
 | Thermal correlators (Eqs. 39–47) | **assumed** |
@@ -76,9 +76,12 @@ numeric facts.
   `1/(m+1)⁵ ≤ 1/(4m⁴) - 1/(4(m+1)⁴)`, so the tail is at most `1/(4·10⁴)`. Results:
   `zeta5_bounds : 1.0369 ≤ ζ(5) ≤ 1.0370`, and the sharper `zeta5_upper : ζ(5) ≤ 1.03694`
   (`ζ(5) = 1.036927…`). `riemannZeta_five_bounds` restates them for `riemannZeta 5`.
-- [ ] **1.3 Bounds on `π`.** These already exist: `Real.pi_gt_d6` and `Real.pi_lt_d6`.
-- [ ] **1.4 Coefficient theorem.** Prove `25ζ(5)/(3072π⁴) ∈ [8.65, 8.67]×10⁻⁵` (the value is
-  `8.663×10⁻⁵`). Then restate `eq49` with this theorem replacing the `hk` hypothesis.
+- [x] **1.3 Bounds on `π`.** Mathlib's `Real.pi_gt_d6` and `Real.pi_lt_d6`, used in 1.4.
+- [x] **1.4 Coefficient theorem.** Done in `Perturbations.lean`. `ampCoeff` is
+  `25ζ(5)/(3072π⁴)`. `ampCoeff_bounds` proves `[8.65, 8.67]×10⁻⁵`, and `ampCoeff_sharp` proves
+  `[8.6627, 8.6631]×10⁻⁵` (true value `8.66299×10⁻⁵`). `eq49` no longer has the `hk` hypothesis.
+  The old statement is kept as `eq49_of_coeff`, for a general coefficient, because M1.5 needs it.
+  `eq48_eq49` chains Eq. (48) into Eq. (49), so the only physics input left is `M(0)`.
 - [ ] **1.5 Data as parameters.** Introduce an `ObsData` structure (amplitude interval, pivot
   scale, `n_s` interval, `r_c` bound) and restate `eq49` and `eq51` over it. Instantiate it
   twice:
@@ -239,7 +242,7 @@ entry here.
 | ✓ | M0.1–0.2 (audit, CI) | Done |
 | ✓ | M2.1 (trivial instance) | Done |
 | ✓ | M2.4 (acceleration equation) | Done; M2.5 (fields at `H = 0`) is a decision to take before M4 |
-| 3 | M1.3–1.5 (M1.1, M1.2 done) | Mathlib already has the pieces; finishes Sec. 4 numerics |
+| 3 | M1.5 (M1.1–1.4 done) | Mathlib already has the pieces; finishes Sec. 4 numerics |
 | 4 | M7.2 (falsification theorem) | Small, and shows the Lean ↔ data interface working end to end |
 | 5 | M3.1–3.2 | Blocks the testability gate G0 |
 | 6 | M5.1 (generic `f`) | Refactor before more theorems depend on the concrete `f` |

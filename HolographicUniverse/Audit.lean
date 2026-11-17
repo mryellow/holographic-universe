@@ -5,6 +5,7 @@ import HolographicUniverse.Pressure
 import HolographicUniverse.Constraints
 import HolographicUniverse.Perturbations
 import HolographicUniverse.Model
+import HolographicUniverse.Acceleration
 import HolographicUniverse.Instances
 
 /-!
@@ -122,6 +123,26 @@ open WhiteHole
 /-- info: 'WhiteHole.BraneCosmology.pressure' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms BraneCosmology.pressure
+
+/-- info: 'WhiteHole.differentiableAt_deriv_of_sq_eq' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms differentiableAt_deriv_of_sq_eq
+
+/-- info: 'WhiteHole.accel_of_friedmann' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms accel_of_friedmann
+
+/-- info: 'WhiteHole.BraneCosmology.accelAt_of_ne' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.accelAt_of_ne
+
+/-- info: 'WhiteHole.BraneCosmology.static_not_accelAt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.static_not_accelAt
+
+/-- info: 'WhiteHole.BraneCosmology.deSitter_accelAt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.deSitter_accelAt
 
 /-- info: 'WhiteHole.BraneCosmology.nonempty' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in

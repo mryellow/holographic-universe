@@ -1,4 +1,4 @@
-import HolographicUniverse.Model
+import HolographicUniverse.Acceleration
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 
 /-!
@@ -17,9 +17,10 @@ contradicted each other. This file rules that out by building instances:
 continuity equations, but not the acceleration equation. When `H ≠ 0` the acceleration equation
 follows from those three. When `H = 0` at all times it does not, and the continuity equations
 hold for *any* pressure. The static instances therefore show that the fields are jointly
-satisfiable, but they are not claimed to solve the full brane equations of motion: that would
-fix `P` and `P̃`, which are set to zero here. The de Sitter instance has `H ≠ 0` for `t ≠ 0` and
-is a real solution.
+satisfiable, but they do not solve the full brane equations of motion: that would fix `P` and
+`P̃`, which are set to zero here. `static_not_accelAt` proves that they violate the acceleration
+equation at every time. The de Sitter instance satisfies it at every time, including the bounce
+`t = 0` where `H = 0` (`deSitter_accelAt`).
 -/
 
 namespace WhiteHole
@@ -86,6 +87,25 @@ noncomputable def static (c : Couplings) (K rh ε : ℝ) (hK : 0 < K) (hrh : 0 �
   junction_arg := fun _ ↦ by
     simp only [deriv_const, one_pow, div_one]
     nlinarith [mul_nonneg hK.le (sub_nonneg.2 hout)]
+
+/-- **The structure admits non-solutions.** No static instance of the family obeys the
+acceleration equation: the left side is `ä = 0` and the right side is `-𝒦/2`. So Friedmann +
+continuity do not imply the acceleration equation at `H = 0`, and `accelAt_of_ne` cannot be
+extended to all times without a further assumption. -/
+theorem static_not_accelAt (c : Couplings) (K rh ε : ℝ) (hK : 0 < K) (hrh : 0 ≤ rh)
+    (hε : ε ^ 2 = 1) (hout : K * rh ^ 2 ≤ 1) (t : ℝ) :
+    ¬(static c K rh ε hK hrh hε hout).AccelAt t := by
+  intro h
+  have hGN := c.GN_pos
+  have h0 : HasDerivAt (deriv fun _ : ℝ ↦ (1 : ℝ)) 0 t := by
+    rw [deriv_const']; exact hasDerivAt_const t 0
+  unfold AccelAt at h
+  have hv := HasDerivAt.unique h h0
+  change -(4 * π * c.GN / 3) * (3 * K / (8 * π * c.GN)
+    + ε * (3 * √(K - K ^ 2 * rh ^ 2) / (8 * π * c.Gb))
+    + -ε * (3 * √(K - K ^ 2 * rh ^ 2) / (8 * π * c.Gb)) + 3 * (0 + 0)) * 1 = 0 at hv
+  have hK2 : -(K / 2) = 0 := by rw [← hv]; field_simp; ring
+  linarith
 
 /-- **Non-vacuity.** The fields of `BraneCosmology` are jointly satisfiable. -/
 theorem nonempty : Nonempty BraneCosmology :=
@@ -190,6 +210,24 @@ theorem deSitter_H (c : Couplings) (t : ℝ) : (deSitter c).H t = tanh (t / c.rc
   change deriv (fun t ↦ c.rc * cosh (t / c.rc)) t / (c.rc * cosh (t / c.rc)) = _
   rw [(hasDerivAt_dS hrc.ne' t).deriv, tanh_eq_sinh_div_cosh]
   field_simp
+
+/-- The de Sitter vacuum obeys the acceleration equation at every time, including the bounce
+`t = 0`, where `H = 0` and `accelAt_of_ne` does not apply. -/
+theorem deSitter_accelAt (c : Couplings) (t : ℝ) : (deSitter c).AccelAt t := by
+  have hGN := c.GN_pos; have hGb := c.Gb_pos
+  have hrc := c.rc_pos
+  have hd : deriv (fun t ↦ c.rc * cosh (t / c.rc)) = fun t ↦ sinh (t / c.rc) :=
+    funext fun t ↦ (hasDerivAt_dS hrc.ne' t).deriv
+  have h := (hasDerivAt_sinh (t / c.rc)).comp t ((hasDerivAt_id t).div_const c.rc)
+  unfold AccelAt
+  change HasDerivAt (deriv fun t ↦ c.rc * cosh (t / c.rc))
+    (-(4 * π * c.GN / 3) * (0 + 2 * c.rhoS + 3 * (0 + -(2 * c.rhoS)))
+      * (c.rc * cosh (t / c.rc))) t
+  rw [hd]
+  refine h.congr_deriv ?_
+  unfold Couplings.rc Couplings.rhoS
+  field_simp
+  ring
 
 /-- The de Sitter vacuum sits on the self-accelerating branch `ρ̃_+` of Eq. (26). -/
 theorem deSitter_selfAccelerating (c : Couplings) (t : ℝ) :

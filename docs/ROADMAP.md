@@ -35,6 +35,7 @@ Equation numbers refer to Pourhasan, Afshordi & Mann, arXiv:1309.1487v2.
 | Eqs. (50), (52) (temperature and monopole bounds) | not yet formalized |
 | Non-vacuity (does any `BraneCosmology` exist?) | proved (`Instances.lean`): a static family for both `ε = ±1` and any `r_h` outside the brane, and the self-accelerating de Sitter vacuum. An expanding instance with `r_h > 0` and matter is still **open** |
 | Axiom audit | enforced at build time (`Audit.lean`) |
+| Acceleration equation | **derived** wherever `H ≠ 0`, with no smoothness assumption beyond the structure (`Acceleration.lean`). Not implied at `H = 0`: the static instances violate it |
 
 The formalization has surfaced four issues: the Eq. (24) typo, Eq. (27) only matching
 Eq. (16) at `ε = -1`, the sign tension on the normal branch, and the missing acceleration
@@ -101,12 +102,26 @@ most important gap in the current development.
   `r_h > 0`, `ρ > 0`, `ρ̃ > 0` on the normal branch (with `ρ < ρ_BH`, as
   `normal_branch_requires` demands). So the fields alone do not exclude it. The expanding case
   is still open.
-- [ ] **2.4 Acceleration equation.** `BraneCosmology` does not contain the acceleration
-  equation `Ḣ - 𝒦/a² = -4πG_N(ρ + ρ̃ + P + P̃)`. Prove it from Friedmann + continuity where
-  `H ≠ 0` (this needs `a` twice differentiable). Then decide what to do at `H = 0`: either add
-  the equation as a field, or state theorems for histories with `H ≠ 0`. Until then, static
-  instances satisfy the structure with any pressure, so they are consistency witnesses and not
-  physical solutions.
+- [x] **2.4 Acceleration equation.** Done in `Acceleration.lean`:
+  - `accel_of_friedmann`, `BraneCosmology.accelAt_of_ne`: Friedmann + continuity imply
+    `ä/a = -(4πG_N/3)(ρ + ρ̃ + 3(P + P̃))` wherever `H ≠ 0`.
+  - `differentiableAt_deriv_of_sq_eq`: `ä` exists wherever `H ≠ 0`. This did not need a new
+    hypothesis. `ȧ² = g` with `g` differentiable, and Darboux's theorem fixes the sign of `ȧ`
+    locally, so `ȧ = ±√g`.
+  - `static_not_accelAt`: at `H = 0` the equation is **not** implied. Every static instance
+    violates it (`ä = 0`, right side `-𝒦/2`).
+  - `deSitter_accelAt`: the de Sitter vacuum satisfies it at all times, bounce included.
+- [ ] **2.5 Decision: the equations at `H = 0`.** The structure now has a predicate
+  `BraneCosmology.AccelAt` but no field for it. Two quantities are undetermined on an interval
+  with `H = 0`: `ä` (the acceleration equation) and `P̃` (Eq. (16), which in the paper comes
+  from the `ττ` junction condition, Eq. (25)). Options:
+  - **(a) Keep the structure, pass `AccelAt` as a hypothesis** where a theorem needs it. This
+    is the current state. It is enough while every theorem is pointwise.
+  - **(b) Add fields** for the acceleration equation and for Eq. (16) / Eq. (25). The fields
+    are redundant wherever `H ≠ 0`. They exclude the static non-solutions.
+  - Recommendation: stay with (a) until M4. Then take (b), because M4.2 needs it. The Friedmann
+    equation as a first-order ODE `ȧ² = F(a)` has a spurious constant solution at every turning
+    point `F(a*) = 0`, so uniqueness through a bounce fails without the acceleration equation.
 
 ## Milestone 3: Resolve the surfaced issues
 
@@ -139,7 +154,8 @@ Turns the algebraic constraints into statements about whole histories.
   for `a(t)`.
 - [ ] **4.2 Local existence and uniqueness.** Use Mathlib's Picard–Lindelöf
   (`Analysis/ODE/PicardLindelof.lean`, `Analysis/ODE/ExistUnique.lean`) away from `H = 0` and
-  from the pressure singularity. Feeds Milestone 2.2.
+  from the pressure singularity. Feeds Milestone 2.2. At `H = 0` the first-order equation is
+  not enough (see M2.5): use the second-order acceleration equation there.
 - [ ] **4.3 Horizon-crossing time.** Prove there is a `t*` with `a(t*)/√𝒦 = r_h`, and that it
   is unique while the brane is expanding. This is the moment the universe "leaves the white
   hole".
@@ -217,6 +233,7 @@ entry here.
 |---|---|---|
 | ✓ | M0.1–0.2 (audit, CI) | Done |
 | ✓ | M2.1 (trivial instance) | Done |
+| ✓ | M2.4 (acceleration equation) | Done; M2.5 (fields at `H = 0`) is a decision to take before M4 |
 | 3 | M1.1–1.5 | Mathlib already has the pieces; finishes Sec. 4 numerics |
 | 4 | M7.2 (falsification theorem) | Small, and shows the Lean ↔ data interface working end to end |
 | 5 | M3.1–3.2 | Blocks the testability gate G0 |

@@ -5,6 +5,13 @@ import HolographicUniverse.Basic
 
 Bulk metric `ds² = -f dt² + dr²/f + r² dΩ₃²` with `f(r) = 1 - r_h²/r²` (Eqs. (19)–(20)),
 and the brane sitting at areal radius `r = a(τ)/√𝒦`.
+
+## A general blackening factor (ROADMAP M5.1)
+
+The embedding computation (24) uses `f` only through `𝒦 f(r)/a²` on the brane. For any
+`f : ℝ → ℝ`, `rhoBulk` is the density that this term contributes to the Friedmann equation:
+`𝒦 f(r)/a² = 𝒦/a² - (8π G_N/3) ρ_bulk` (`curv_mul_f`). For Schwarzschild, `ρ_bulk = ρ_BH`
+(`rhoBulk_blacken`).
 -/
 
 namespace WhiteHole
@@ -51,6 +58,32 @@ lemma curv_mul_blacken (hK : 0 < K) (ha : a ≠ 0) :
   unfold blacken braneRadius
   rw [div_pow, sq_sqrt hK.le]
   field_simp
+
+/-- `𝒦² r_h²/a⁴ = (8π G_N/3) ρ_BH`. -/
+lemma rhoBH_term (hGN : GN ≠ 0) (hH0 : H0 ≠ 0) (ha : a ≠ 0) :
+    K ^ 2 * rh ^ 2 / a ^ 4 = 8 * π * GN / 3 * rhoBH GN K H0 rh a := by
+  rw [rhoBH_eq hH0]
+  field_simp
+
+/-- Density contributed by the bulk to the brane Friedmann equation, for a general blackening
+factor `f` evaluated at the brane radius: `ρ_bulk = (3/(8π G_N)) (𝒦/a²) (1 - f(r))`. -/
+noncomputable def rhoBulk (GN K : ℝ) (f : ℝ → ℝ) (a : ℝ) : ℝ :=
+  3 / (8 * π * GN) * (K / a ^ 2) * (1 - f (braneRadius K a))
+
+/-- The term `𝒦 f(r)/a²` of Eqs. (24)–(25), for any `f`. -/
+lemma curv_mul_f (f : ℝ → ℝ) (hGN : GN ≠ 0) :
+    K / a ^ 2 * f (braneRadius K a) = K / a ^ 2 - 8 * π * GN / 3 * rhoBulk GN K f a := by
+  unfold rhoBulk
+  field_simp
+  ring
+
+/-- **The Schwarzschild case.** For `f = 1 - r_h²/r²` the bulk density is `ρ_BH`, Eq. (28). -/
+theorem rhoBulk_blacken (hGN : GN ≠ 0) (hK : 0 < K) (ha : a ≠ 0) (hH0 : H0 ≠ 0) :
+    rhoBulk GN K (blacken rh) a = rhoBH GN K H0 rh a := by
+  have h := curv_mul_f (blacken rh) (K := K) (a := a) hGN
+  rw [curv_mul_blacken hK ha, rhoBH_term hGN hH0 ha] at h
+  have hc : (8 * π * GN / 3) ≠ 0 := by positivity
+  exact (mul_left_cancel₀ hc (by linarith)).symm
 
 /-- The brane is outside the bulk horizon iff `f > 0` there. Crossing `r = r_h` is the
 moment the brane universe "leaves the white hole" (green surface of Fig. 3). -/

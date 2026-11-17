@@ -106,7 +106,9 @@ So the brane is on or inside the horizon exactly when `|H| ≥ 1/(2r_c)`
 `𝒦/a² ≤ (8πG_N/3)(ρ + ρ̃_s/2)` (`singularity_inside_iff_curvature`). At early times `H r_c ≫ 1`,
 so the condition holds (`singularity_inside_of_rc`). The paper's scenarios are therefore not
 affected. But the property comes from the singularity happening early. It is not a property of
-the singularity itself.
+the singularity itself. The same condition holds for any static bulk
+`ds² = -f dt² + dr²/f + r² dΩ₃²`, not only for Schwarzschild
+(`BulkCosmology.singularity_inside_iff`).
 
 ## 4. Errata (issues 1 and 5)
 

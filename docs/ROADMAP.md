@@ -27,6 +27,7 @@ Equation numbers refer to Pourhasan, Afshordi & Mann, arXiv:1309.1487v2.
 | Bulk `f(r)`, `ρ_BH ∝ a⁻⁴`, horizon crossing (Eqs. 20, 28, 29) | proved |
 | Quadratic and branches `ρ̃_±` (Eq. 26), reality (Eq. 30) | derived from junction + Friedmann |
 | Induced pressure (Eq. 16) | derived from continuity (Eqs. 12–13) |
+| General bulk `f` (M5.1) | Eqs. (26), (30), (16) and the singularity results proved for any `f` (`GeneralBulk.lean`); Schwarzschild derived as a special case |
 | Observational bounds (Eqs. 33–35) | proved (Eq. 35 with fewer hypotheses than stated) |
 | Leading-order amplitude (Eq. 48), `T_b/M₅` (Eq. 49), `M₅` bound (Eq. 51) | proved, with `M(0) = 15ζ(5)/π²` as the only remaining hypothesis. The integral, `ζ(5)` and the coefficient range are proved (`Integrals.lean`, `Zeta.lean`, `ampCoeff_bounds`) |
 | Brane geometry, Brown–York, Gauss–Codazzi (Eqs. 3–10), Friedmann (11) | **assumed** |
@@ -228,9 +229,17 @@ Turns the algebraic constraints into statements about whole histories.
 
 Needed by several testability pathways (curvature with anisotropy, AdS embedding).
 
-- [ ] **5.1 Generic blackening factor.** Refactor `Bulk.lean` and `InducedFluid.lean` so that
-  the theorems take any `f : ℝ → ℝ`, and recover the current results for `f = 1 - r_h²/r²`.
-  Most proofs only use `f` through `curv_mul_blacken`.
+- [x] **5.1 Generic blackening factor.** Done. `rhoBulk` (`Bulk.lean`) is the density that a
+  general `f` contributes to the Friedmann equation, `𝒦f(r)/a² = 𝒦/a² - (8πG_N/3)ρ_bulk`
+  (`curv_mul_f`). For Schwarzschild it is `ρ_BH` (`rhoBulk_blacken`). `isInduced_of_bulk` gives
+  Eq. (26) for any bulk term. `pressure_of_continuity_bulk` gives Eq. (16) in the general form
+  `P̃ = (ρ̃² - 2ρ̃_s(P - P_b))/(2(ρ̃_s - ρ̃))`, where `P_b` is the pressure of `ρ_bulk`; with
+  `P_b = ρ_bulk/3` it is Eq. (16) (`pressureTildeBulk_radiation`). `BulkCosmology`
+  (`GeneralBulk.lean`) is the model for any `f`, with Eqs. (26), (30), (16), and the
+  pressure-singularity results. `BraneCosmology.toBulk` is the Schwarzschild case, and the
+  quadratic, the sign of `ρ̃`, Eq. (16) and the singularity results for `BraneCosmology` are now
+  derived from the general ones. README issue 7 holds for every `f`. Results that use
+  `ρ_BH ∝ a⁻⁴` (`History.lean`, `scale_factor_floor`) stay Schwarzschild-specific.
 - [ ] **5.2 Schwarzschild–AdS₅.** `f = 1 + r²/L² - r_h²/r²`. The paper says the results "need
   not significantly change" (Sec. 5). Prove that, or state precisely how they change.
 - [ ] **5.3 Charged bulk (Reissner–Nordström).** `f = 1 - r_h²/r² + q²/r⁴`. This adds a
@@ -310,7 +319,7 @@ entry here.
 | ✓ | M3.2 | Done |
 | ✓ | M3.4 | Done |
 | ✓ | M3.5 | Done (`docs/NOTE.md`) |
-| 6 | M5.1 (generic `f`) | Refactor before more theorems depend on the concrete `f` |
+| ✓ | M5.1 (generic `f`) | Done (`GeneralBulk.lean`) |
 | 7 | M4, M2.2 | Real solutions; needed for histories and BBN-era statements |
 | 8 | M8 | Grows alongside the testability pathways |
 | 9 | M6, M7.1 | Long-term foundations |

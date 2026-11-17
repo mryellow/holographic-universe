@@ -4,6 +4,7 @@ import HolographicUniverse.Integrals
 import HolographicUniverse.Zeta
 import HolographicUniverse.InducedFluid
 import HolographicUniverse.Pressure
+import HolographicUniverse.GeneralBulk
 import HolographicUniverse.Constraints
 import HolographicUniverse.Perturbations
 import HolographicUniverse.ObsData

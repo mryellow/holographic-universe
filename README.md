@@ -23,7 +23,7 @@ conclusions **follow from the stated assumptions**. In this project:
 | File | Content |
 |---|---|
 | `Basic.lean` | Couplings `G_N`, `G_b`; `ρ̃_s` (18); `r_c` (31); Planck masses (2) |
-| `Bulk.lean` | 5D Schwarzschild `f(r)` (20); brane radius; `ρ_BH` (28); `μ` (29); horizon crossing |
+| `Bulk.lean` | 5D Schwarzschild `f(r)` (20); brane radius; `ρ_BH` (28); `μ` (29); horizon crossing; bulk density `ρ_bulk` for a general `f` |
 | `InducedFluid.lean` | Friedmann + junction ⇒ quadratic; branches (26); reality (30); sign of `ρ̃` |
 | `Pressure.lean` | Eq. (16) derived from continuity (12)–(13); Eq. (27) vs (16) |
 | `Constraints.lean` | Observational bounds (33), (34), (35) |
@@ -33,7 +33,8 @@ conclusions **follow from the stated assumptions**. In this project:
 | `ObsData.lean` | Observational data as parameters (`ObsData`); Planck 2013 and Planck 2018 instances; Eqs. (49), (51) per release |
 | `ScaleInvariance.lean` | Spectral index; `n_s = 1` at leading order; the first falsification theorem against Planck 2013 and 2018 |
 | `Monopoles.lean` | Eq. (50); `H ≲ M₅ ≲ 9 MeV` (51); plasma temperature `T ≤ 8.5×10⁴ TeV ≪ T_GUT` (52) |
-| `Model.lean` | `BraneCosmology` structure and the results instantiated on it |
+| `GeneralBulk.lean` | `BulkCosmology`: the model for any blackening factor `f`; Eqs. (26), (30), (16) and the pressure-singularity results in general form |
+| `Model.lean` | `BraneCosmology` structure (the Schwarzschild bulk); `toBulk`; the results instantiated on it |
 | `Acceleration.lean` | Acceleration equation derived from Friedmann + continuity where `H ≠ 0`; existence of `ä` |
 | `Instances.lean` | Non-vacuity: explicit `BraneCosmology` instances (static family, self-accelerating de Sitter vacuum) |
 | `Orientation.lean` | Normal orientation `ε`: Eq. (16) from the timelike junction condition for either `ε`; origin of Eq. (27); `ε` fixed by the sign of `ρ̃` |
@@ -51,6 +52,7 @@ conclusions **follow from the stated assumptions**. In this project:
 | (14) | — | superseded: the content is reproduced via (16) below |
 | (15) ≡ (26) given (29) | `eq15_eq_eq26`, `mu_sq_term` | proved |
 | (16) induced pressure | `pressure_of_continuity`, `BraneCosmology.pressure` | **derived** from (11)–(13) + junction |
+| (16), (26), (30) for a general bulk `f` (not in the paper) | `pressure_of_continuity_bulk`, `isInduced_of_bulk`, `BulkCosmology.isInduced`, `BulkCosmology.reality`, `BulkCosmology.pressure` | proved: `ρ_BH` becomes `ρ_bulk` (`rhoBulk_blacken` for Schwarzschild), and Eq. (16) becomes `P̃ = (ρ̃² - 2ρ̃_s(P - P_b))/(2(ρ̃_s - ρ̃))` |
 | (20), horizon crossing `r = r_h` | `outside_horizon_iff`, `curv_mul_blacken` | proved |
 | (24) `K_ij` | `BraneCosmology.junction` | **assumed** (with a typo corrected, see below) |
 | (25) `K_ττ` = (10), timelike junction | `pressure_of_timelike_junction` | proved: gives (16) for **either** `ε` (with (25) and the acceleration equation as hypotheses) |
@@ -155,7 +157,9 @@ on the paper's conclusions (ROADMAP M3.5).
    curvature term `𝒦/a²` is at most `(8πG_N/3)(ρ + ρ̃_s/2)`
    (`singularity_inside_iff_curvature`). The condition holds at early times, where `H r_c ≫ 1`
    (`singularity_inside_of_rc`), so the paper's scenarios are not affected. But the claim is a
-   consequence of the singularity happening early, not a property of the singularity itself.
+   consequence of the singularity happening early, not a property of the singularity itself. The
+   result does not depend on the Schwarzschild form of `f`: it holds for every blackening
+   factor (`BulkCosmology.singularity_inside_iff`).
 
 ## Soundness
 

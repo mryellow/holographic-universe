@@ -4,6 +4,7 @@ import HolographicUniverse.Integrals
 import HolographicUniverse.Zeta
 import HolographicUniverse.InducedFluid
 import HolographicUniverse.Pressure
+import HolographicUniverse.GeneralBulk
 import HolographicUniverse.Constraints
 import HolographicUniverse.Perturbations
 import HolographicUniverse.ObsData
@@ -323,6 +324,58 @@ open WhiteHole
 /-- info: 'WhiteHole.BraneCosmology.scale_factor_floor' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms BraneCosmology.scale_factor_floor
+
+/-- info: 'WhiteHole.rhoBulk_blacken' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms rhoBulk_blacken
+
+/-- info: 'WhiteHole.isInduced_of_bulk' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms isInduced_of_bulk
+
+/-- info: 'WhiteHole.isInduced_of_junction_f' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms isInduced_of_junction_f
+
+/-- info: 'WhiteHole.pressure_of_continuity_bulk' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms pressure_of_continuity_bulk
+
+/-- info: 'WhiteHole.pressureTildeBulk_radiation' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms pressureTildeBulk_radiation
+
+/-- info: 'WhiteHole.BulkCosmology.isInduced' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BulkCosmology.isInduced
+
+/-- info: 'WhiteHole.BulkCosmology.reality' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BulkCosmology.reality
+
+/-- info: 'WhiteHole.BulkCosmology.branches' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BulkCosmology.branches
+
+/-- info: 'WhiteHole.BulkCosmology.pressure' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BulkCosmology.pressure
+
+/-- info: 'WhiteHole.BulkCosmology.singularity_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BulkCosmology.singularity_iff
+
+/-- info: 'WhiteHole.BulkCosmology.singularity_inside_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BulkCosmology.singularity_inside_iff
+
+/-- info: 'WhiteHole.BulkCosmology.singularity_inside_iff_curvature' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BulkCosmology.singularity_inside_iff_curvature
+
+/-- info: 'WhiteHole.BraneCosmology.toBulk_rhoBulk' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.toBulk_rhoBulk
 
 /-- info: 'WhiteHole.BraneCosmology.branches' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in

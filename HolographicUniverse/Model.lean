@@ -1,4 +1,4 @@
-import HolographicUniverse.Pressure
+import HolographicUniverse.GeneralBulk
 
 /-!
 # A brane cosmology in the 5D Schwarzschild bulk
@@ -8,6 +8,10 @@ Brown–York junction condition with `Z₂` symmetry, the Gauss–Codazzi constr
 embedding computation of the extrinsic curvature (24)) appear as hypotheses. Deriving them from
 the action (1) would need pseudo-Riemannian hypersurface geometry that Mathlib does not have yet.
 Replacing these fields with theorems is the main open direction of the project.
+
+`BraneCosmology.toBulk` views a `BraneCosmology` as a `BulkCosmology` with `f = 1 - r_h²/r²`
+(ROADMAP M5.1). The quadratic (26) and the sign of `ρ̃` are derived here from the general-bulk
+results, using `ρ_bulk = ρ_BH` (`toBulk_rhoBulk`).
 -/
 
 namespace WhiteHole
@@ -59,9 +63,41 @@ noncomputable def H (t : ℝ) : ℝ := deriv M.a t / M.a t
 /-- `ρ_BH(t)`, Eq. (28). -/
 noncomputable def rhoBH (t : ℝ) : ℝ := WhiteHole.rhoBH M.c.GN M.K M.H0 M.rh (M.a t)
 
+/-- The Schwarzschild bulk as a special case of the general bulk: `f = 1 - r_h²/r²`. -/
+noncomputable def toBulk : BulkCosmology where
+  c := M.c
+  K := M.K
+  f := blacken M.rh
+  ε := M.ε
+  a := M.a
+  ρ := M.ρ
+  P := M.P
+  ρt := M.ρt
+  Pt := M.Pt
+  K_pos := M.K_pos
+  ε_sq := M.ε_sq
+  a_pos := M.a_pos
+  a_diff := M.a_diff
+  ρ_diff := M.ρ_diff
+  ρt_diff := M.ρt_diff
+  friedmann := M.friedmann
+  continuity := M.continuity
+  continuity_tilde := M.continuity_tilde
+  junction := fun t ↦ by
+    rw [curv_mul_blacken M.K_pos (M.a_pos t).ne', ← add_sub_assoc]; exact M.junction t
+  junction_arg := fun t ↦ by
+    rw [curv_mul_blacken M.K_pos (M.a_pos t).ne', ← add_sub_assoc]; exact M.junction_arg t
+
+/-- For the Schwarzschild bulk, the bulk density is `ρ_BH`. -/
+theorem toBulk_rhoBulk (t : ℝ) : M.toBulk.rhoBulk t = M.rhoBH t :=
+  rhoBulk_blacken M.c.GN_pos.ne' M.K_pos (M.a_pos t).ne' M.H0_pos.ne'
+
+/-- At the brane, the general blackening factor is `1 - r_h²/r²`. -/
+theorem toBulk_fBrane (t : ℝ) : M.toBulk.fBrane t = blacken M.rh (braneRadius M.K (M.a t)) :=
+  rfl
+
 theorem isInduced (t : ℝ) : IsInduced M.c.rhoS (M.rhoBH t) (M.ρ t) (M.ρt t) :=
-  isInduced_of_junction M.c M.ε_sq (M.a_pos t).ne' M.H0_pos.ne' (M.friedmann t)
-    (M.junction t) (M.junction_arg t)
+  M.toBulk_rhoBulk t ▸ M.toBulk.isInduced t
 
 /-- **Reality, Eq. (30)**, holds at all times. -/
 theorem reality (t : ℝ) : 2 * (M.rhoBH t - M.ρ t) ≤ M.c.rhoS :=
@@ -85,7 +121,7 @@ theorem pressure (t : ℝ) (hH : deriv M.a t ≠ 0) (hsing : M.ρt t ≠ M.c.rho
 
 /-- With the paper's orientation `ε = -1`, the induced density is non-negative. -/
 theorem ρt_nonneg (hε : M.ε = -1) (t : ℝ) : 0 ≤ M.ρt t :=
-  rhoTilde_nonneg_of_eps_neg M.c.Gb_pos (hε ▸ M.junction t)
+  M.toBulk.ρt_nonneg hε t
 
 end BraneCosmology
 

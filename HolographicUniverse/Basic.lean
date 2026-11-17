@@ -45,6 +45,21 @@ theorem sqrt_eq_rc : √(3 / (16 * π * c.GN * c.rhoS)) = c.rc := by
     unfold rhoS rc; field_simp
   rw [h, sqrt_sq c.rc_pos.le]
 
+/-- `(8π G_b/3) ρ̃_s = 1/(2 r_c)`. -/
+lemma g_mul_rhoS : 8 * π * c.Gb / 3 * c.rhoS = 1 / (2 * c.rc) := by
+  unfold rhoS rc
+  have := c.GN_pos; have := c.Gb_pos
+  field_simp
+  ring
+
+/-- `(8π G_N/3) ρ̃_s = 2 (1/(2 r_c))²`. -/
+lemma gN_mul_rhoS : 8 * π * c.GN / 3 * c.rhoS = 2 * (1 / (2 * c.rc)) ^ 2 := by
+  rw [← c.g_mul_rhoS]
+  unfold rhoS
+  have := c.GN_pos; have := c.Gb_pos
+  field_simp
+  ring
+
 /-- `M₄` is the 4D Planck mass, Eq. (2). -/
 def IsM4 (M4 : ℝ) : Prop := 0 < M4 ∧ M4 ^ 2 = 1 / (16 * π * c.GN)
 

@@ -8,6 +8,9 @@ whose spatial part reads `K^i_j = -(8π G_b/3) ρ̃ δ^i_j`. The embedding compu
 the same mixed component as `ε √(H² + 𝒦 f/a²)`. Together with the Friedmann equation (11) this
 forces `ρ̃` onto a quadratic whose roots are Eq. (26).
 
+The core statement `isInduced_of_bulk` takes any bulk contribution `b` under the root, so it
+serves a general blackening factor (`isInduced_of_junction_f`, ROADMAP M5.1).
+
 Note: as printed, Eq. (24) has `ȧ/√𝒦` under the root; consistency with Eq. (21) and with the
 denominator of Eq. (25) requires `ȧ²/𝒦`, which is what we use.
 -/
@@ -23,29 +26,68 @@ def IsInduced (s b ρ x : ℝ) : Prop := x ^ 2 - 2 * s * x + 2 * s * (b - ρ) = 
 /-- The two branches of Eq. (26); `sgn = 1` is self-accelerating, `sgn = -1` is normal. -/
 noncomputable def rhoTilde (sgn s b ρ : ℝ) : ℝ := s * (1 + sgn * √(1 - 2 * (b - ρ) / s))
 
-/-- **Friedmann + junction ⇒ quadratic.** From Eq. (11), the spatial junction condition
-(Eqs. (10) and (24)) and `ε² = 1`, the induced density satisfies the quadratic of Eq. (26). -/
+/-- **Friedmann + junction ⇒ quadratic, for any bulk.** Write the bulk contribution to the
+square root of Eq. (24) as `-(8π G_N/3) b`. From Eq. (11), the spatial junction condition and
+`ε² = 1`, the induced density satisfies the quadratic of Eq. (26) with `ρ_BH` replaced by `b`. -/
+theorem isInduced_of_bulk (c : Couplings) {K ε a H b ρ ρt : ℝ}
+    (hε : ε ^ 2 = 1)
+    (hFried : H ^ 2 + K / a ^ 2 = 8 * π * c.GN / 3 * (ρ + ρt))
+    (hJunc : ε * √(H ^ 2 + K / a ^ 2 - 8 * π * c.GN / 3 * b) = -(8 * π * c.Gb / 3) * ρt)
+    (hArg : 0 ≤ H ^ 2 + K / a ^ 2 - 8 * π * c.GN / 3 * b) :
+    IsInduced c.rhoS b ρ ρt := by
+  have hN := c.GN_pos; have hb := c.Gb_pos
+  have hsq : (8 * π * c.Gb / 3) ^ 2 * ρt ^ 2 = H ^ 2 + K / a ^ 2 - 8 * π * c.GN / 3 * b := by
+    have := congrArg (· ^ 2) hJunc
+    simp only [mul_pow, sq_sqrt hArg, hε, one_mul, neg_sq] at this
+    linarith
+  unfold IsInduced Couplings.rhoS
+  linear_combination (norm := (field_simp; ring))
+    (9 / (64 * π ^ 2 * c.Gb ^ 2)) * hsq + (9 / (64 * π ^ 2 * c.Gb ^ 2)) * hFried
+
+/-- **The quadratic for a general blackening factor `f`.** The junction condition with
+`H² + 𝒦 f(r)/a²` under the root gives Eq. (26) with `ρ_BH` replaced by `ρ_bulk`. -/
+theorem isInduced_of_junction_f (c : Couplings) (f : ℝ → ℝ) {K ε a H ρ ρt : ℝ}
+    (hε : ε ^ 2 = 1)
+    (hFried : H ^ 2 + K / a ^ 2 = 8 * π * c.GN / 3 * (ρ + ρt))
+    (hJunc : ε * √(H ^ 2 + K / a ^ 2 * f (braneRadius K a)) = -(8 * π * c.Gb / 3) * ρt)
+    (hArg : 0 ≤ H ^ 2 + K / a ^ 2 * f (braneRadius K a)) :
+    IsInduced c.rhoS (rhoBulk c.GN K f a) ρ ρt := by
+  rw [curv_mul_f f c.GN_pos.ne', ← add_sub_assoc] at hJunc hArg
+  exact isInduced_of_bulk c hε hFried hJunc hArg
+
+/-- **Friedmann + junction ⇒ quadratic, Schwarzschild bulk.** From Eq. (11), the spatial
+junction condition (Eqs. (10) and (24)) and `ε² = 1`, the induced density satisfies the
+quadratic of Eq. (26). -/
 theorem isInduced_of_junction (c : Couplings) {K H0 rh ε a H ρ ρt : ℝ}
     (hε : ε ^ 2 = 1) (ha : a ≠ 0) (hH0 : H0 ≠ 0)
     (hFried : H ^ 2 + K / a ^ 2 = 8 * π * c.GN / 3 * (ρ + ρt))
     (hJunc : ε * √(H ^ 2 + K / a ^ 2 - K ^ 2 * rh ^ 2 / a ^ 4) = -(8 * π * c.Gb / 3) * ρt)
     (hArg : 0 ≤ H ^ 2 + K / a ^ 2 - K ^ 2 * rh ^ 2 / a ^ 4) :
     IsInduced c.rhoS (rhoBH c.GN K H0 rh a) ρ ρt := by
-  have hN := c.GN_pos; have hb := c.Gb_pos
-  have hsq : (8 * π * c.Gb / 3) ^ 2 * ρt ^ 2 = H ^ 2 + K / a ^ 2 - K ^ 2 * rh ^ 2 / a ^ 4 := by
-    have := congrArg (· ^ 2) hJunc
-    simp only [mul_pow, sq_sqrt hArg, hε, one_mul, neg_sq] at this
-    linarith
-  unfold IsInduced Couplings.rhoS
-  rw [rhoBH_eq hH0]
-  linear_combination (norm := (field_simp; ring))
-    (9 / (64 * π ^ 2 * c.Gb ^ 2)) * hsq + (9 / (64 * π ^ 2 * c.Gb ^ 2)) * hFried
+  rw [rhoBH_term c.GN_pos.ne' hH0 ha] at hJunc hArg
+  exact isInduced_of_bulk c hε hFried hJunc hArg
 
 /-- **Reality constraint, Eq. (30).** A real induced density exists only if
 `ρ̃_s ≥ 2(ρ_BH - ρ)`. -/
 theorem reality {s b ρ x : ℝ} (hs : 0 < s) (h : IsInduced s b ρ x) : 2 * (b - ρ) ≤ s := by
   unfold IsInduced at h
   nlinarith [sq_nonneg (x - s)]
+
+/-- **The pressure singularity is the equality case of Eq. (30).** `ρ̃ = ρ̃_s` exactly when the
+reality bound is saturated (ROADMAP M3.4). -/
+theorem isInduced_eq_rhoS_iff {s b ρ x : ℝ} (hs : 0 < s) (h : IsInduced s b ρ x) :
+    x = s ↔ 2 * (b - ρ) = s := by
+  unfold IsInduced at h
+  constructor
+  · intro hx
+    rw [hx] at h
+    have : s * (2 * (b - ρ) - s) = 0 := by linear_combination h
+    rcases mul_eq_zero.1 this with h0 | h0
+    · exact absurd h0 hs.ne'
+    · linarith
+  · intro hb
+    have : (x - s) ^ 2 = 0 := by linear_combination h - s * hb
+    exact sub_eq_zero.1 (pow_eq_zero_iff two_ne_zero |>.1 this)
 
 /-- **Eq. (26).** Under the reality condition the quadratic has exactly the two branches
 `ρ̃_± = ρ̃_s (1 ± √(1 - 2(ρ_BH - ρ)/ρ̃_s))`. -/

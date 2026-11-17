@@ -31,12 +31,14 @@ For the brane spectrum, with the exact growth `cosh²(τ√(1 − z²))` (`jeans
 * `tendsto_jeansProjected_zero`, `tendsto_log_jeansProjected_budget`: the endpoints of result 3,
   `I(0⁺) = (π/2)cosh²τ`, so `ln I(1) − ln I(0⁺) = −2 ln cosh τ`. The spectrum falls by exactly
   `cosh²τ` between the far infrared and the Jeans scale.
+* `tendsto_integral_spectralIndex_jeansBrane`: result 3. For `C · I(k/k_J)`,
+  `∫₀^b (n_s − 1) d ln k = −2 ln cosh τ` for any `b ≥ k_J` (improper at `0`). The total red tilt
+  the instability can produce is `2 ln cosh τ ≈ τ²`, however it is spread over scales.
 
 **What is not covered.** The projection onto the brane (the integral over `x` in the P1 note),
 for the results above, the exact growth `cosh²(τ√(1 − y²))` (the large-`τ` form is used here),
 and the pivot exactly at `k_J`. Below `k_J` the projected tilt is numerical (`jeans_tilt.py`):
-it opens the narrow, tuned window of the P1 note. Writing the budget as `∫(n_s − 1) d ln k` needs
-`I` differentiable in `y`, which is not proved (the growth has a kink at `z = 1`).
+it opens the narrow, tuned window of the P1 note.
 -/
 
 namespace WhiteHole
@@ -226,7 +228,8 @@ theorem tendsto_jeansProjected_zero (τ : ℝ) :
     (fun x : ℝ ↦ 1 / (1 + x ^ 2) ^ 2 * cosh τ ^ 2)
   · refine Eventually.of_forall fun y ↦ ?_
     exact (continuous_const.div (by fun_prop) (fun x ↦ by positivity) |>.mul
-      ((continuous_jeansGrowthExact τ).comp (continuous_const.mul (by fun_prop)))).aestronglyMeasurable
+      ((continuous_jeansGrowthExact τ).comp
+        (continuous_const.mul (by fun_prop)))).aestronglyMeasurable
   · refine Eventually.of_forall fun y ↦ Eventually.of_forall fun x ↦ ?_
     rw [norm_mul, Real.norm_of_nonneg (by positivity),
       Real.norm_of_nonneg (jeansGrowthExact_nonneg _ _)]
@@ -249,5 +252,335 @@ theorem tendsto_log_jeansProjected_budget (τ : ℝ) :
   rw [jeansProjected_of_one_le le_rfl, log_mul (by positivity) (by positivity), log_pow]
   push_cast
   ring
+
+/-! ### The tilt budget as an integral (P1, result 3)
+
+The growth `F(z) = cosh²(τ√(1 − z²))` has a kink at `z = ±1`, where its slope jumps from
+`∓2τ²` to `0`. It is still Lipschitz, with constant `2τ² cosh²τ` (`abs_jeansGrowthExact_sub_le`),
+and in the projection the kink sits at only two values of `x`. So the derivative passes under
+the integral (`hasDerivAt_jeansProjected`), `I` is differentiable everywhere, and the
+fundamental theorem of calculus applies to `ln I`. -/
+
+section budget
+
+open MeasureTheory
+
+theorem abs_sinh_le (a : ℝ) : |sinh a| ≤ |a| * cosh a := by
+  rw [abs_sinh, ← cosh_abs]
+  set b := |a| with hb
+  have hb0 : 0 ≤ b := abs_nonneg a
+  have h := Convex.image_sub_le_mul_sub_of_deriv_le (convex_Icc 0 b) continuous_sinh.continuousOn
+    (fun x _ ↦ differentiableAt_sinh.differentiableWithinAt) (C := cosh b)
+    (fun x hx ↦ by
+      rw [interior_Icc] at hx
+      rw [Real.deriv_sinh, cosh_le_cosh, abs_of_pos hx.1, abs_of_nonneg hb0]
+      exact hx.2.le) 0 ⟨le_rfl, hb0⟩ b ⟨hb0, le_rfl⟩ hb0
+  simpa [mul_comm] using h
+
+theorem jeansGrowthExact_of_one_le_sq {τ z : ℝ} (hz : 1 ≤ z ^ 2) : jeansGrowthExact τ z = 1 := by
+  simp [jeansGrowthExact, sqrt_eq_zero'.2 (by linarith : 1 - z ^ 2 ≤ 0)]
+
+theorem hasDerivAt_jeansGrowthExact {τ z : ℝ} (hz : z ^ 2 < 1) :
+    HasDerivAt (jeansGrowthExact τ)
+      (-(2 * τ * z * cosh (τ * √(1 - z ^ 2)) * sinh (τ * √(1 - z ^ 2)) / √(1 - z ^ 2))) z := by
+  have hs : 0 < 1 - z ^ 2 := by linarith
+  have hs' : 0 < √(1 - z ^ 2) := sqrt_pos.2 hs
+  have h := ((((hasDerivAt_id' z).fun_pow 2).const_sub 1).sqrt hs.ne'
+    |>.const_mul τ |>.cosh).fun_pow 2
+  convert h using 1
+  · rfl
+  simp only [Nat.cast_ofNat, Nat.add_one_sub_one, pow_one, mul_one]
+  field_simp
+
+/-- The growth is Lipschitz below the Jeans scale, with constant `2τ² cosh²τ`. -/
+theorem abs_deriv_jeansGrowthExact_le {τ z : ℝ} (hz : z ^ 2 < 1) :
+    |2 * τ * z * cosh (τ * √(1 - z ^ 2)) * sinh (τ * √(1 - z ^ 2)) / √(1 - z ^ 2)| ≤
+      2 * τ ^ 2 * cosh τ ^ 2 := by
+  have hs : 0 < 1 - z ^ 2 := by linarith
+  set s := √(1 - z ^ 2) with hsdef
+  have hs' : 0 < s := sqrt_pos.2 hs
+  have hs1 : s ≤ 1 := sqrt_le_one.2 (by nlinarith [sq_nonneg z])
+  have hz1 : |z| ≤ 1 := by
+    rw [← abs_one, ← sq_le_sq]; linarith
+  have hc0 : 0 ≤ cosh (τ * s) := (cosh_pos _).le
+  have hc : cosh (τ * s) ≤ cosh τ := by
+    rw [cosh_le_cosh, abs_mul, abs_of_pos hs']
+    exact mul_le_of_le_one_right (abs_nonneg τ) hs1
+  have hsh : |sinh (τ * s)| ≤ |τ| * s * cosh (τ * s) := by
+    simpa [abs_mul, abs_of_pos hs'] using abs_sinh_le (τ * s)
+  rw [abs_div, abs_of_pos hs', div_le_iff₀ hs']
+  simp only [abs_mul, abs_two]
+  calc 2 * |τ| * |z| * |cosh (τ * s)| * |sinh (τ * s)|
+      ≤ 2 * |τ| * 1 * cosh (τ * s) * (|τ| * s * cosh (τ * s)) := by
+        rw [abs_of_nonneg hc0]; gcongr
+    _ = 2 * |τ| ^ 2 * cosh (τ * s) ^ 2 * s := by ring
+    _ ≤ 2 * |τ| ^ 2 * cosh τ ^ 2 * s := by gcongr
+    _ = 2 * τ ^ 2 * cosh τ ^ 2 * s := by rw [sq_abs]
+
+
+theorem jeansGrowthExact_neg (τ z : ℝ) : jeansGrowthExact τ (-z) = jeansGrowthExact τ z := by
+  simp [jeansGrowthExact]
+
+theorem abs_jeansGrowthExact_sub_le_Icc {τ z₁ z₂ : ℝ} (h₁ : z₁ ∈ Set.Icc (-1 : ℝ) 1)
+    (h₂ : z₂ ∈ Set.Icc (-1 : ℝ) 1) :
+    |jeansGrowthExact τ z₁ - jeansGrowthExact τ z₂| ≤ 2 * τ ^ 2 * cosh τ ^ 2 * |z₁ - z₂| := by
+  set K := 2 * τ ^ 2 * cosh τ ^ 2
+  have hcont := (continuous_jeansGrowthExact τ).continuousOn (s := Set.Icc (-1 : ℝ) 1)
+  have hsq : ∀ x ∈ interior (Set.Icc (-1 : ℝ) 1), x ^ 2 < 1 := fun x hx ↦ by
+    rw [interior_Icc] at hx
+    nlinarith [hx.1, hx.2]
+  have hdiff : DifferentiableOn ℝ (jeansGrowthExact τ) (interior (Set.Icc (-1 : ℝ) 1)) :=
+    fun x hx ↦ (hasDerivAt_jeansGrowthExact (hsq x hx)).differentiableAt.differentiableWithinAt
+  have hbd : ∀ x ∈ interior (Set.Icc (-1 : ℝ) 1), |deriv (jeansGrowthExact τ) x| ≤ K :=
+    fun x hx ↦ by
+      rw [(hasDerivAt_jeansGrowthExact (hsq x hx)).deriv, abs_neg]
+      exact abs_deriv_jeansGrowthExact_le (hsq x hx)
+  have key : ∀ a ∈ Set.Icc (-1 : ℝ) 1, ∀ b ∈ Set.Icc (-1 : ℝ) 1, a ≤ b →
+      |jeansGrowthExact τ b - jeansGrowthExact τ a| ≤ K * |b - a| := fun a ha b hb hab ↦ by
+    have hu := (convex_Icc (-1 : ℝ) 1).image_sub_le_mul_sub_of_deriv_le hcont hdiff
+      (fun x hx ↦ (le_abs_self _).trans (hbd x hx)) a ha b hb hab
+    have hl := (convex_Icc (-1 : ℝ) 1).mul_sub_le_image_sub_of_le_deriv hcont hdiff
+      (fun x hx ↦ (neg_abs_le _).trans' (neg_le_neg (hbd x hx))) a ha b hb hab
+    rw [abs_of_nonneg (sub_nonneg.2 hab), abs_le]
+    constructor <;> linarith
+  rcases le_total z₁ z₂ with h | h
+  · rw [abs_sub_comm, abs_sub_comm z₁]; exact key z₁ h₁ z₂ h₂ h
+  · exact key z₂ h₂ z₁ h₁ h
+
+/-- **The growth is Lipschitz**, with constant `2τ² cosh²τ`, across the kink at `z = ±1`. -/
+theorem abs_jeansGrowthExact_sub_le (τ z₁ z₂ : ℝ) :
+    |jeansGrowthExact τ z₁ - jeansGrowthExact τ z₂| ≤ 2 * τ ^ 2 * cosh τ ^ 2 * |z₁ - z₂| := by
+  set c : ℝ → ℝ := fun z ↦ max (min z 1) (-1)
+  have hc : ∀ z, jeansGrowthExact τ z = jeansGrowthExact τ (c z) := fun z ↦ by
+    simp only [c]
+    rcases le_total z 1 with h1 | h1
+    · rcases le_total z (-1) with h2 | h2
+      · rw [min_eq_left h1, max_eq_right h2, jeansGrowthExact_of_one_le_sq (by nlinarith),
+          jeansGrowthExact_of_one_le_sq (by norm_num)]
+      · rw [min_eq_left h1, max_eq_left h2]
+    · rw [min_eq_right h1, max_eq_left (by norm_num), jeansGrowthExact_of_one_le h1,
+        jeansGrowthExact_of_one_le le_rfl]
+  have hmem : ∀ z, c z ∈ Set.Icc (-1 : ℝ) 1 := fun z ↦
+    ⟨le_max_right _ _, max_le (min_le_right _ _) (by norm_num)⟩
+  have hlip : |c z₁ - c z₂| ≤ |z₁ - z₂| :=
+    (abs_max_sub_max_le_abs _ _ _).trans <|
+      (abs_min_sub_min_le_max _ _ _ _).trans (by simp)
+  rw [hc z₁, hc z₂]
+  exact (abs_jeansGrowthExact_sub_le_Icc (hmem z₁) (hmem z₂)).trans
+    (mul_le_mul_of_nonneg_left hlip (by positivity))
+
+theorem differentiableAt_jeansGrowthExact {τ z : ℝ} (hz : z ^ 2 ≠ 1) :
+    DifferentiableAt ℝ (jeansGrowthExact τ) z := by
+  rcases hz.lt_or_gt with h | h
+  · exact (hasDerivAt_jeansGrowthExact h).differentiableAt
+  · refine (differentiableAt_const (1 : ℝ)).congr_of_eventuallyEq ?_
+    filter_upwards [(isOpen_lt continuous_const (continuous_pow 2)).mem_nhds h] with x hx
+    exact jeansGrowthExact_of_one_le_sq (le_of_lt hx)
+
+theorem one_le_jeansGrowthExact (τ z : ℝ) : 1 ≤ jeansGrowthExact τ z :=
+  one_le_pow₀ (one_le_cosh _)
+
+theorem integrable_jeansProjected (τ y : ℝ) :
+    Integrable fun x : ℝ ↦ 1 / (1 + x ^ 2) ^ 2 * jeansGrowthExact τ (y * √(1 + x ^ 2)) := by
+  refine (integrable_inv_one_add_sq_sq.mul_const (cosh τ ^ 2)).mono' ?_ ?_
+  · exact (continuous_const.div (by fun_prop) (fun x ↦ by positivity) |>.mul
+      ((continuous_jeansGrowthExact τ).comp
+        (continuous_const.mul (by fun_prop)))).aestronglyMeasurable
+  · refine Eventually.of_forall fun x ↦ ?_
+    rw [norm_mul, Real.norm_of_nonneg (by positivity),
+      Real.norm_of_nonneg (jeansGrowthExact_nonneg _ _)]
+    exact mul_le_mul_of_nonneg_left (jeansGrowthExact_le _ _) (by positivity)
+
+/-- The brane spectrum never falls below its value without growth. -/
+theorem pi_div_two_le_jeansProjected (τ y : ℝ) : π / 2 ≤ jeansProjected τ y := by
+  rw [← integral_univ_inv_one_add_sq_sq, jeansProjected]
+  refine integral_mono integrable_inv_one_add_sq_sq (integrable_jeansProjected τ y) fun x ↦ ?_
+  exact le_mul_of_one_le_right (by positivity) (one_le_jeansGrowthExact _ _)
+
+
+/-- **The brane spectrum is differentiable**, at every `y`. The growth has a kink at `z = 1`, but
+in the projection that kink sits at two values of `x` only, a null set, and the growth is
+Lipschitz, so the derivative passes under the integral. -/
+theorem hasDerivAt_jeansProjected (τ y₀ : ℝ) :
+    HasDerivAt (jeansProjected τ)
+      (∫ x : ℝ, 1 / (1 + x ^ 2) ^ 2 *
+        (deriv (jeansGrowthExact τ) (y₀ * √(1 + x ^ 2)) * √(1 + x ^ 2))) y₀ := by
+  set K := 2 * τ ^ 2 * cosh τ ^ 2
+  have hK : 0 ≤ K := by positivity
+  have hws : ∀ x : ℝ, 1 / (1 + x ^ 2) ^ 2 * √(1 + x ^ 2) ≤ (1 + x ^ 2)⁻¹ := fun x ↦ by
+    have h1 : 1 ≤ 1 + x ^ 2 := by nlinarith [sq_nonneg x]
+    have hs : √(1 + x ^ 2) ≤ 1 + x ^ 2 := by
+      rw [sqrt_le_left (by linarith)]; nlinarith
+    have he : (1 + x ^ 2)⁻¹ * (1 + x ^ 2) ^ 2 = 1 + x ^ 2 := by field_simp
+    rw [div_mul_eq_mul_div, one_mul, div_le_iff₀ (by positivity), he]
+    exact hs
+  refine (hasDerivAt_integral_of_dominated_loc_of_lip (F := fun y x ↦
+      1 / (1 + x ^ 2) ^ 2 * jeansGrowthExact τ (y * √(1 + x ^ 2)))
+    (bound := fun x ↦ K * (1 + x ^ 2)⁻¹) Filter.univ_mem ?_ (integrable_jeansProjected τ y₀) ?_
+    ?_ (integrable_inv_one_add_sq.const_mul K) ?_).2
+  · exact Eventually.of_forall fun y ↦ (integrable_jeansProjected τ y).aestronglyMeasurable
+  · exact ((continuous_const.div (by fun_prop) (fun x ↦ by positivity)).measurable.mul
+      (((measurable_deriv _).comp (measurable_const.mul (by fun_prop))).mul
+        (by fun_prop))).aestronglyMeasurable
+  · refine Eventually.of_forall fun x ↦ LipschitzOnWith.of_dist_le_mul fun y₁ _ y₂ _ ↦ ?_
+    have hw : 0 < 1 / (1 + x ^ 2) ^ 2 := by positivity
+    have hb : 0 ≤ K * (1 + x ^ 2)⁻¹ := mul_nonneg hK (by positivity)
+    rw [Real.dist_eq, Real.dist_eq, Real.coe_nnabs, ← mul_sub, abs_mul, abs_of_pos hw,
+      abs_of_nonneg hb]
+    calc 1 / (1 + x ^ 2) ^ 2 *
+          |jeansGrowthExact τ (y₁ * √(1 + x ^ 2)) - jeansGrowthExact τ (y₂ * √(1 + x ^ 2))|
+        ≤ 1 / (1 + x ^ 2) ^ 2 * (K * (√(1 + x ^ 2) * |y₁ - y₂|)) := by
+          gcongr
+          refine (abs_jeansGrowthExact_sub_le _ _ _).trans_eq ?_
+          rw [← sub_mul, abs_mul, abs_of_nonneg (sqrt_nonneg _), mul_comm |y₁ - y₂|]
+      _ = K * (1 / (1 + x ^ 2) ^ 2 * √(1 + x ^ 2)) * |y₁ - y₂| := by ring
+      _ ≤ K * (1 + x ^ 2)⁻¹ * |y₁ - y₂| := by gcongr; exact hws x
+  · -- the kink is hit only where `y₀² (1 + x²) = 1`: at most two points
+    by_cases hy : y₀ = 0
+    · refine Eventually.of_forall fun x ↦ ?_
+      have hd := differentiableAt_jeansGrowthExact (τ := τ) (z := y₀ * √(1 + x ^ 2))
+        (by simp [hy])
+      have h := (hd.hasDerivAt.comp y₀ ((hasDerivAt_id' y₀).mul_const (√(1 + x ^ 2)))).const_mul
+        (1 / (1 + x ^ 2) ^ 2)
+      convert h using 1
+      · rfl
+      · ring
+    set c := (1 - y₀ ^ 2) / y₀ ^ 2
+    have hnull : volume ({√c, -√c} : Set ℝ) = 0 := (Set.toFinite _).measure_zero _
+    refine measure_mono_null (fun x hx ↦ ?_) hnull
+    by_contra hxs
+    refine hx ?_
+    have hz : (y₀ * √(1 + x ^ 2)) ^ 2 ≠ 1 := by
+      intro h
+      rw [mul_pow, sq_sqrt (by positivity)] at h
+      have hx2 : x ^ 2 = c := by
+        simp only [c]; field_simp; linarith
+      have hc : 0 ≤ c := hx2 ▸ sq_nonneg x
+      rcases sq_eq_sq_iff_eq_or_eq_neg.1 (hx2.trans (sq_sqrt hc).symm) with h' | h'
+      · exact hxs (by simp [h'])
+      · exact hxs (by simp [h'])
+    change HasDerivAt (fun y ↦ 1 / (1 + x ^ 2) ^ 2 * jeansGrowthExact τ (y * √(1 + x ^ 2)))
+      (1 / (1 + x ^ 2) ^ 2 * (deriv (jeansGrowthExact τ) (y₀ * √(1 + x ^ 2)) * √(1 + x ^ 2))) y₀
+    have h := ((differentiableAt_jeansGrowthExact (τ := τ) hz).hasDerivAt.comp y₀
+      ((hasDerivAt_id' y₀).mul_const (√(1 + x ^ 2)))).const_mul (1 / (1 + x ^ 2) ^ 2)
+    convert h using 1
+    · rfl
+    · ring
+
+
+theorem abs_jeansProjected_sub_le (τ y₁ y₂ : ℝ) :
+    |jeansProjected τ y₁ - jeansProjected τ y₂| ≤
+      2 * τ ^ 2 * cosh τ ^ 2 * π * |y₁ - y₂| := by
+  set K := 2 * τ ^ 2 * cosh τ ^ 2
+  have hK : 0 ≤ K := by positivity
+  rw [jeansProjected, jeansProjected,
+    ← integral_sub (integrable_jeansProjected τ y₁) (integrable_jeansProjected τ y₂)]
+  have hb : Integrable fun x : ℝ ↦ K * (1 + x ^ 2)⁻¹ * |y₁ - y₂| :=
+    (integrable_inv_one_add_sq.const_mul K).mul_const _
+  rw [← Real.norm_eq_abs]
+  refine (norm_integral_le_of_norm_le hb (Eventually.of_forall fun x ↦ ?_)).trans_eq ?_
+  · rw [Real.norm_eq_abs, ← mul_sub, abs_mul, abs_of_pos (by positivity)]
+    have hws : 1 / (1 + x ^ 2) ^ 2 * √(1 + x ^ 2) ≤ (1 + x ^ 2)⁻¹ := by
+      have h1 : 1 ≤ 1 + x ^ 2 := by nlinarith [sq_nonneg x]
+      have hs : √(1 + x ^ 2) ≤ 1 + x ^ 2 := by
+        rw [sqrt_le_left (by linarith)]; nlinarith
+      have he : (1 + x ^ 2)⁻¹ * (1 + x ^ 2) ^ 2 = 1 + x ^ 2 := by field_simp
+      rw [div_mul_eq_mul_div, one_mul, div_le_iff₀ (by positivity), he]
+      exact hs
+    calc 1 / (1 + x ^ 2) ^ 2 *
+          |jeansGrowthExact τ (y₁ * √(1 + x ^ 2)) - jeansGrowthExact τ (y₂ * √(1 + x ^ 2))|
+        ≤ 1 / (1 + x ^ 2) ^ 2 * (K * (√(1 + x ^ 2) * |y₁ - y₂|)) := by
+          gcongr
+          refine (abs_jeansGrowthExact_sub_le _ _ _).trans_eq ?_
+          rw [← sub_mul, abs_mul, abs_of_nonneg (sqrt_nonneg _), mul_comm |y₁ - y₂|]
+      _ = K * (1 / (1 + x ^ 2) ^ 2 * √(1 + x ^ 2)) * |y₁ - y₂| := by ring
+      _ ≤ K * (1 + x ^ 2)⁻¹ * |y₁ - y₂| := by gcongr
+  · rw [integral_mul_const, integral_const_mul, integral_univ_inv_one_add_sq]
+
+theorem abs_deriv_jeansProjected_le (τ y : ℝ) :
+    |deriv (jeansProjected τ) y| ≤ 2 * τ ^ 2 * cosh τ ^ 2 * π := by
+  have hK : 0 ≤ 2 * τ ^ 2 * cosh τ ^ 2 * π := by positivity
+  have hL : LipschitzWith (Real.nnabs (2 * τ ^ 2 * cosh τ ^ 2 * π)) (jeansProjected τ) :=
+    LipschitzWith.of_dist_le_mul fun a b ↦ by
+      rw [Real.dist_eq, Real.dist_eq, Real.coe_nnabs, abs_of_nonneg hK]
+      exact abs_jeansProjected_sub_le τ a b
+  have h := norm_deriv_le_of_lipschitz (x₀ := y) hL
+  rwa [Real.norm_eq_abs, Real.coe_nnabs, abs_of_nonneg hK] at h
+
+theorem jeansProjected_pos (τ y : ℝ) : 0 < jeansProjected τ y :=
+  lt_of_lt_of_le (by positivity) (pi_div_two_le_jeansProjected τ y)
+
+/-- **The integrated tilt.** For `0 < a, b`, `∫_a^b (n_s − 1) d ln y = ln I(b) − ln I(a)`. -/
+theorem integral_spectralIndex_jeansProjected (τ : ℝ) {a b : ℝ} (ha : 0 < a) (hb : 0 < b) :
+    ∫ y in a..b, (spectralIndex (jeansProjected τ) y - 1) / y =
+      log (jeansProjected τ b) - log (jeansProjected τ a) := by
+  have hpos := jeansProjected_pos τ
+  have hd : ∀ y, HasDerivAt (jeansProjected τ) (deriv (jeansProjected τ) y) y := fun y ↦
+    (hasDerivAt_jeansProjected τ y).differentiableAt.hasDerivAt
+  have hcont : Continuous (jeansProjected τ) :=
+    continuous_iff_continuousAt.2 fun y ↦ (hd y).continuousAt
+  have hcongr : Set.EqOn (fun y ↦ (spectralIndex (jeansProjected τ) y - 1) / y)
+      (fun y ↦ deriv (jeansProjected τ) y / jeansProjected τ y) (Set.uIcc a b) := fun y hy ↦ by
+    have hy0 : 0 < y := by rcases Set.mem_uIcc.1 hy with h | h <;> linarith [h.1]
+    have := (hpos y).ne'
+    simp only [spectralIndex]
+    field_simp
+    ring
+  rw [intervalIntegral.integral_congr hcongr]
+  refine intervalIntegral.integral_eq_sub_of_hasDerivAt (fun y _ ↦ (hd y).log (hpos y).ne') ?_
+  refine (intervalIntegrable_const (c := 2 * τ ^ 2 * cosh τ ^ 2 * π / (π / 2))).mono_fun'
+    ((measurable_deriv _).div hcont.measurable).aestronglyMeasurable
+    (Eventually.of_forall fun y ↦ ?_)
+  dsimp only
+  rw [norm_div, Real.norm_eq_abs, Real.norm_eq_abs, abs_of_pos (hpos y)]
+  exact div_le_div₀ (by positivity) (abs_deriv_jeansProjected_le τ y) (by positivity)
+    (pi_div_two_le_jeansProjected τ y)
+
+/-- **The tilt budget (P1, result 3).** The total tilt of the brane spectrum over all scales,
+`∫₀^b (n_s − 1) d ln y` for any `b ≥ 1`, is exactly `−2 ln cosh τ`, as an improper integral
+at `y → 0⁺`. -/
+theorem tendsto_integral_spectralIndex_jeansProjected (τ : ℝ) {b : ℝ} (hb : 1 ≤ b) :
+    Tendsto (fun a ↦ ∫ y in a..b, (spectralIndex (jeansProjected τ) y - 1) / y) (𝓝[>] 0)
+      (𝓝 (-2 * log (cosh τ))) := by
+  refine ((tendsto_log_jeansProjected_budget τ).mono_left nhdsWithin_le_nhds).congr'
+    (eventually_nhdsWithin_of_forall fun a ha ↦ ?_)
+  dsimp only
+  rw [integral_spectralIndex_jeansProjected τ ha (by linarith),
+    jeansProjected_of_one_le hb, jeansProjected_of_one_le le_rfl]
+
+
+/-- The brane spectrum in `k`: its index at `k` is the index of `I` at `y = k/k_J`. -/
+theorem spectralIndex_jeansBrane {C τ kJ : ℝ} (hC : C ≠ 0) (hkJ : kJ ≠ 0) (k : ℝ) :
+    spectralIndex (fun k ↦ C * jeansProjected τ (k / kJ)) k =
+      spectralIndex (jeansProjected τ) (k / kJ) := by
+  have h := (((hasDerivAt_jeansProjected τ (k / kJ)).differentiableAt.hasDerivAt.comp k
+    ((hasDerivAt_id' k).div_const kJ)).const_mul C)
+  replace h : HasDerivAt (fun k ↦ C * jeansProjected τ (k / kJ))
+      (C * (deriv (jeansProjected τ) (k / kJ) * (1 / kJ))) k := h
+  have hI := (jeansProjected_pos τ (k / kJ)).ne'
+  rw [spectralIndex, spectralIndex, h.deriv]
+  field_simp
+
+/-- **The tilt budget in `k` (P1, result 3).** For the brane spectrum `C · I(k/k_J)`,
+`∫₀^b (n_s − 1) d ln k = −2 ln cosh τ` for any `b ≥ k_J`, as an improper integral at
+`k → 0⁺`. All of it is spent below the Jeans scale. -/
+theorem tendsto_integral_spectralIndex_jeansBrane {C τ kJ b : ℝ} (hC : C ≠ 0) (hkJ : 0 < kJ)
+    (hb : kJ ≤ b) :
+    Tendsto (fun a ↦ ∫ k in a..b, (spectralIndex (fun k ↦ C * jeansProjected τ (k / kJ)) k - 1) / k)
+      (𝓝[>] 0) (𝓝 (-2 * log (cosh τ))) := by
+  have hdiv : Tendsto (fun a ↦ a / kJ) (𝓝[>] 0) (𝓝[>] 0) := by
+    refine tendsto_nhdsWithin_iff.2 ⟨?_, eventually_nhdsWithin_of_forall fun a ha ↦ div_pos ha hkJ⟩
+    simpa using ((continuous_id.div_const kJ).tendsto 0).mono_left nhdsWithin_le_nhds
+  refine ((tendsto_integral_spectralIndex_jeansProjected τ ((one_le_div hkJ).2 hb)).comp
+    hdiv).congr' (Eventually.of_forall fun a ↦ ?_)
+  have hpt : ∀ k, (spectralIndex (fun k ↦ C * jeansProjected τ (k / kJ)) k - 1) / k =
+      (spectralIndex (jeansProjected τ) (k / kJ) - 1) / (k / kJ) / kJ := fun k ↦ by
+    rw [spectralIndex_jeansBrane hC hkJ.ne', div_div, div_mul_cancel₀ k hkJ.ne']
+  simp only [Function.comp, hpt, intervalIntegral.integral_div,
+    intervalIntegral.integral_comp_div (fun y ↦ (spectralIndex (jeansProjected τ) y - 1) / y)
+      hkJ.ne', smul_eq_mul]
+  field_simp
+
+end budget
 
 end WhiteHole

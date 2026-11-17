@@ -226,7 +226,7 @@ of local extensions. None gives the observed spectrum. The tilt results, in orde
 | 3 | full thermal spectrum `C·M(k/s)` | `n_s > 1` at every scale | proved (`ObsData.not_fits_thermal`) |
 | 4 | `C·M(k/s)·G(k/s′)`, `G` nondecreasing | `n_s > 1` at every scale | proved (`ObsData.not_fits_thermal_mul`) |
 | P2 | cascading gravity, linear | an instance of 4, for every `M₆` | proved, given the linear cascade factor (`ObsData.not_fits_cascade`) |
-| P1 | Jeans instability, linear | red, but `α_s = (1 + 1/(1 − y²))(n_s − 1)`, ~9σ from Planck; or a tuned dip | unprojected spectrum proved (`planck2018Running_not_fits_jeans`); the projected window is numerical (`jeans_tilt.py`) |
+| P1 | Jeans instability, linear | red, but `α_s = (1 + 1/(1 − y²))(n_s − 1)`, ~9σ from Planck; or a tuned dip | unprojected spectrum proved (`planck2018Running_not_fits_jeans`); on the brane, `n_s = 1` above `k_J` and the tilt budget `2 ln cosh τ` proved; the window itself is numerical (`jeans_tilt.py`) |
 | P4 | any local extension: tilt `Σᵢ cᵢ(k/sᵢ)^{pᵢ}`, `pᵢ ≥ 2` red | `α_s ≤ 2(n_s − 1) ≤ −0.063` | proved, given the form of the tilt (`planck2018Running_not_fits_local`) |
 
 **Cascading gravity has the wrong sign.** The paper reads the red tilt as a bulk propagator that
@@ -248,8 +248,11 @@ projection onto the brane (numerical, `jeans_tilt.py`), a pivot well inside the 
 gives `α_s ≈ 2(n_s − 1) ≈ −0.065`, about 9σ from Planck 2018. A narrow window just below the
 Jeans scale fits `n_s` and `α_s` at the pivot. But it needs `k_J` tuned to within 10%, it leaves
 `n_s = 1` exactly for `k ≥ k_J`, and it misses the slope across `0.008–0.1 Mpc⁻¹` by `≥ 5σ`.
-These numerical results assume linear growth and a static background. A full Planck likelihood
-run would make them final.
+The miss has an exact reason. On the brane, the total tilt over all scales is
+`∫(n_s − 1) d ln k = −2 ln cosh τ` (proved, `tendsto_integral_spectralIndex_jeansBrane`). The
+window has `τ ≤ 0.188` (numerical), so a budget of about `0.035`, and the slope Planck sees
+across that range needs about `0.09`. The numerical results assume linear growth and a static
+background. A full Planck likelihood run would make them final.
 
 **No local extension works.** The paper imprints every mode at one moment, the static
 equilibrium `(a_b, T_b)` of Sec. 4. So a cooling atmosphere changes only the amplitude. Within

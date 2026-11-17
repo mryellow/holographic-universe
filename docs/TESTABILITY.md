@@ -229,8 +229,8 @@ ruled out in this form. That is a legitimate result.
 - **Lean link:** `M7.2` (scale invariance at leading order → falsification theorem),
   `M7.3` (sign of the next-order term, `SecondOrder.lean`; `M′ > 0` at every scale,
   `BlueTilt.lean`), `M8.3` (`Jeans.lean`: exact result 1 for the unprojected spectrum,
-  `runningIndex_jeans`, `planck2018Running_not_fits_jeans`; result 2 and the endpoints of result 3
-  for the brane spectrum, `tendsto_log_jeansProjected_budget`; `Running.lean` for the class, P4).
+  `runningIndex_jeans`, `planck2018Running_not_fits_jeans`; results 2 and 3
+  for the brane spectrum, `tendsto_integral_spectralIndex_jeansBrane`; `Running.lean` for the class, P4).
 - **Next concrete step:** none required. Optional: run CAMB with the window spectrum through the
   Planck 2018 likelihood (Cobaya), to make the numerical verdict on the window final. A
   nonlinear or non-static P1 stays local, so P4 covers it unless it tunes a feature to the

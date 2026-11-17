@@ -947,6 +947,14 @@ open WhiteHole
 #guard_msgs in
 #print axioms tendsto_log_jeansProjected_budget
 
+/-- info: 'WhiteHole.hasDerivAt_jeansProjected' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms hasDerivAt_jeansProjected
+
+/-- info: 'WhiteHole.tendsto_integral_spectralIndex_jeansBrane' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms tendsto_integral_spectralIndex_jeansBrane
+
 /-- info: 'WhiteHole.runningIndex_boost' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms runningIndex_boost

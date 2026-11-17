@@ -423,10 +423,12 @@ Replaces the geometric fields of `BraneCosmology` with theorems.
     `M(κ) = M(0) + (10ζ(5) - ζ(3))/(32π²)·|κ|² + o(|κ|²) ≈ 1.5759 + 0.02903|κ|²`. A direct
     quadrature of Eq. (46) agrees (`0.02901` at `κ = 0.25`, `0.02879` at `κ = 1`). The `A` term
     is about 17 times larger. So the next order tilts blue, `n_s - 1 ≈ 0.037κ²`, as expected.
-  - Not done, in order of size:
-    1. The radial integrals `∫₀^∞ r³/(eʳ - 1) dr = 6ζ(4)` and
-       `∫₀^∞ r³φ′(r)² dr = 2ζ(3) + 18ζ(4) - 20ζ(5)`. The Bose-series method of
-       `integral_bose` applies, with double series for `n²` and `(n(1 + n))²`. Medium.
+  - Done, step 1 (`RadialIntegrals.lean`): `∫₀^∞ r³φ′ dr = -π⁴/5` (`integral_dphiB`) and
+    `∫₀^∞ r³φ′² dr = 2ζ(3) + π⁴/5 - 20ζ(5)` (`integral_dphiB_sq`), so
+    `∫ r³φ′² < π⁴/5` (`integral_dphiB_sq_lt`). Each product of `n` and `1 + n` is
+    `xᵃ/(1 - x)^{k+1}` with `x = e^{-r}`, which expands with binomial coefficients
+    (`hasSum_bose_pow`). `integral_pow_mul_series` then integrates term by term.
+  - Not done:
     2. The derivative form. `n_s` uses `M′`, so step 3 must give `M′` along a ray to first
        order, `M′(κ) = 2c₂κ + o(κ)`, and not only the value of `M`. Then
        `ObsData.not_fits_of_deriv_nonneg` closes the argument for small `κ`.
@@ -483,7 +485,7 @@ entry here.
 | ✓ | M4.3 | Done (`Horizon.lean`) |
 | ✓ | M4.4 | Done (`Asymptotics.lean`) |
 | ✓ | M5.2, M5.3 | Done (`AdSBulk.lean`, `ChargedBulk.lean`) |
-| 7 | M7.3, rest | Steps 1–3 above; step 3 is the hard part |
+| 7 | M7.3, rest | Steps 2–3 above |
 | 8 | M8 | Grows alongside the testability pathways |
 | ✓ | M7.1 | Done (`ThermalIntegral.lean`) |
 | 9 | M6 | Long-term foundations |

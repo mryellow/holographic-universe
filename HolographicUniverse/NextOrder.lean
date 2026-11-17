@@ -23,8 +23,9 @@ The two parts pull in opposite directions:
 
 So symmetry alone does not fix the sign of the `O(κ²)` term of Eq. (48).
 
-**Computed, not yet proved here.** In `ℝ⁴` the Hessians at `0` are `Δ/4` times the identity,
-with `Δ_κ|v + κ| = 3/|v|` and `ΔB(0) = -∫|∇φ|²`. In closed form,
+**Computed, not yet proved.** The radial integrals are proved in `RadialIntegrals.lean`. In `ℝ⁴`
+the Hessians at `0` are `Δ/4` times the identity, with `Δ_κ|v + κ| = 3/|v|` and
+`ΔB(0) = -∫|∇φ|²`. In closed form,
 
   `ΔA(0) = 2π² · 3∫₀^∞ r²φ dr = 2π⁶/5`,
   `ΔB(0) = -2π² ∫₀^∞ r³φ'² dr = -2π² (2ζ(3) + 18ζ(4) - 20ζ(5))`,

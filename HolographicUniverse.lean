@@ -29,4 +29,5 @@ import HolographicUniverse.AdSBulk
 import HolographicUniverse.ChargedBulk
 import HolographicUniverse.ThermalIntegral
 import HolographicUniverse.NextOrder
+import HolographicUniverse.RadialIntegrals
 import HolographicUniverse.Audit

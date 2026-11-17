@@ -29,6 +29,7 @@ import HolographicUniverse.AdSBulk
 import HolographicUniverse.ChargedBulk
 import HolographicUniverse.ThermalIntegral
 import HolographicUniverse.NextOrder
+import HolographicUniverse.RadialIntegrals
 
 /-!
 # Axiom audit (ROADMAP M0.1)
@@ -757,3 +758,23 @@ open WhiteHole
 /-- info: 'WhiteHole.ObsData.not_fits_of_deriv_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms ObsData.not_fits_of_deriv_nonneg
+
+/-- info: 'WhiteHole.integral_pow_mul_series' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms integral_pow_mul_series
+
+/-- info: 'WhiteHole.integral_dphiB' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms integral_dphiB
+
+/-- info: 'WhiteHole.integral_dphiB_sq' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms integral_dphiB_sq
+
+/-- info: 'WhiteHole.integral_dphiB_sq_lt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms integral_dphiB_sq_lt
+
+/-- info: 'WhiteHole.hasDerivAt_phiB' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms hasDerivAt_phiB

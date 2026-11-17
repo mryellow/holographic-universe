@@ -1,4 +1,5 @@
 import HolographicUniverse.Running
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 
 /-!
 # P1: the shape of a Jeans tilt
@@ -23,10 +24,19 @@ This file proves exact result 1 of the P1 note, for the unprojected spectrum
   any `C ≠ 0`, `τ ≥ 0` and any Jeans scale `k_J ≠ k_*`. Below the Jeans scale a fit to `n_s`
   forces `α_s ≤ −0.063`; above it `n_s = 1`.
 
+For the brane spectrum, with the exact growth `cosh²(τ√(1 − z²))` (`jeansProjected`):
+
+* `jeansProjected_of_one_le`, `spectralIndex_jeansProjected_above`: result 2, `I(y) = π/2` and
+  `n_s = 1` exactly above the Jeans scale.
+* `tendsto_jeansProjected_zero`, `tendsto_log_jeansProjected_budget`: the endpoints of result 3,
+  `I(0⁺) = (π/2)cosh²τ`, so `ln I(1) − ln I(0⁺) = −2 ln cosh τ`. The spectrum falls by exactly
+  `cosh²τ` between the far infrared and the Jeans scale.
+
 **What is not covered.** The projection onto the brane (the integral over `x` in the P1 note),
-the exact growth `cosh²(τ√(1 − y²))` (the large-`τ` form is used here), and the pivot exactly at
-`k_J`. The projection is what opens the narrow, tuned window of the P1 note; that window is
-numerical (`jeans_tilt.py`).
+for the results above, the exact growth `cosh²(τ√(1 − y²))` (the large-`τ` form is used here),
+and the pivot exactly at `k_J`. Below `k_J` the projected tilt is numerical (`jeans_tilt.py`):
+it opens the narrow, tuned window of the P1 note. Writing the budget as `∫(n_s − 1) d ln k` needs
+`I` differentiable in `y`, which is not proved (the growth has a kink at `z = 1`).
 -/
 
 namespace WhiteHole
@@ -184,5 +194,60 @@ theorem spectralIndex_jeansProjected_above {C τ kJ k : ℝ} (hkJ : 0 < kJ) (hk 
     rw [jeansProjected_of_one_le ((one_le_div hkJ).2 hx.le)]
   filter_upwards [lt_mem_nhds hk] with x hx
   rw [hconst x hx, hconst k hk]
+
+/-! ### The total tilt budget below the Jeans scale (P1, result 3, endpoints) -/
+
+theorem continuous_jeansGrowthExact (τ : ℝ) : Continuous (jeansGrowthExact τ) := by
+  unfold jeansGrowthExact
+  fun_prop
+
+/-- The growth is at most `cosh²τ`, the growth of the mode with `z = 0`. -/
+theorem jeansGrowthExact_le (τ z : ℝ) : jeansGrowthExact τ z ≤ cosh τ ^ 2 := by
+  unfold jeansGrowthExact
+  have hs : √(1 - z ^ 2) ≤ 1 := sqrt_le_one.2 (by nlinarith [sq_nonneg z])
+  have h : cosh (τ * √(1 - z ^ 2)) ≤ cosh τ := by
+    rw [cosh_le_cosh, abs_mul, abs_of_nonneg (sqrt_nonneg _)]
+    exact mul_le_of_le_one_right (abs_nonneg τ) hs
+  exact pow_le_pow_left₀ (cosh_pos _).le h 2
+
+theorem jeansGrowthExact_nonneg (τ z : ℝ) : 0 ≤ jeansGrowthExact τ z := sq_nonneg _
+
+/-- **Far below the Jeans scale every mode grows fully.** As `y → 0`, `I(y) → (π/2) cosh²τ`
+(dominated convergence, with the bound `(1 + x²)⁻² cosh²τ`). -/
+theorem tendsto_jeansProjected_zero (τ : ℝ) :
+    Tendsto (jeansProjected τ) (𝓝 0) (𝓝 (π / 2 * cosh τ ^ 2)) := by
+  have hlim : π / 2 * cosh τ ^ 2 =
+      ∫ x : ℝ, 1 / (1 + x ^ 2) ^ 2 * jeansGrowthExact τ (0 * √(1 + x ^ 2)) := by
+    simp only [zero_mul, jeansGrowthExact, ne_eq, OfNat.ofNat_ne_zero, not_false_eq_true,
+      zero_pow, sub_zero, sqrt_one, mul_one]
+    rw [MeasureTheory.integral_mul_const, integral_univ_inv_one_add_sq_sq]
+  rw [hlim]
+  apply MeasureTheory.tendsto_integral_filter_of_dominated_convergence
+    (fun x : ℝ ↦ 1 / (1 + x ^ 2) ^ 2 * cosh τ ^ 2)
+  · refine Eventually.of_forall fun y ↦ ?_
+    exact (continuous_const.div (by fun_prop) (fun x ↦ by positivity) |>.mul
+      ((continuous_jeansGrowthExact τ).comp (continuous_const.mul (by fun_prop)))).aestronglyMeasurable
+  · refine Eventually.of_forall fun y ↦ Eventually.of_forall fun x ↦ ?_
+    rw [norm_mul, Real.norm_of_nonneg (by positivity),
+      Real.norm_of_nonneg (jeansGrowthExact_nonneg _ _)]
+    exact mul_le_mul_of_nonneg_left (jeansGrowthExact_le _ _) (by positivity)
+  · exact integrable_inv_one_add_sq_sq.mul_const _
+  · refine Eventually.of_forall fun x ↦ ?_
+    exact (continuous_const.mul ((continuous_jeansGrowthExact τ).comp
+      (continuous_id.mul continuous_const))).tendsto 0
+
+/-- **The tilt budget (P1, result 3, endpoints).** `ln I(1) − ln I(y) → −2 ln cosh τ` as
+`y → 0`: between the far infrared and the Jeans scale the brane spectrum falls by exactly
+`cosh²τ`, so the instability has a total red tilt of `2 ln cosh τ ≈ τ²` to spend. -/
+theorem tendsto_log_jeansProjected_budget (τ : ℝ) :
+    Tendsto (fun y ↦ log (jeansProjected τ 1) - log (jeansProjected τ y)) (𝓝 0)
+      (𝓝 (-2 * log (cosh τ))) := by
+  have hc : cosh τ ≠ 0 := (cosh_pos τ).ne'
+  have h := ((tendsto_jeansProjected_zero τ).log (by positivity)).const_sub
+    (log (jeansProjected τ 1))
+  convert h using 2
+  rw [jeansProjected_of_one_le le_rfl, log_mul (by positivity) (by positivity), log_pow]
+  push_cast
+  ring
 
 end WhiteHole

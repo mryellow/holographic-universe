@@ -142,5 +142,11 @@ Result 2 is proved for the projected spectrum, with the exact growth `cosh²(τ�
 `I(y) = π/2` for `y ≥ 1` (`jeansProjected_of_one_le`), so `C·I(k/k_J)` has `n_s = 1` exactly for
 `k > k_J` (`spectralIndex_jeansProjected_above`).
 
-Still open, and not needed for the verdict: result 3. It needs `I` differentiable in `y`
-(differentiation under the integral) and the limit `I(0⁺) = (π/2)cosh²τ`.
+The endpoints of result 3 are proved: `I(y) → (π/2)cosh²τ` as `y → 0`
+(`tendsto_jeansProjected_zero`, by dominated convergence), so
+`ln I(1) − ln I(0⁺) = −2 ln cosh τ` (`tendsto_log_jeansProjected_budget`). The spectrum falls by
+exactly `cosh²τ` between the far infrared and the Jeans scale, which is the budget.
+
+Still open, and not needed for the verdict: writing that budget as `∫(n_s − 1) d ln k`. It needs
+`I` differentiable in `y` (differentiation under the integral), and the growth has a kink at
+`z = 1`.

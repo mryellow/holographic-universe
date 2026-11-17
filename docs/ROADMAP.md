@@ -498,7 +498,10 @@ entry here.
     (`planck2018Running_not_fits_jeans`). This is P1's exact result 1 at every order in `y`;
     `Running.lean` gives the leading order. After the projection onto the brane,
     `I(y) = π/2` for `y ≥ 1` (`jeansProjected_of_one_le`), so `n_s = 1` exactly above `k_J`
-    (`spectralIndex_jeansProjected_above`). The projected spectrum below `k_J` is numerical.
+    (`spectralIndex_jeansProjected_above`). As `y → 0`, `I → (π/2)cosh²τ`
+    (`tendsto_jeansProjected_zero`), so `ln I(1) − ln I(0⁺) = −2 ln cosh τ`
+    (`tendsto_log_jeansProjected_budget`): the endpoints of result 3, the tilt budget. The
+    projected tilt below `k_J`, and the budget as `∫(n_s − 1) d ln k`, are numerical.
   - **P2, Part B: an infrared boost** (`Boost.lean`). The counterfactual step
     `exp(B/(1 + u))`, `u = (K/K_V)^q`, has `n_s − 1 = −Bq·u/(1 + u)²` (`spectralIndex_boost`), so
     `|n_s − 1| ≤ |B|q/4` (`abs_boostTilt_le`), and `α_s = q(1 − u)/(1 + u)·(n_s − 1)` exactly

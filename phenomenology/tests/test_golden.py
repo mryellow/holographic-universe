@@ -68,6 +68,12 @@ def test_jeans_projected_above():
         close(jeans.tilt(1.2, tau), 0.0, 1e-14)
 
 
+def test_jeans_budget():
+    """tendsto_jeansProjected_zero: I(y) -> (pi/2) cosh^2 tau as y -> 0 (the result 3 budget)."""
+    for tau in (0.188, 1.0):
+        close(jeans._integrate(lambda z: jeans.growth(z, tau), 1e-4), math.pi / 2 * math.cosh(tau) ** 2, 1e-6)
+
+
 # --- P2, cascade and boost (Cascade.lean, Boost.lean, Golden.lean) -----------------------------
 
 def test_cascade_coefficients():

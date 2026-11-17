@@ -6,6 +6,7 @@ import HolographicUniverse.InducedFluid
 import HolographicUniverse.Pressure
 import HolographicUniverse.Constraints
 import HolographicUniverse.Perturbations
+import HolographicUniverse.ObsData
 import HolographicUniverse.Model
 import HolographicUniverse.Acceleration
 import HolographicUniverse.Instances

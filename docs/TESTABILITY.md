@@ -30,7 +30,7 @@ predictions. Pathway P1 below comes first, and is a gate for everything else.
 
 | Fact | Lean | Use for testing |
 |---|---|---|
-| `T_b/M₅ ≈ 0.171` is fixed by the CMB amplitude | `eq49` | One parameter is already used up by data. With Planck 2018 it shifts to `≈ 0.1701` (`M1.5`) |
+| `T_b/M₅ ≈ 0.171` is fixed by the CMB amplitude | `eq49`, `eq49_planck2013_sharp`, `eq49_planck2018` | One parameter is already used up by data. Planck 2013 gives `[0.17061, 0.17216]`; Planck 2018 gives `[0.1697, 0.17051]` |
 | `r_c = M₄²/(2M₅³) ≳ 3/H₀` | `rc_eq_planck`, `eq51` | Gravity changes at **Hubble** scales, not at short distances |
 | `ρ_BH ∝ a⁻⁴` | `rhoBH_scaling` | Behaves like radiation, so BBN and `N_eff` can see it |
 | `𝒦 > 0` (closed slicing) | `BraneCosmology.K_pos` | Predicts `Ω_k < 0` |

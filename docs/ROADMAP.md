@@ -82,12 +82,18 @@ numeric facts.
   `[8.6627, 8.6631]×10⁻⁵` (true value `8.66299×10⁻⁵`). `eq49` no longer has the `hk` hypothesis.
   The old statement is kept as `eq49_of_coeff`, for a general coefficient, because M1.5 needs it.
   `eq48_eq49` chains Eq. (48) into Eq. (49), so the only physics input left is `M(0)`.
-- [ ] **1.5 Data as parameters.** Introduce an `ObsData` structure (amplitude interval, pivot
-  scale, `n_s` interval, `r_c` bound) and restate `eq49` and `eq51` over it. Instantiate it
-  twice:
-  - Planck 2013, as in the paper: `A_s = 2.196 ± 0.059 ×10⁻⁹` gives `T_b/M₅ ∈ [0.1705, 0.1723]`.
-  - Planck 2018: `ln(10¹⁰A_s) = 3.044 ± 0.014` gives `T_b/M₅ ≈ 0.1701 ± 0.0004`. This sits
-    **just below** the current interval, so the 2013 theorem does not cover the 2018 data.
+- [x] **1.5 Data as parameters.** Done in `ObsData.lean`. `ObsData` holds the amplitude
+  interval, pivot scale, `n_s` interval and `r_c H₀` bound. `ObsData.tbm5_bounds` and
+  `ObsData.eq51` are the general statements. A result for a new release needs only two
+  `norm_num` checks. Instances:
+  - `planck2013` (the paper's values): `eq49_planck2013_sharp` gives `T_b/M₅ ∈ [0.17061, 0.17216]`.
+    This matches the paper's `0.17139 ± 0.00077` to the last digit.
+  - `planck2018`: the amplitude is stored as published, `exp(3.044 ± 0.014)·10⁻¹⁰`, and `exp` is
+    bounded in the proof. `eq49_planck2018` gives `T_b/M₅ ∈ [0.1697, 0.17051]`.
+  - `planck2013_planck2018_disjoint`: the two 1σ intervals do not overlap. This follows from the
+    data alone (the 1σ amplitude intervals are disjoint), so it is not evidence against the
+    model. It means a theorem proved with the 2013 numbers does not apply to the 2018 numbers.
+  - The `n_s` fields are not used yet. M7.2 will use them.
 - [ ] **1.6 Eqs. (50) and (52).** Formalize the temperature bound `H/2π ≲ T_b ≃ 0.17 M₅` and
   the monopole argument (`M₅ ≲ 9 MeV` from `r_c ≳ 3/H₀`, so `T ≪ T_GUT`), building on `eq51`.
 
@@ -242,7 +248,7 @@ entry here.
 | ✓ | M0.1–0.2 (audit, CI) | Done |
 | ✓ | M2.1 (trivial instance) | Done |
 | ✓ | M2.4 (acceleration equation) | Done; M2.5 (fields at `H = 0`) is a decision to take before M4 |
-| 3 | M1.5 (M1.1–1.4 done) | Mathlib already has the pieces; finishes Sec. 4 numerics |
+| ✓ | M1.1–1.5 | Done. M1.6 (Eqs. 50, 52) remains in Milestone 1 | Mathlib already has the pieces; finishes Sec. 4 numerics |
 | 4 | M7.2 (falsification theorem) | Small, and shows the Lean ↔ data interface working end to end |
 | 5 | M3.1–3.2 | Blocks the testability gate G0 |
 | 6 | M5.1 (generic `f`) | Refactor before more theorems depend on the concrete `f` |

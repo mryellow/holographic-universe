@@ -6,6 +6,7 @@ import HolographicUniverse.InducedFluid
 import HolographicUniverse.Pressure
 import HolographicUniverse.Constraints
 import HolographicUniverse.Perturbations
+import HolographicUniverse.ObsData
 import HolographicUniverse.Model
 import HolographicUniverse.Acceleration
 import HolographicUniverse.Instances
@@ -133,6 +134,22 @@ open WhiteHole
 /-- info: 'WhiteHole.eq49' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms eq49
+
+/-- info: 'WhiteHole.eq49_planck2013_sharp' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms eq49_planck2013_sharp
+
+/-- info: 'WhiteHole.eq49_planck2018' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms eq49_planck2018
+
+/-- info: 'WhiteHole.planck2013_planck2018_disjoint' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms planck2013_planck2018_disjoint
+
+/-- info: 'WhiteHole.ObsData.eq51' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ObsData.eq51
 
 /-- info: 'WhiteHole.eq51' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in

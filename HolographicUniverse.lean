@@ -5,3 +5,5 @@ import HolographicUniverse.Pressure
 import HolographicUniverse.Constraints
 import HolographicUniverse.Perturbations
 import HolographicUniverse.Model
+import HolographicUniverse.Instances
+import HolographicUniverse.Audit

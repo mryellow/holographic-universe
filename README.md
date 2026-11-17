@@ -29,6 +29,8 @@ conclusions **follow from the stated assumptions**. In this project:
 | `Constraints.lean` | Observational bounds (33), (34), (35) |
 | `Perturbations.lean` | Eq. (48) algebra; inversion for `T_b/M₅` (49); `M₅` bound (51) |
 | `Model.lean` | `BraneCosmology` structure and the results instantiated on it |
+| `Instances.lean` | Non-vacuity: explicit `BraneCosmology` instances (static family, self-accelerating de Sitter vacuum) |
+| `Audit.lean` | Build-time axiom audit: every declaration, plus a pinned `#print axioms` list for the headline theorems |
 
 ## Equation map
 
@@ -54,6 +56,9 @@ conclusions **follow from the stated assumptions**. In this project:
 | (48) `= 25ζ(5)/(3072π⁴)(T_b/M₅)⁶` | `eq48_leading` | proved, assuming `M(0)` and `∫dx/(1+x²)² = π/2` |
 | (49) `T_b/M₅ ≈ 0.171` | `eq49` | proved: `[0.1705, 0.1723]` from the Planck amplitude |
 | (51) `M₅³ ≤ H₀M₄²/6` | `eq51` | proved |
+| Non-vacuity of the assumptions | `BraneCosmology.nonempty`, `static`, `deSitter` | proved: instances exist for every coupling |
+| Self-accelerating vacuum, `H² + 𝒦/a² = 1/r_c²` | `BraneCosmology.deSitter`, `deSitter_H`, `deSitter_selfAccelerating`, `deSitter_pressure` | proved |
+| `ε = -1` on the normal branch with `r_h > 0`, `ρ > 0` | `BraneCosmology.exists_normal_branch_eps_neg` | proved for a **static** witness only |
 
 ## Issues the formalization surfaced
 
@@ -68,6 +73,16 @@ conclusions **follow from the stated assumptions**. In this project:
    including the region of Eq. (34), is inconsistent with `ε = -1` (`normal_branch_requires`).
    The paper's Fig. 3 uses `ρ_BH = 1.05ρ` and is not affected. This may be a sign-convention
    issue rather than an error, and it should be checked against the TeX source.
+4. **`BraneCosmology` has no acceleration equation.** The structure holds the Friedmann and
+   continuity equations only. For `H ≠ 0` these imply the acceleration equation, but a static
+   brane (`H = 0` at all times) satisfies every field with *any* pressure
+   (`BraneCosmology.static`). The static instances prove the fields are consistent. They are
+   not solutions of the full equations of motion. See ROADMAP M2.4.
+
+## Soundness
+
+`Audit.lean` runs on every build. It fails if any declaration in the library depends on an
+axiom other than `propext`, `Classical.choice` and `Quot.sound`, which also catches `sorry`.
 
 ## Roadmap
 

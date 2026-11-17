@@ -33,10 +33,12 @@ Equation numbers refer to Pourhasan, Afshordi & Mann, arXiv:1309.1487v2.
 | Extrinsic curvature of the embedding (Eqs. 21–25) | **assumed** |
 | Thermal correlators (Eqs. 39–47) | **assumed** |
 | Eqs. (50), (52) (temperature and monopole bounds) | not yet formalized |
-| Non-vacuity (does any `BraneCosmology` exist?) | **open** |
+| Non-vacuity (does any `BraneCosmology` exist?) | proved (`Instances.lean`): a static family for both `ε = ±1` and any `r_h` outside the brane, and the self-accelerating de Sitter vacuum. An expanding instance with `r_h > 0` and matter is still **open** |
+| Axiom audit | enforced at build time (`Audit.lean`) |
 
-The formalization has surfaced three issues: the Eq. (24) typo, Eq. (27) only matching
-Eq. (16) at `ε = -1`, and the sign tension on the normal branch. See the README for details.
+The formalization has surfaced four issues: the Eq. (24) typo, Eq. (27) only matching
+Eq. (16) at `ε = -1`, the sign tension on the normal branch, and the missing acceleration
+equation in `BraneCosmology` (M2.4). See the README for details.
 
 ---
 
@@ -44,14 +46,16 @@ Eq. (16) at `ε = -1`, and the sign tension on the normal branch. See the README
 
 Small and cheap, and makes every later milestone trustworthy.
 
-- [ ] **0.1 Axiom audit.** Add `HolographicUniverse/Audit.lean` with `#print axioms` for every
-  headline theorem, wrapped in `#guard_msgs` so that CI fails if a `sorryAx` or a new axiom
-  appears.
-- [ ] **0.2 CI.** `lean_action_ci.yml` already builds and runs docgen. Make sure the audit
-  file is part of the default target so CI checks it.
+- [x] **0.1 Axiom audit.** `HolographicUniverse/Audit.lean` has two checks. The `audit_axioms`
+  command checks *every* declaration in the library, so new theorems are covered automatically.
+  A `#print axioms` list for the headline theorems is pinned with `#guard_msgs`. The build fails
+  if a `sorryAx` or a new axiom appears (tested with a planted `sorry` and `axiom`).
+- [x] **0.2 CI.** `Audit.lean` is imported by the root module, so it is in the default target
+  and `lean_action_ci.yml` checks it. A new module must be imported in both `Audit.lean` and
+  `HolographicUniverse.lean`.
 - [ ] **0.3 Assumption ledger.** Keep the README equation map in sync, or generate it from the
   docstrings, so every `BraneCosmology` field and every physics hypothesis is listed with its
-  equation number.
+  equation number. (Kept in sync by hand so far.)
 
 ## Milestone 1: Close the numerical gaps in Sec. 4
 
@@ -83,14 +87,26 @@ numeric facts.
 Every theorem about `BraneCosmology` is vacuous if no such structure exists. This is the
 most important gap in the current development.
 
-- [ ] **2.1 Trivial instance.** Build one `BraneCosmology`, even a degenerate one
-  (e.g. `r_h = 0`, so there is no bulk black hole), to confirm that the fields are jointly
-  satisfiable.
+- [x] **2.1 Trivial instance.** `Instances.lean` builds two:
+  - `BraneCosmology.static`: a static brane (`a = 1`) for every coupling, either `ε = ±1`, and
+    any `r_h` with `𝒦 r_h² ≤ 1`. Gives `BraneCosmology.nonempty`.
+  - `BraneCosmology.deSitter`: the self-accelerating vacuum `a = r_c cosh(t/r_c)`, `r_h = 0`,
+    `ρ = 0`, `ρ̃ = -P̃ = 2ρ̃_s`, for every coupling. It is expanding, and satisfies Eq. (16).
 - [ ] **2.2 Non-trivial instance.** Build an instance with `r_h > 0` and dust or radiation
   matter. Expect to need Milestone 4 (ODE existence) unless a closed-form solution exists for a
   special equation of state.
 - [ ] **2.3 Consistency of the sign convention.** Show that the instance from 2.2 can have
   `ε = -1` on the normal branch. If it cannot, that is a sharp form of issue 3.
+  Partial result: `exists_normal_branch_eps_neg` gives a *static* instance with `ε = -1`,
+  `r_h > 0`, `ρ > 0`, `ρ̃ > 0` on the normal branch (with `ρ < ρ_BH`, as
+  `normal_branch_requires` demands). So the fields alone do not exclude it. The expanding case
+  is still open.
+- [ ] **2.4 Acceleration equation.** `BraneCosmology` does not contain the acceleration
+  equation `Ḣ - 𝒦/a² = -4πG_N(ρ + ρ̃ + P + P̃)`. Prove it from Friedmann + continuity where
+  `H ≠ 0` (this needs `a` twice differentiable). Then decide what to do at `H = 0`: either add
+  the equation as a field, or state theorems for histories with `H ≠ 0`. Until then, static
+  instances satisfy the structure with any pressure, so they are consistency witnesses and not
+  physical solutions.
 
 ## Milestone 3: Resolve the surfaced issues
 
@@ -199,8 +215,8 @@ entry here.
 
 | Order | Item | Why now |
 |---|---|---|
-| 1 | M0 (audit, CI) | Cheap; protects everything after it |
-| 2 | M2.1 (trivial instance) | Rules out vacuity at minimal cost |
+| ✓ | M0.1–0.2 (audit, CI) | Done |
+| ✓ | M2.1 (trivial instance) | Done |
 | 3 | M1.1–1.5 | Mathlib already has the pieces; finishes Sec. 4 numerics |
 | 4 | M7.2 (falsification theorem) | Small, and shows the Lean ↔ data interface working end to end |
 | 5 | M3.1–3.2 | Blocks the testability gate G0 |

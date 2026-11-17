@@ -60,7 +60,9 @@ conclusions **follow from the stated assumptions**. In this project:
 |---|---|---|
 | (2), (31) `r_c = G_b/G_N = (3/16πG_N ρ̃_s)^½` | `Couplings.sqrt_eq_rc`, `rc_eq_planck` | proved |
 | (3)–(10) brane geometry, Brown–York, Gauss–Codazzi | `BraneCosmology` fields | **assumed** |
-| (11)–(13) Friedmann + continuity | `BraneCosmology` fields | **assumed** |
+| (11)–(13) Friedmann + continuity | `BraneCosmology.friedmann`, `BraneCosmology.continuity`, `BraneCosmology.continuity_tilde` | **assumed** |
+| (22) the brane's 4-velocity is real | `BraneCosmology.junction_arg` | **assumed** |
+| Standing assumptions: `𝒦 > 0`, `H₀ > 0`, `r_h ≥ 0`, `ε² = 1`, `a > 0`; `a`, `ρ`, `ρ̃` differentiable | `BraneCosmology.K_pos`, `BraneCosmology.H0_pos`, `BraneCosmology.rh_nonneg`, `BraneCosmology.ε_sq`, `BraneCosmology.a_pos`, `BraneCosmology.a_diff`, `BraneCosmology.ρ_diff`, `BraneCosmology.ρt_diff` | **assumed**. Differentiability of `ρ̃` forces `H = 0` at the pressure singularity when `3P ≤ ρ` (issue 4) |
 | (14) | — | superseded: the content is reproduced via (16) below |
 | (15) ≡ (26) given (29) | `eq15_eq_eq26`, `mu_sq_term` | proved |
 | (16) induced pressure | `pressure_of_continuity`, `BraneCosmology.pressure` | **derived** from (11)–(13) + junction |

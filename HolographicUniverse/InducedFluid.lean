@@ -92,10 +92,11 @@ theorem rhoTilde_minus_neg_iff {s b ρ : ℝ} (hs : 0 < s) :
     div_pos_iff_of_pos_right hs]
   constructor <;> intro h <;> linarith
 
-/-- **Tension flagged by the formalization.** With the paper's `ε = -1`, the normal branch
-`ρ̃_-` is compatible with the junction condition only when `ρ_BH ≥ ρ`. Part of the normal-branch
-region the paper allows (Eq. (34), `ρ_BH < (1-ε)ρ`) needs `ε = +1` instead, and then Eq. (27)
-no longer reduces to Eq. (16). -/
+/-- With the paper's `ε = -1`, the normal branch `ρ̃_-` is compatible with the junction
+condition only when `ρ_BH ≥ ρ`. The region `ρ_BH < ρ` (part of Eq. (34)) needs `ε = +1`. This
+is not a contradiction: `ε = -1` is inferred circularly in the paper, and Eq. (16) holds for
+either orientation. See `Orientation.lean` (`orientation_minus_branch`,
+`pressure_of_timelike_junction`). -/
 theorem normal_branch_requires {Gb X s b ρ : ℝ} (hGb : 0 < Gb) (hs : 0 < s)
     (hJunc : -1 * √X = -(8 * π * Gb / 3) * rhoTilde (-1) s b ρ) : ρ ≤ b := by
   by_contra h

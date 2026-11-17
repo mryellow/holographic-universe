@@ -40,19 +40,19 @@ predictions. Pathway P1 below comes first, and is a gate for everything else.
 | `ρ_BH ∝ a⁻⁴` | `rhoBH_scaling` | Behaves like radiation, so BBN and `N_eff` can see it |
 | `𝒦 > 0` (closed slicing) | `BraneCosmology.K_pos` | Predicts `Ω_k < 0` |
 | Bounds on `ρ̃_s/ρ` per branch | `eq33`–`eq35` | Restrict the allowed parameter region |
-| Normal-branch sign tension | `normal_branch_requires` | Must be resolved before predictions (gate G0) |
+| Normal-branch sign tension | `orientation_minus_branch`, `pressure_of_timelike_junction` | **Resolved** (M3.1): the paper's `ε = -1` is too strong. `ε` follows the sign of `ρ̃`, so the normal branch with `ρ_BH < ρ` has `ε = +1` |
 
 ### Parameter inventory
 
 | Parameter | Meaning | Status |
 |---|---|---|
 | `G_N` (`M₄`) | 4D Newton constant | measured |
-| `G_b` (`M₅`) | 5D gravitational constant | bounded: `M₅ ≤ 9 MeV` (`eq52`), from `r_c ≳ 3/H₀` |
+| `G_b` (`M₅`) | 5D gravitational constant | bounded: `M₅ ≤ 9 MeV` (Eq. 51, `eq51_numeric`), from `r_c ≳ 3/H₀` |
 | `T_b` | temperature of the brane's thermal atmosphere | fixed relative to `M₅` by `A_s` (Eq. 49) |
 | `𝒦`, i.e. `Ω_k` | spatial curvature | free; paper estimates `−Ω_k ∼ M₅/M_*` (Sec. 5) |
 | `r_h`, i.e. `μ` | bulk black-hole horizon / mass | free; enters through `ρ_BH` |
 | `ε` (Eq. 32) | allowed size of `ρ̃/ρ` | modeling choice, `~0.1` in the paper |
-| branch, orientation | `ρ̃_±`, normal orientation | normal branch preferred (no ghosts); orientation unresolved (G0) |
+| branch, orientation | `ρ̃_±`, normal orientation | normal branch preferred (no ghosts); orientation fixed by the sign of `ρ̃` (`orientation_iff`) |
 | *extension parameters* | whatever produces the red tilt | **to be defined by P1** |
 
 ## 2. Catalogue of options
@@ -147,7 +147,7 @@ Work in order. Do not spend effort past a gate that has not been passed.
 
 | Gate | Question | Passes when | Lean dependency |
 |---|---|---|---|
-| **G0** | Is the parameter region well defined? | The sign tension is resolved and the consistent (orientation, branch, `ρ_BH/ρ`) region is characterized across cosmic history | `M3.1`, `M3.2`, `M2` |
+| **G0** | Is the parameter region well defined? | The sign tension is resolved (done, M3.1) and the consistent (orientation, branch, `ρ_BH/ρ`) region is characterized across cosmic history (`normal_branch_no_crossing`; the era-by-era behaviour is M3.2) | `M3.1`, `M3.2`, `M2` |
 | **G1** | Can an extension produce the observed tilt? | Some extension (P1) gives `n_s` within 2σ of the data without fine-tuning | `M7.2`, `M7.3` |
 | **G2** | Is the background consistent? | The extended model fits BBN, CMB and BAO at least as well as ΛCDM + `ΔN_eff` | `M4`, `M8` |
 | **G3** | Is there a distinct prediction? | At least one observable (O2–O7) differs from inflation + ΛCDM by more than the forecast error of an instrument operating in the next ~10 years | `M8.2` |

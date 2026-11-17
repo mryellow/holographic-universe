@@ -32,14 +32,18 @@ Equation numbers refer to Pourhasan, Afshordi & Mann, arXiv:1309.1487v2.
 | Brane geometry, Brown–York, Gauss–Codazzi (Eqs. 3–10), Friedmann (11) | **assumed** |
 | Extrinsic curvature of the embedding (Eqs. 21–25) | **assumed** |
 | Thermal correlators (Eqs. 39–47) | **assumed** |
-| Eqs. (50), (52) (temperature and monopole bounds) | proved (`Monopoles.lean`), with `H₀`, `G_N` and the condition `H ≤ 2πT_b` as hypotheses |
+| Eqs. (50)–(52) (Hubble, `M₅` and temperature bounds) | proved (`Monopoles.lean`), with `H₀`, `G_N`, the condition `H ≤ 2πT_b` and the radiation-era Friedmann equation as hypotheses |
+| Normal orientation `ε` (Eqs. 21, 24, 25, 27) | resolved against the TeX source (`Orientation.lean`): `ε` is fixed by the sign of `ρ̃`, not by Eq. (27) |
 | Non-vacuity (does any `BraneCosmology` exist?) | proved (`Instances.lean`): a static family for both `ε = ±1` and any `r_h` outside the brane, and the self-accelerating de Sitter vacuum. An expanding instance with `r_h > 0` and matter is still **open** |
 | Axiom audit | enforced at build time (`Audit.lean`) |
 | Acceleration equation | **derived** wherever `H ≠ 0`, with no smoothness assumption beyond the structure (`Acceleration.lean`). Not implied at `H = 0`: the static instances violate it |
 
-The formalization has surfaced four issues: the Eq. (24) typo, Eq. (27) only matching
-Eq. (16) at `ε = -1`, the sign tension on the normal branch, and the missing acceleration
-equation in `BraneCosmology` (M2.4). See the README for details.
+The formalization has surfaced five issues: the Eq. (24) typo, Eq. (27) being wrong for
+`ε = +1`, the paper's too-strong `ε = -1` (which caused the apparent normal-branch tension,
+now resolved), the missing acceleration equation in `BraneCosmology` (M2.4), and a dimension
+error in Eq. (52). See the README for details. The TeX source of arXiv:1309.1487v2 was checked
+for issues 1–3 and 5. It is not committed: arXiv's default licence does not allow
+redistribution. Get it from `https://arxiv.org/src/1309.1487v2`.
 
 ---
 
@@ -68,8 +72,8 @@ numeric facts.
   (`integral_univ_inv_one_add_sq_sq`), with the antiderivative `x/(2(1+x²)) + arctan(x)/2` and
   the improper FTC (`integral_of_hasDerivAt_of_tendsto`). `eq48_leading` now contains the
   integral itself, not the value `π/2`. The integral is over the whole real line: that is the
-  domain that gives `π/2` (the half line gives `π/4`). Confirm the domain against the paper's
-  Eq. (48) when the TeX source is checked (M3.1).
+  domain that gives `π/2` (the half line gives `π/4`). The TeX source confirms the domain:
+  Eq. (48) has `∫_{-∞}^{∞}`.
 - [x] **1.2 Bounds on `ζ(5)`.** Done in `Zeta.lean`. `zeta5` is the real series `∑ 1/n⁵`, and
   `riemannZeta_five` identifies it with `riemannZeta 5`. The lower bound is the exact sum of the
   first ten terms (`1.0369073…`). The upper bound replaces the integral with a telescoping bound,
@@ -94,17 +98,19 @@ numeric facts.
     data alone (the 1σ amplitude intervals are disjoint), so it is not evidence against the
     model. It means a theorem proved with the 2013 numbers does not apply to the 2018 numbers.
   - The `n_s` fields are used by M7.2.
-- [x] **1.6 Eqs. (50) and (52).** Done in `Monopoles.lean`. Energies are in GeV.
-  - `eq50`: `H ≤ 2πT_b` and `T_b/M₅ ≤ 0.1723` give `H < 1.09 M₅`. The condition `H ≤ 2πT_b` is
-    a hypothesis.
-  - `M5_cube_le`: Eq. (51) in terms of `G_N`, `M₅³ ≤ H₀/(96πG_N)`. It does not need `M₄`.
-  - `eq52`: `M₅ ≤ 9 MeV`, from `r_c ≥ 3/H₀`, `H₀ ≤ 1.47×10⁻⁴² GeV` (`h ≤ 0.689`) and
-    `G_N ≥ 6.708×10⁻³⁹ GeV⁻²`. The paper's `9 MeV` is reproduced.
-  - `eq52_temperature`, `eq52_planck2013`, `eq52_planck2018`: `T_b ≤ 1.56 MeV`, chained from the
-    measured amplitude for both releases.
-  - `eq52_below_GUT`: `T_b ≤ 1.6×10⁻¹⁸ T_GUT` for any `T_GUT ≥ 10¹⁵ GeV`. The claim that `T_b`
-    is the highest temperature the brane reaches stays a physics assumption. It is not stated
-    as a hypothesis, because no theorem here mentions the thermal history.
+- [x] **1.6 Eqs. (50)–(52).** Done in `Monopoles.lean`. Energies are in GeV. Corrected after
+  the TeX source check: Eq. (51) is `H ≲ M₅ ≲ (H₀M₄²/6)^{1/3} ∼ 9 MeV`, and Eq. (52) is the
+  plasma temperature in the radiation era, not the atmosphere temperature `T_b`.
+  - `eq50`: `H ≤ 2πT_b` and `T_b/M₅ ≤ 0.1723` give `H < 1.09 M₅`, the first half of Eq. (51).
+    The condition `H ≤ 2πT_b` is a hypothesis.
+  - `M5_cube_le`: the second half of Eq. (51) in terms of `G_N`, `M₅³ ≤ H₀/(96πG_N)`.
+  - `eq51_numeric`: `M₅ ≤ 9 MeV`, from `r_c ≥ 3/H₀`, `H₀ ≤ 1.47×10⁻⁴² GeV` (`h ≤ 0.689`) and
+    `G_N ≥ 6.708×10⁻³⁹ GeV⁻²`. The paper's `9 MeV` is reproduced. `hubble_le`: `H ≤ 9.81 MeV`.
+  - `radiation_T4`, `eq52`: with the radiation-era Friedmann equation as a hypothesis and
+    `g_* ≥ 100`, `T ≤ 8.5×10⁷ GeV = 8.5×10⁴ TeV`. The paper says `3×10⁴ TeV`. The difference
+    is an `O(1)` factor, and the printed formula has a dimension error (README issue 5).
+  - `eq52_below_GUT`: `T ≤ 10⁻⁷ T_GUT` for any `T_GUT ≥ 10¹⁵ GeV`.
+  - Not in the paper: `Tb_le`, `Tb_le_planck2013`, `Tb_le_planck2018` give `T_b ≤ 1.56 MeV`.
 
 ## Milestone 2: Non-vacuity
 
@@ -151,16 +157,25 @@ most important gap in the current development.
 The testability work (`TESTABILITY.md`, gate G0) needs these settled first, because they
 decide which part of parameter space is physical.
 
-- [ ] **3.1 Normal-branch sign tension.** Get the TeX source and check the sign conventions in
-  Eqs. (6), (10), (21) and (24). Then formalize the result as a single theorem characterizing
-  the consistent region of (normal orientation, branch, `ρ_BH/ρ`).
+- [x] **3.1 Normal-branch sign tension.** Done in `Orientation.lean`, after checking the TeX
+  source. Eqs. (6) and (10) are consistent with each other. The tension came from the paper's
+  `ε = -1`, which is inferred circularly (see 3.3).
+  - `orientation_iff`: where `X > 0`, `ε = -1 ⇔ ρ̃ > 0` and `ε = +1 ⇔ ρ̃ < 0`.
+  - The consistent region: `ρ̃_+` needs `ε = -1` (`orientation_plus_branch`). `ρ̃_-` needs
+    `ε = -1` if `ρ_BH > ρ` and `ε = +1` if `ρ_BH < ρ` (`orientation_minus_branch`).
+  - `minkowski_normal_branch`: without a black hole the normal branch needs `ε = +1`, as in
+    standard DGP.
+  - `rhoTilde_eq_zero_inside`: `ρ̃ = 0` only on or inside the horizon.
+  - Not yet decided: which side of the brane the `Z₂`-reflected bulk keeps for `ε = +1`, and
+    whether that fits the paper's black-hole picture.
 - [ ] **3.2 Time dependence of `ρ_BH/ρ`.** `ρ_BH ∝ a⁻⁴` is already proved. Prove that
   `ρ_BH/ρ` is constant in a radiation era (`ρ ∝ a⁻⁴`) and falls as `1/a` in a matter era
   (`ρ ∝ a⁻³`). Then combine with 3.1: a cosmology can move between regions over time, so the
   consistency condition has to hold along the whole history, not just at one instant.
-- [ ] **3.3 Eq. (27) at `ε = +1`.** Decide whether Eq. (27) is wrong as printed or whether the
-  `ε = +1` case needs extra input. `pressure_of_continuity` shows that Eq. (16) does not depend
-  on `ε` at all.
+- [x] **3.3 Eq. (27) at `ε = +1`.** Eq. (27) is wrong as printed for `ε = +1`.
+  `pressure_of_timelike_junction`: Eq. (25) set equal to the `ττ` part of Eq. (10) gives
+  Eq. (16) for either `ε`, once `X = -ε(8πG_b/3)ρ̃` is used. `eq27_of_dropped_sign`: Eq. (27) is
+  what the same step gives with `X = +(8πG_b/3)ρ̃`, which is true only for `ε = -1`.
 - [ ] **3.4 Pressure singularity.** Prove that `ρ̃ = ρ̃_s` holds exactly when the reality bound
   (30) is saturated, `2(ρ_BH - ρ) = ρ̃_s`. This is the point where the two branches meet. The
   paper argues that the singularity always lies inside the white-hole horizon (Sec. 5). Formalize
@@ -268,7 +283,8 @@ entry here.
 | ✓ | M2.4 (acceleration equation) | Done; M2.5 (fields at `H = 0`) is a decision to take before M4 |
 | ✓ | M1.1–1.6 | Done. Milestone 1 is complete |
 | ✓ | M7.2 (falsification theorem) | Done |
-| 5 | M3.1–3.2 | Blocks the testability gate G0 |
+| ✓ | M3.1, M3.3 | Done, against the TeX source |
+| 5 | M3.2, M3.4 | `BraneCosmology.normal_branch_no_crossing` already gives the history condition for 3.2. 3.2 adds the era-by-era behaviour of `ρ_BH/ρ` |
 | 6 | M5.1 (generic `f`) | Refactor before more theorems depend on the concrete `f` |
 | 7 | M4, M2.2 | Real solutions; needed for histories and BBN-era statements |
 | 8 | M8 | Grows alongside the testability pathways |

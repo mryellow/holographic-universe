@@ -12,6 +12,7 @@ import HolographicUniverse.ScaleInvariance
 import HolographicUniverse.Model
 import HolographicUniverse.Acceleration
 import HolographicUniverse.Instances
+import HolographicUniverse.Orientation
 
 /-!
 # Axiom audit (ROADMAP M0.1)
@@ -165,26 +166,6 @@ open WhiteHole
 #guard_msgs in
 #print axioms M5_cube_le
 
-/-- info: 'WhiteHole.eq52' depends on axioms: [propext, Classical.choice, Quot.sound] -/
-#guard_msgs in
-#print axioms eq52
-
-/-- info: 'WhiteHole.eq52_temperature' depends on axioms: [propext, Classical.choice, Quot.sound] -/
-#guard_msgs in
-#print axioms eq52_temperature
-
-/-- info: 'WhiteHole.eq52_below_GUT' depends on axioms: [propext, Classical.choice, Quot.sound] -/
-#guard_msgs in
-#print axioms eq52_below_GUT
-
-/-- info: 'WhiteHole.eq52_planck2013' depends on axioms: [propext, Classical.choice, Quot.sound] -/
-#guard_msgs in
-#print axioms eq52_planck2013
-
-/-- info: 'WhiteHole.eq52_planck2018' depends on axioms: [propext, Classical.choice, Quot.sound] -/
-#guard_msgs in
-#print axioms eq52_planck2018
-
 /-- info: 'WhiteHole.spectralIndex_powerLaw' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms spectralIndex_powerLaw
@@ -216,6 +197,66 @@ open WhiteHole
 /-- info: 'WhiteHole.planck2018_ns_excludes_one' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms planck2018_ns_excludes_one
+
+/-- info: 'WhiteHole.eq51_numeric' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms eq51_numeric
+
+/-- info: 'WhiteHole.hubble_le' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms hubble_le
+
+/-- info: 'WhiteHole.eq52' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms eq52
+
+/-- info: 'WhiteHole.eq52_below_GUT' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms eq52_below_GUT
+
+/-- info: 'WhiteHole.Tb_le_planck2013' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Tb_le_planck2013
+
+/-- info: 'WhiteHole.Tb_le_planck2018' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Tb_le_planck2018
+
+/-- info: 'WhiteHole.pressure_of_timelike_junction' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms pressure_of_timelike_junction
+
+/-- info: 'WhiteHole.eq27_of_dropped_sign' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms eq27_of_dropped_sign
+
+/-- info: 'WhiteHole.orientation_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms orientation_iff
+
+/-- info: 'WhiteHole.orientation_plus_branch' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms orientation_plus_branch
+
+/-- info: 'WhiteHole.orientation_minus_branch' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms orientation_minus_branch
+
+/-- info: 'WhiteHole.minkowski_normal_branch' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms minkowski_normal_branch
+
+/-- info: 'WhiteHole.rhoTilde_eq_zero_inside' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms rhoTilde_eq_zero_inside
+
+/-- info: 'WhiteHole.BraneCosmology.ρt_sign_const' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.ρt_sign_const
+
+/-- info: 'WhiteHole.BraneCosmology.normal_branch_no_crossing' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.normal_branch_no_crossing
 
 /-- info: 'WhiteHole.BraneCosmology.branches' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in

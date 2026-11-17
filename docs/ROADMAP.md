@@ -409,35 +409,37 @@ Replaces the geometric fields of `BraneCosmology` with theorems.
     `planck2018_ns_excludes_one` (>8σ) give the significance, under a Gaussian reading of the
     1σ intervals.
   - Not proved: that next-order terms cannot rescue the model (M7.3).
-- [ ] **7.3 Next-order term.** Find the sign and size of the `O((k/a_bT_b)²)` correction in
-  Eq. (48). Show whether it can produce `n_s < 1` at CMB scales. Partly done in
-  `NextOrder.lean`.
-  - Done: `ω_± = |κ' ± κ/2|` (`omegaPM_one`, `omegaPM_neg_one`). With `φ(x) = x/(eˣ - 1)`, a
-    shift of variable gives `(2π)⁴M(κ) = B(κ) + A(κ)` (`thermalM_eq`), with the autocorrelation
-    `B(κ) = ∫φ(|u|)φ(|u - κ|)` and `A(κ) = ∫|v + κ|φ(|v|)`. `A` is convex and even, so it is
-    smallest at `κ = 0` (`convexOn_thermalA`, `thermalA_zero_le`). `B` is largest at `κ = 0`
+- [x] **7.3 Next-order term.** Find the sign and size of the `O((k/a_bT_b)²)` correction in
+  Eq. (48). Show whether it can produce `n_s < 1` at CMB scales. Done for small `κ`, in
+  `NextOrder.lean`, `RadialIntegrals.lean` and `SecondOrder.lean`.
+  - **Result.** Along a ray `κ = te`, `m(t) = M(te)` has `m′(0) = 0` (`deriv_mRay_zero`) and
+    `m″(0) = (10ζ(5) - ζ(3))/(16π²) > 0` (`hasDerivAt_deriv_mRay`, `secondOrderCoeff_pos`). So
+    `M(κ) = M(0) + (10ζ(5) - ζ(3))/(32π²)·κ² + o(κ²) ≈ 1.5759 + 0.02903κ²`, and
+    `n_s - 1 ≈ 0.037κ² > 0`: the next order is blue. For small `κ > 0`, `M > 0` and `M′ > 0`
+    (`next_order_blue`). **Second falsification theorem:** for a release with `n_s < 1`, no
+    spectrum `C·M(k/s)` fits it with the pivot at small enough `κ = k/s`
+    (`ObsData.not_fits_next_order`).
+  - **Split.** `ω_± = |κ' ± κ/2|` (`omegaPM_one`, `omegaPM_neg_one`). With `φ(x) = x/(eˣ - 1)`,
+    `(2π)⁴M(κ) = B(κ) + A(κ)` (`thermalM_eq`), with the autocorrelation
+    `B(κ) = ∫φ(|u|)φ(|u - κ|)` and `A(κ) = ∫|v + κ|φ(|v|)`. `A` is convex and smallest at
+    `κ = 0` (`convexOn_thermalA`, `thermalA_zero_le`). `B` is largest at `κ = 0`
     (`thermalB_le_zero`). So symmetry alone does not fix the sign.
-  - Done: the falsification step. If `M′ ≥ 0` at the pivot, `C·M(k/s)` fits no release with
-    `n_s < 1` (`ObsData.not_fits_of_deriv_nonneg`).
-  - Computed, not proved: `ΔA(0) = 2π⁶/5` and `ΔB(0) = -2π²(2ζ(3) + 18ζ(4) - 20ζ(5))`, so
-    `M(κ) = M(0) + (10ζ(5) - ζ(3))/(32π²)·|κ|² + o(|κ|²) ≈ 1.5759 + 0.02903|κ|²`. A direct
-    quadrature of Eq. (46) agrees (`0.02901` at `κ = 0.25`, `0.02879` at `κ = 1`). The `A` term
-    is about 17 times larger. So the next order tilts blue, `n_s - 1 ≈ 0.037κ²`, as expected.
-  - Done, step 1 (`RadialIntegrals.lean`): `∫₀^∞ r³φ′ dr = -π⁴/5` (`integral_dphiB`) and
-    `∫₀^∞ r³φ′² dr = 2ζ(3) + π⁴/5 - 20ζ(5)` (`integral_dphiB_sq`), so
-    `∫ r³φ′² < π⁴/5` (`integral_dphiB_sq_lt`). Each product of `n` and `1 + n` is
-    `xᵃ/(1 - x)^{k+1}` with `x = e^{-r}`, which expands with binomial coefficients
-    (`hasSum_bose_pow`). `integral_pow_mul_series` then integrates term by term.
-  - Not done:
-    2. The derivative form. `n_s` uses `M′`, so step 3 must give `M′` along a ray to first
-       order, `M′(κ) = 2c₂κ + o(κ)`, and not only the value of `M`. Then
-       `ObsData.not_fits_of_deriv_nonneg` closes the argument for small `κ`.
-    3. The second-order expansion of `A` and `B` at `κ = 0` in `ℝ⁴`. This needs
-       differentiation under the integral twice. The second derivative of `|v + κ|` behaves
-       like `1/|v|`, which is integrable in `ℝ⁴` but not bounded. Rotation invariance makes
-       each Hessian `Δ/4` times the identity. This is the hard part.
-  - Also open: whether `κ` is small at CMB scales is a physics input. The expansion covers only
-    small `κ`. The quadrature suggests that `M` increases up to `κ = 1` at least.
+  - **Radial integrals** (`RadialIntegrals.lean`). `∫₀^∞ r³φ′ dr = -π⁴/5` (`integral_dphiB`) and
+    `∫₀^∞ r³φ′² dr = 2ζ(3) + π⁴/5 - 20ζ(5)` (`integral_dphiB_sq`). Each product of `n` and
+    `1 + n` is `xᵃ/(1 - x)^{k+1}` with `x = e^{-r}` (`hasSum_bose_pow`), and
+    `integral_pow_mul_series` integrates term by term.
+  - **Expansion** (`SecondOrder.lean`). The kernel `|v + κ|` has an unbounded second derivative,
+    so `A` is differentiated once (`hasDerivAt_thermalA_ray`). A shift then moves `t` into the
+    smooth factor `φ` (`a1_eq`) for the second derivative. Bounds: `|φ′(r)| ≤ (3 + 4r)e^{-r}`
+    (`abs_dphiB_le_exp`) and `|φ′| ≤ 1/2` (`abs_dphiB_le_half`). The same for `B`
+    (`hasDerivAt_thermalB_ray`, `b1_eq`). Coordinate swaps are isometries, so
+    `∫(w₀/|w|)²g(|w|) = ¼∫g(|w|)` (`integral_sq_coord_div`). Then `A″(0) = π⁶/10`
+    (`hasDerivAt_a1_zero`) and `B″(0) = -(π²/2)∫r³φ′²` (`hasDerivAt_b1_zero`).
+  - A direct quadrature of Eq. (46) agrees with the coefficient (`0.02901` at `κ = 0.25`,
+    `0.02879` at `κ = 1`).
+  - **Open.** The theorems cover small `κ` only. Whether `κ = k/(a_bT_b)` is small at CMB scales
+    is a physics input. The quadrature suggests that `M` increases up to `κ = 1` at least. A
+    proof for all `κ` would need `M′ > 0` globally.
 - [ ] **7.4 Thermal correlator (Eq. 39).** Out of reach for now. Keep it as a hypothesis, but
   state it precisely as a property of a function on `ℝ⁴`, not in prose.
 
@@ -485,7 +487,7 @@ entry here.
 | ✓ | M4.3 | Done (`Horizon.lean`) |
 | ✓ | M4.4 | Done (`Asymptotics.lean`) |
 | ✓ | M5.2, M5.3 | Done (`AdSBulk.lean`, `ChargedBulk.lean`) |
-| 7 | M7.3, rest | Steps 2–3 above |
 | 8 | M8 | Grows alongside the testability pathways |
 | ✓ | M7.1 | Done (`ThermalIntegral.lean`) |
+| ✓ | M7.3 | Done for small `κ` (`SecondOrder.lean`) |
 | 9 | M6 | Long-term foundations |

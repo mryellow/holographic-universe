@@ -30,6 +30,7 @@ import HolographicUniverse.ChargedBulk
 import HolographicUniverse.ThermalIntegral
 import HolographicUniverse.NextOrder
 import HolographicUniverse.RadialIntegrals
+import HolographicUniverse.SecondOrder
 
 /-!
 # Axiom audit (ROADMAP M0.1)
@@ -778,3 +779,35 @@ open WhiteHole
 /-- info: 'WhiteHole.hasDerivAt_phiB' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms hasDerivAt_phiB
+
+/-- info: 'WhiteHole.hasDerivAt_deriv_mRay' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms hasDerivAt_deriv_mRay
+
+/-- info: 'WhiteHole.deriv_mRay_zero' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms deriv_mRay_zero
+
+/-- info: 'WhiteHole.secondOrderCoeff_pos' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms secondOrderCoeff_pos
+
+/-- info: 'WhiteHole.next_order_blue' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms next_order_blue
+
+/-- info: 'WhiteHole.ObsData.not_fits_next_order' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms ObsData.not_fits_next_order
+
+/-- info: 'WhiteHole.integral_sq_coord_div' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms integral_sq_coord_div
+
+/-- info: 'WhiteHole.integral_radial' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms integral_radial
+
+/-- info: 'WhiteHole.abs_dphiB_le_exp' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms abs_dphiB_le_exp

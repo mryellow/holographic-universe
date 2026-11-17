@@ -30,4 +30,5 @@ import HolographicUniverse.ChargedBulk
 import HolographicUniverse.ThermalIntegral
 import HolographicUniverse.NextOrder
 import HolographicUniverse.RadialIntegrals
+import HolographicUniverse.SecondOrder
 import HolographicUniverse.Audit

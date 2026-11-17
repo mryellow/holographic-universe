@@ -31,8 +31,9 @@ conclusions **follow from the stated assumptions**. In this project:
 | `Zeta.lean` | `ζ(5)` as a real series, identified with `riemannZeta 5`; `1.0369 ≤ ζ(5) ≤ 1.0370` |
 | `Perturbations.lean` | Eq. (48) algebra; inversion for `T_b/M₅` (49); `M₅` bound (51) |
 | `ThermalIntegral.lean` | M7.1: the thermal integral `M(κ)` of Eq. (46); `∫₀^∞ x⁵eˣ/(eˣ-1)² dx = 120ζ(5)`; `M(0) = 15ζ(5)/π²` |
-| `NextOrder.lean` | M7.3, first part: `ω_± = |κ' ± κ/2|`; the split `(2π)⁴M(κ) = B(κ) + A(κ)`; `A` convex with its minimum at `κ = 0`, `B` largest at `κ = 0`; `M′ ≥ 0` at the pivot rules out a fit to `n_s < 1` |
+| `NextOrder.lean` | M7.3, split: `ω_± = |κ' ± κ/2|`; the split `(2π)⁴M(κ) = B(κ) + A(κ)`; `A` convex with its minimum at `κ = 0`, `B` largest at `κ = 0`; `M′ ≥ 0` at the pivot rules out a fit to `n_s < 1` |
 | `RadialIntegrals.lean` | M7.3, step 1: term-wise integration of Bose series; `∫₀^∞ r³φ′ dr = -π⁴/5` and `∫₀^∞ r³φ′² dr = 2ζ(3) + π⁴/5 - 20ζ(5)`, with `φ(r) = r/(eʳ - 1)` |
+| `SecondOrder.lean` | M7.3: `M″(0) = (10ζ(5) - ζ(3))/(16π²) > 0` along a ray, `M′(0) = 0`; the next order is blue; the second falsification theorem |
 | `ObsData.lean` | Observational data as parameters (`ObsData`); Planck 2013 and Planck 2018 instances; Eqs. (49), (51) per release |
 | `ScaleInvariance.lean` | Spectral index; `n_s = 1` at leading order; the first falsification theorem against Planck 2013 and 2018 |
 | `Monopoles.lean` | Eq. (50); `H ≲ M₅ ≲ 9 MeV` (51); plasma temperature `T ≤ 8.5×10⁴ TeV ≪ T_GUT` (52) |
@@ -103,7 +104,7 @@ conclusions **follow from the stated assumptions**. In this project:
 | (49), Planck 2013, sharp | `eq49_planck2013_sharp` | proved: `[0.17061, 0.17216]`, the paper's `0.17139 ± 0.00077` |
 | (49), Planck 2018 | `eq49_planck2018` | proved: `[0.1697, 0.17051]`, i.e. `0.1701 ± 0.0004`. Disjoint from the 2013 interval (`planck2013_planck2018_disjoint`) |
 | (48) at leading order: `n_s = 1` | `leadingSpectrum_ns`, `spectralIndex_comp` (`n_s − 1 = κM′(κ)/M(κ)` for the full form) | proved |
-| (48) next order: sign of the `O(κ²)` term | `thermalM_eq`, `convexOn_thermalA`, `thermalA_zero_le`, `thermalB_le_zero`, `ObsData.not_fits_of_deriv_nonneg` | partly proved: `M` splits into a part with its minimum at `κ = 0` and a part with its maximum there. The radial integrals of the coefficient are proved (`integral_dphiB`, `integral_dphiB_sq`, `integral_dphiB_sq_lt`). Not yet proved: the expansion itself, `M(κ) = M(0) + (10ζ(5) − ζ(3))/(32π²)·κ² + o(κ²)`, so `n_s − 1 ≈ 0.037κ² > 0` (blue) |
+| (48) next order: sign of the `O(κ²)` term | `thermalM_eq`, `hasDerivAt_deriv_mRay`, `deriv_mRay_zero`, `secondOrderCoeff_pos`, `next_order_blue`, `ObsData.not_fits_next_order` | proved for small `κ`: `M(κ) = M(0) + (10ζ(5) − ζ(3))/(32π²)·κ² + o(κ²)`, so `n_s − 1 ≈ 0.037κ² > 0` (blue). No spectrum `C·M(k/s)` with the pivot at small `κ` fits a release with `n_s < 1` |
 | Sec. 5: the simple model is ruled out | `leading_order_ruled_out_planck2013`, `leading_order_ruled_out_planck2018`; `planck2013_ns_excludes_one` (>5σ), `planck2018_ns_excludes_one` (>8σ) | proved: the leading-order spectrum fits neither release, for any `T_b/M₅` |
 | (50) `H/2π ≲ T_b ≃ 0.17 M₅` | `eq50` | proved: `H ≤ 2πT_b` (a hypothesis) and `T_b/M₅ ≤ 0.1723` give `H < 1.09 M₅` |
 | (51) `H ≲ M₅` | `eq50` | proved (see (50)) |

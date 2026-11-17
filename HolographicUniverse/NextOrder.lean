@@ -23,18 +23,10 @@ The two parts pull in opposite directions:
 
 So symmetry alone does not fix the sign of the `O(κ²)` term of Eq. (48).
 
-**Computed, not yet proved.** The radial integrals are proved in `RadialIntegrals.lean`. In `ℝ⁴`
-the Hessians at `0` are `Δ/4` times the identity, with `Δ_κ|v + κ| = 3/|v|` and
-`ΔB(0) = -∫|∇φ|²`. In closed form,
+The sign is settled in `SecondOrder.lean`: `M(κ) = M(0) + (10ζ(5) - ζ(3))/(32π²)·κ² + o(κ²)`.
+The `A` term is larger by a factor of about 17, so the next order is blue.
 
-  `ΔA(0) = 2π² · 3∫₀^∞ r²φ dr = 2π⁶/5`,
-  `ΔB(0) = -2π² ∫₀^∞ r³φ'² dr = -2π² (2ζ(3) + 18ζ(4) - 20ζ(5))`,
-
-so that `M(κ) = M(0) + (10ζ(5) - ζ(3))/(32π²) · |κ|² + o(|κ|²) ≈ 1.5759 + 0.02903 |κ|²`.
-A direct quadrature of Eq. (46) gives `(M(κ) - M(0))/κ² = 0.02901` at `κ = 0.25`. The `A` term
-is larger by a factor of about 17, so `n_s - 1 ≈ 0.0368 κ² > 0`: the next order is blue.
-
-`not_fits_of_deriv_nonneg` is the falsification step that this would feed. If `M' ≥ 0` at the
+`not_fits_of_deriv_nonneg` is the falsification step that this feeds. If `M' ≥ 0` at the
 pivot, no spectrum `C · M(k/s)` fits a release with `n_s < 1`.
 -/
 

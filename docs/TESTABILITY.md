@@ -175,7 +175,7 @@ ruled out in this form. That is a legitimate result.
   value of the extension parameters, or it needs an unstable phase longer than the cosmology
   permits.
 - **Lean link:** `M7.2` (scale invariance at leading order → falsification theorem),
-  `M7.3` (sign of the next-order term, `NextOrder.lean`).
+  `M7.3` (sign of the next-order term, `SecondOrder.lean`).
 - **Next concrete step:** write the linearized Poisson + fluid equations for the atmosphere on
   the brane. Find the growth rate for `k < k_J` and estimate the tilt at the pivot scale
   `k = 0.05 Mpc⁻¹`.
@@ -183,7 +183,8 @@ ruled out in this form. That is a legitimate result.
   exit? Does it disturb the Gaussianity assumed in Eq. (39)?
 - **Log:** 2026-11-17: created from Sec. 5 of the paper. 2026-11-18: M7.3 computation: in the
   simple model, the `O(κ²)` term is blue (`n_s − 1 ≈ 0.037κ²`). So the red tilt must come from
-  the extension. The next order of the simple model cannot supply it.
+  the extension. The next order of the simple model cannot supply it. 2026-11-18: proved in Lean
+  for small `κ` (`ObsData.not_fits_next_order`).
 
 ### P2: Red tilt from cascading-gravity polarizations
 

@@ -137,7 +137,10 @@ excludes the static instances (`static_not_isSolution`). General solutions are t
 ROADMAP Milestone 4. For a solution with `P = wρ`, the acceleration equation is
 `ä = F'(a)/2`, where `ȧ² = F(a)` is the Friedmann equation (`BraneCosmology.accel_eq_deriv`).
 So away from the singularity, `a` and `ȧ` at one time fix a solution locally, also at `H = 0`
-(`BraneCosmology.locally_determined₂`).
+(`BraneCosmology.locally_determined₂`). They also fix it globally: a solution that never
+reaches the singularity is the maximal solution of its data (`BraneCosmology.maximal_eq`). A
+maximal solution that ends in finite time ends at `a → 0`, at the singularity, or at
+`a → ∞` (`exists_maximal_history`).
 
 ## What the formalization confirms
 

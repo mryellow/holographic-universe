@@ -43,6 +43,7 @@ conclusions **follow from the stated assumptions**. In this project:
 | `Dynamics.lean` | Solutions (`IsSolution`: acceleration equation and Eq. (16) at every time). Reduction to an ODE: `ρ = ρ₀a^{-3(1+w)}` for `P = wρ`; the branch is fixed away from the singularity; `ȧ² = F(a)` |
 | `LocalExistence.lean` | Picard–Lindelöf for `ȧ = ±√F(a)`: local existence and uniqueness away from `H = 0` and the singularity; a history is fixed locally by its data |
 | `TurningPoint.lean` | The acceleration equation is `ä = F'(a)/2`; Picard–Lindelöf for it on `ℝ²`; a solution is fixed locally by `a` and `ȧ`, also at `H = 0` |
+| `MaximalSolution.lean` | Maximal solutions of an autonomous ODE with a `C¹` field on an open set: existence, uniqueness, escape from compact sets at a finite end. For `ä = F'(a)/2`: a history ends only at `a → 0`, the singularity or `a → ∞`; a brane cosmology is the global maximal solution of its data |
 | `Singularity.lean` | Pressure singularity: `ρ̃ = ρ̃_s` ⇔ reality bound (30) saturated ⇔ branches meet; inside the horizon ⇔ `\|H\| ≥ 1/(2r_c)`; a floor on `a` in an expanding era |
 | `Audit.lean` | Build-time axiom audit: every declaration, plus a pinned `#print axioms` list for the headline theorems |
 
@@ -99,7 +100,8 @@ conclusions **follow from the stated assumptions**. In this project:
 | Solutions of the equations of motion | `BraneCosmology.IsSolution`, `isSolution_of_ne`, `static_not_isSolution`, `deSitter_isSolution`, `radiationBounce_isSolution` | defined; automatic wherever `H ≠ 0` |
 | Local existence and uniqueness for `ȧ = ±√F(a)` | `exists_local_solution`, `local_unique`, `BraneCosmology.locally_determined` | proved away from `H = 0` and the singularity |
 | Acceleration equation as `ä = F'(a)/2` | `hasDerivAt_friedmannF`, `BraneCosmology.accel_eq_deriv` | proved for solutions with `P = wρ`, away from the singularity, `H = 0` included |
-| Local existence and uniqueness through turning points | `exists_local_solution₂`, `local_unique₂`, `BraneCosmology.locally_determined₂`, `equilibrium_of_rest`, `radiationBounce_determined` | proved away from the singularity; global solutions **open** |
+| Local existence and uniqueness through turning points | `exists_local_solution₂`, `local_unique₂`, `BraneCosmology.locally_determined₂`, `equilibrium_of_rest`, `radiationBounce_determined` | proved away from the singularity |
+| Maximal (global) solutions | `exists_isMaximalSolution`, `IsMaximalSolution.unique`, `IsMaximalSolution.eventually_not_mem_right`, `exists_maximal_history`, `BraneCosmology.maximal_eq` | proved: maximal solutions exist and are unique; at a finite end `a` leaves every compact subset of `{a > 0}` minus the singularity; a solution that never reaches the singularity is global |
 
 ## Issues the formalization surfaced
 

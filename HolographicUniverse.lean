@@ -20,4 +20,5 @@ import HolographicUniverse.Bounce
 import HolographicUniverse.Dynamics
 import HolographicUniverse.LocalExistence
 import HolographicUniverse.TurningPoint
+import HolographicUniverse.MaximalSolution
 import HolographicUniverse.Audit

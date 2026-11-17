@@ -20,6 +20,7 @@ import HolographicUniverse.Bounce
 import HolographicUniverse.Dynamics
 import HolographicUniverse.LocalExistence
 import HolographicUniverse.TurningPoint
+import HolographicUniverse.MaximalSolution
 
 /-!
 # Axiom audit (ROADMAP M0.1)
@@ -508,3 +509,47 @@ open WhiteHole
 /-- info: 'WhiteHole.BraneCosmology.radiationBounce_determined' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms BraneCosmology.radiationBounce_determined
+
+/-- info: 'WhiteHole.IsSolOn.eqOn' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms IsSolOn.eqOn
+
+/-- info: 'WhiteHole.exists_local_mem_of_isCompact' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms exists_local_mem_of_isCompact
+
+/-- info: 'WhiteHole.exists_isMaximalSolution' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms exists_isMaximalSolution
+
+/-- info: 'WhiteHole.IsMaximalSolution.unique' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms IsMaximalSolution.unique
+
+/-- info: 'WhiteHole.IsMaximalSolution.eventually_not_mem_right' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms IsMaximalSolution.eventually_not_mem_right
+
+/-- info: 'WhiteHole.IsMaximalSolution.eventually_not_mem_left' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms IsMaximalSolution.eventually_not_mem_left
+
+/-- info: 'WhiteHole.IsMaximalSolution.eq_univ_of_mem' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms IsMaximalSolution.eq_univ_of_mem
+
+/-- info: 'WhiteHole.IsMaximalSolution.energy₂' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms IsMaximalSolution.energy₂
+
+/-- info: 'WhiteHole.IsMaximalSolution.eq_univ_of_fst_mem' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms IsMaximalSolution.eq_univ_of_fst_mem
+
+/-- info: 'WhiteHole.exists_maximal_history' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms exists_maximal_history
+
+/-- info: 'WhiteHole.BraneCosmology.maximal_eq' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.maximal_eq

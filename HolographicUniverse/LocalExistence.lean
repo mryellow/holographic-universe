@@ -45,19 +45,25 @@ theorem friedmannF_eq (c : Couplings) (K H0 rh w ρ₀ sgn a : ℝ) :
     friedmannF c K H0 rh w ρ₀ sgn a = 8 * π * c.GN / 3 * (ρ₀ * a ^ (-(3 * (1 + w)))
       + c.rhoS * (1 + sgn * √(realityArg c K H0 rh w ρ₀ a))) * a ^ 2 - K := rfl
 
-/-- **`F` is smooth away from `a = 0` and from the pressure singularity.** -/
-theorem contDiffAt_friedmannF {c : Couplings} {K H0 rh w ρ₀ sgn a : ℝ} {n : WithTop ℕ∞}
-    (ha : a ≠ 0) (hD : realityArg c K H0 rh w ρ₀ a ≠ 0) :
-    ContDiffAt ℝ n (friedmannF c K H0 rh w ρ₀ sgn) a := by
+/-- The argument of the square root in `ρ̃_±` is smooth away from `a = 0`. -/
+theorem contDiffAt_realityArg {c : Couplings} {K H0 rh w ρ₀ a : ℝ} {n : WithTop ℕ∞}
+    (ha : a ≠ 0) : ContDiffAt ℝ n (realityArg c K H0 rh w ρ₀) a := by
   have hGN := c.GN_pos.ne'
   have hs := c.rhoS_pos.ne'
   have hp : ContDiffAt ℝ n (fun a : ℝ ↦ a ^ (-(3 * (1 + w)))) a :=
     contDiffAt_rpow_const_of_ne ha
-  have hD' : ContDiffAt ℝ n (realityArg c K H0 rh w ρ₀) a := by
-    unfold realityArg rhoBH
-    have : 8 * π * c.GN * a ^ 4 ≠ 0 := by positivity
-    fun_prop (disch := assumption)
-  have := hD'.sqrt hD
+  unfold realityArg rhoBH
+  have : 8 * π * c.GN * a ^ 4 ≠ 0 := by positivity
+  fun_prop (disch := assumption)
+
+/-- **`F` is smooth away from `a = 0` and from the pressure singularity.** -/
+theorem contDiffAt_friedmannF {c : Couplings} {K H0 rh w ρ₀ sgn a : ℝ} {n : WithTop ℕ∞}
+    (ha : a ≠ 0) (hD : realityArg c K H0 rh w ρ₀ a ≠ 0) :
+    ContDiffAt ℝ n (friedmannF c K H0 rh w ρ₀ sgn) a := by
+  have hp : ContDiffAt ℝ n (fun a : ℝ ↦ a ^ (-(3 * (1 + w)))) a :=
+    contDiffAt_rpow_const_of_ne ha
+  have := (contDiffAt_realityArg (c := c) (K := K) (H0 := H0) (rh := rh) (w := w) (ρ₀ := ρ₀)
+    (n := n) ha).sqrt hD
   simp only [funext (friedmannF_eq c K H0 rh w ρ₀ sgn)]
   fun_prop
 

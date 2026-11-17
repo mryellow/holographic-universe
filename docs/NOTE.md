@@ -134,8 +134,10 @@ is a solution: it has a bulk black hole and radiation, and obeys the acceleratio
 every time (`radiationBounce_accelAt`). It needs the tuning `ρ = ρ_BH`. The predicate
 `BraneCosmology.IsSolution` adds the acceleration equation and Eq. (16) as hypotheses. It
 excludes the static instances (`static_not_isSolution`). General solutions are the subject of
-ROADMAP Milestone 4. Away from `H = 0` and the singularity, a history is fixed locally by its
-data (`BraneCosmology.locally_determined`).
+ROADMAP Milestone 4. For a solution with `P = wρ`, the acceleration equation is
+`ä = F'(a)/2`, where `ȧ² = F(a)` is the Friedmann equation (`BraneCosmology.accel_eq_deriv`).
+So away from the singularity, `a` and `ȧ` at one time fix a solution locally, also at `H = 0`
+(`BraneCosmology.locally_determined₂`).
 
 ## What the formalization confirms
 

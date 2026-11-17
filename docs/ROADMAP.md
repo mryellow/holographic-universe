@@ -38,7 +38,7 @@ Equation numbers refer to Pourhasan, Afshordi & Mann, arXiv:1309.1487v2.
 | History of `ρ_BH/ρ` (M3.2) | proved (`History.lean`): era scaling, the matter-era bound for `ε = -1`, and orientation changes only on or inside the horizon |
 | Pressure singularity (M3.4) | proved (`Singularity.lean`): at the saturated reality bound, where the branches meet; inside the horizon exactly when `\|H\| ≥ 1/(2r_c)` |
 | Non-vacuity (does any `BraneCosmology` exist?) | proved (`Instances.lean`): a static family for both `ε = ±1` and any `r_h` outside the brane, and the self-accelerating de Sitter vacuum. An expanding solution with `r_h > 0` and radiation, in closed form (`Bounce.lean`, M2.2). An expanding instance with `ε = -1` on the normal branch is still **open** (M2.3) |
-| Dynamics (M4) | reduction to `ȧ² = F(a)` for `P = wρ` proved (`Dynamics.lean`, M4.1). Local existence and uniqueness away from `H = 0` and the singularity proved (`LocalExistence.lean`, M4.2). Turning points and global solutions are **open** |
+| Dynamics (M4) | reduction to `ȧ² = F(a)` for `P = wρ` proved (`Dynamics.lean`, M4.1). Local existence and uniqueness away from the singularity proved, turning points included (`LocalExistence.lean`, `TurningPoint.lean`, M4.2). Global solutions are **open** |
 | Axiom audit | enforced at build time (`Audit.lean`) |
 | Acceleration equation | **derived** wherever `H ≠ 0`, with no smoothness assumption beyond the structure (`Acceleration.lean`). Not implied at `H = 0`: the static instances violate it. `BraneCosmology.IsSolution` adds it (M2.5) |
 
@@ -249,9 +249,17 @@ Turns the algebraic constraints into statements about whole histories.
     branch, at a time with `H ≠ 0` and `ρ̃ ≠ ρ̃_s`, the scale factor is that unique solution
     near that time (`BraneCosmology.locally_determined`). The sign of `ȧ` is locally fixed by
     Darboux (`deriv_eventuallyEq_sqrt`).
-  - [ ] **Turning points.** At `H = 0`, `√F` is not Lipschitz. Show that a solution
-    (`IsSolution`) obeys `ä = F'(a)/2` for `P = wρ`, then apply Picard–Lindelöf to the system
-    `(a, ȧ)` on `ℝ²`. This needs `F` to be `C²`, which `contDiffAt_friedmannF` gives.
+  - [x] **Turning points.** Done in `TurningPoint.lean`. `F'(a)` in closed form is
+    `2 · (-(4πG_N/3)(ρ + ρ̃ + 3(wρ + P̃)) a)`, with `P̃` from Eq. (16) (`hasDerivAt_friedmannF`).
+    So for a solution (`IsSolution`) with `P = wρ`, the acceleration equation is
+    `ä = F'(a)/2` at every time away from the singularity, `H = 0` included
+    (`BraneCosmology.accel_eq_deriv`). Picard–Lindelöf on `ℝ²` for the pair `(a, ȧ)`: where
+    `F` is `C²`, solutions exist and are locally unique (`exists_local_solution₂`,
+    `local_unique₂`). If `ȧ(t₀)² = F(a(t₀))`, the solution solves `ȧ² = F(a)`, because
+    `ȧ² - F(a)` is conserved. A solution is fixed locally by `a(t₀)` and `ȧ(t₀)`, also at
+    `H = 0` (`BraneCosmology.locally_determined₂`). A solution stays at rest only where
+    `F = F' = 0` (`equilibrium_of_rest`). The radiation bounce is the only solution with its
+    data at the bounce (`radiationBounce_determined`).
   - [ ] **Global solutions.** `BraneCosmology` needs `a` at every time. A local solution does
     not give a `BraneCosmology`. Options: extend solutions to a maximal interval, or add a
     structure on a time interval. M2.3 needs one of them.
@@ -361,6 +369,7 @@ entry here.
 | ✓ | M4.1 | Done (`Dynamics.lean`) |
 | ✓ | M2.5 | Done: the predicate `IsSolution` |
 | ✓ | M4.2, first-order part | Done (`LocalExistence.lean`) |
-| 7 | M4.2 (turning points, global), M4.3–4.4 | Later histories; needed for BBN-era statements and for M2.3 |
+| ✓ | M4.2, turning points | Done (`TurningPoint.lean`) |
+| 7 | M4.2 (global), M4.3–4.4 | Later histories; needed for BBN-era statements and for M2.3 |
 | 8 | M8 | Grows alongside the testability pathways |
 | 9 | M6, M7.1 | Long-term foundations |

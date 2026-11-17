@@ -26,6 +26,7 @@ Not covered here:
 * Turning points `H = 0`. There `F(a) = 0`, `√F` is not Lipschitz, and the constant `a` is a
   second solution of `ȧ² = F(a)`. Uniqueness there needs the second-order equation
   `ä = F'(a)/2`, which `BraneCosmology.IsSolution` (M2.5) provides as the acceleration equation.
+  See `TurningPoint.lean`.
 * Global solutions. `BraneCosmology` needs `a` at every time, and a local solution does not
   give that.
 -/

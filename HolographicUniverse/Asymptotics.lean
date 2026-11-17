@@ -17,7 +17,9 @@ import HolographicUniverse.Horizon
 **Standard FRW.** On the normal branch, `|ρ̃| ≤ √(2ρ̃_s |ρ - ρ_BH|)` (`abs_rhoTilde_minus_le`).
 So the Friedmann equation is the standard one up to a relative error `√(2ρ̃_s/ρ)` when
 `0 ≤ ρ_BH ≤ ρ` (`BraneCosmology.normal_branch_frw`, `normal_branch_frw_of_le`). It is standard
-FRW when `ρ ≫ ρ̃_s`.
+FRW when `ρ ≫ ρ̃_s`. In terms of `r_c`, the deviation is at most `H_std/r_c`, with
+`H_std² = (8πG_N/3) ρ` (`normal_branch_frw_rc`, `normal_branch_frw_rc_of_le`): a relative error
+of at most `1/(r_c H_std)`.
 
 **Near the singularity.** As `ρ̃ → ρ̃_s` from below, with `3P - ρ` near a value below `2ρ̃_s`,
 `P̃ → +∞` (`tendsto_pressureTilde_atTop`). In a `BraneCosmology`, `ρ̃` is differentiable at every
@@ -290,6 +292,43 @@ theorem normal_branch_frw_of_le {t : ℝ}
       ≤ 8 * π * M.c.GN / 3 * (√(2 * M.c.rhoS / M.ρ t) * M.ρ t) :=
         mul_le_mul_of_nonneg_left h1 hG.le
     _ = _ := by ring
+
+/-- **The FRW bound in terms of `r_c`.** On the branch `ρ̃_-`,
+`|H² + 𝒦/a² - (8πG_N/3) ρ| ≤ √((8πG_N/3)|ρ - ρ_BH|)/r_c`. With `0 ≤ ρ_BH ≤ ρ` the right side is at
+most `H_std/r_c`, where `H_std² = (8πG_N/3) ρ` (`normal_branch_frw_rc_of_le`). So the relative
+deviation from standard FRW is at most `1/(r_c H_std)`. In particular `ρ_BH` does not act as
+dark radiation when `r_c H_std ≫ 1`. -/
+theorem normal_branch_frw_rc {t : ℝ}
+    (hbr : M.ρt t = rhoTilde (-1) M.c.rhoS (M.rhoBH t) (M.ρ t)) :
+    |M.H t ^ 2 + M.K / M.a t ^ 2 - 8 * π * M.c.GN / 3 * M.ρ t|
+      ≤ √(8 * π * M.c.GN / 3 * |M.ρ t - M.rhoBH t|) / M.c.rc := by
+  refine (M.normal_branch_frw hbr).trans_eq ?_
+  have hG : 0 < 8 * π * M.c.GN / 3 := by have := M.c.GN_pos; positivity
+  have hrc := M.c.rc_pos
+  set X := |M.ρ t - M.rhoBH t|
+  have key : (8 * π * M.c.GN / 3) ^ 2 * (2 * M.c.rhoS * X)
+      = 8 * π * M.c.GN / 3 * X / M.c.rc ^ 2 := by
+    rw [show (8 * π * M.c.GN / 3) ^ 2 * (2 * M.c.rhoS * X)
+        = 2 * (8 * π * M.c.GN / 3 * M.c.rhoS) * (8 * π * M.c.GN / 3 * X) by ring,
+      M.c.gN_mul_rhoS]
+    field_simp
+  rw [show 8 * π * M.c.GN / 3 * √(2 * M.c.rhoS * X)
+      = √((8 * π * M.c.GN / 3) ^ 2 * (2 * M.c.rhoS * X)) by
+    rw [sqrt_mul (sq_nonneg _), sqrt_sq hG.le],
+    key, sqrt_div' _ (sq_nonneg _), sqrt_sq hrc.le]
+
+/-- With `0 ≤ ρ_BH ≤ ρ`: `|H² + 𝒦/a² - H_std²| ≤ H_std/r_c`, where `H_std = √((8πG_N/3) ρ)`. -/
+theorem normal_branch_frw_rc_of_le {t : ℝ}
+    (hbr : M.ρt t = rhoTilde (-1) M.c.rhoS (M.rhoBH t) (M.ρ t))
+    (hb : 0 ≤ M.rhoBH t) (hρ : M.rhoBH t ≤ M.ρ t) :
+    |M.H t ^ 2 + M.K / M.a t ^ 2 - 8 * π * M.c.GN / 3 * M.ρ t|
+      ≤ √(8 * π * M.c.GN / 3 * M.ρ t) / M.c.rc := by
+  refine (M.normal_branch_frw_rc hbr).trans ?_
+  have hG : 0 < 8 * π * M.c.GN / 3 := by have := M.c.GN_pos; positivity
+  apply div_le_div_of_nonneg_right _ M.c.rc_pos.le
+  apply sqrt_le_sqrt
+  rw [abs_of_nonneg (by linarith)]
+  nlinarith
 
 /-! ### The singularity -/
 

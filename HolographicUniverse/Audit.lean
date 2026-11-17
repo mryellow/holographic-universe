@@ -728,3 +728,11 @@ open WhiteHole
 /-- info: 'WhiteHole.eq48_leading_thermalM' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms eq48_leading_thermalM
+
+/-- info: 'WhiteHole.BraneCosmology.normal_branch_frw_rc' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.normal_branch_frw_rc
+
+/-- info: 'WhiteHole.BraneCosmology.normal_branch_frw_rc_of_le' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms BraneCosmology.normal_branch_frw_rc_of_le

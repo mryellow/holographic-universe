@@ -317,7 +317,8 @@ Turns the algebraic constraints into statements about whole histories.
   - **Standard FRW.** `|ρ̃_-| ≤ √(2ρ̃_s|ρ - ρ_BH|)` under the reality bound
     (`abs_rhoTilde_minus_le`). So on the normal branch with `0 ≤ ρ_BH ≤ ρ`, the Friedmann
     equation is the standard one up to a relative error `√(2ρ̃_s/ρ)`
-    (`BraneCosmology.normal_branch_frw_of_le`).
+    (`BraneCosmology.normal_branch_frw_of_le`). This is `1/(r_c H_std)`, with
+    `H_std² = (8πG_N/3)ρ`: the deviation is at most `H_std/r_c` (`normal_branch_frw_rc_of_le`).
   - **The singularity.** As `ρ̃ → ρ̃_s` from below with `3P - ρ < 2ρ̃_s`, `P̃ → +∞`
     (`tendsto_pressureTilde_atTop`). In a `BraneCosmology`, `ρ̃` is differentiable, and
     `(ρ̃ - ρ̃_s)² = ρ̃_s² - 2ρ̃_s(ρ_BH - ρ)`. The derivative of the left side is zero at the

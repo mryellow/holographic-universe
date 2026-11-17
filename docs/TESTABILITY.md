@@ -211,10 +211,15 @@ ruled out in this form. That is a legitimate result.
   Yₚ.
 - **Falsification criterion:** no allowed parameter point gives `Ω_k < 0` and `ΔN_eff` together
   within 2σ of the data.
-- **Lean link:** `M3.2`, `M4.1`, `M8.1`.
+- **Lean link:** `M3.2`, `M4.1`, `M8.1`. `BraneCosmology.normal_branch_frw_rc_of_le` (M4.4): on
+  the normal branch with `0 ≤ ρ_BH ≤ ρ`, `|H² + 𝒦/a² − H_std²| ≤ H_std/r_c`, where
+  `H_std² = (8πG_N/3)ρ`. So the bulk black hole changes `H²` by a relative amount of at most
+  `1/(r_c H_std)`. It does not act as `ΔN_eff` where `r_c H ≫ 1`.
 - **Next concrete step:** write `H²(a)` on the normal branch in closed form as a function of
   `(ρ_m, ρ_r, ρ_Λ, ρ_BH, ρ̃_s, 𝒦)`. Plot it against flat ΛCDM for `ρ_BH/ρ_r ∈ {0.01, 0.1}`.
-- **Log:** 2026-11-17: created.
+- **Log:** 2026-11-17: created. 2026-11-17: the Lean bound above suggests that, on the normal
+  branch with `ρ_BH ≤ ρ`, the `ΔN_eff` route needs `r_c H ≲ 1` at BBN. That conflicts with
+  `r_c ≳ 1/H₀`. A numerical check with BBN values is still to do.
 
 *(Add P4 onward from O2, O3 and O7 with the template.)*
 

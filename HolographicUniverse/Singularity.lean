@@ -1,4 +1,8 @@
-import HolographicUniverse.History
+module
+
+public import HolographicUniverse.History
+
+@[expose] public section
 
 /-!
 # The pressure singularity (ROADMAP M3.4)

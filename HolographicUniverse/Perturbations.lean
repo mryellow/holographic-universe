@@ -1,7 +1,11 @@
-import HolographicUniverse.Basic
-import HolographicUniverse.Integrals
-import HolographicUniverse.Zeta
-import Mathlib.Analysis.Real.Pi.Bounds
+module
+
+public import HolographicUniverse.Basic
+public import HolographicUniverse.Integrals
+public import HolographicUniverse.Zeta
+public import Mathlib.Analysis.Real.Pi.Bounds
+
+@[expose] public section
 
 /-!
 # Thermal-atmosphere perturbations and late-time bounds (Secs. 4–5)

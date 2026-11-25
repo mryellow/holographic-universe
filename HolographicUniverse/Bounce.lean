@@ -1,5 +1,9 @@
-import HolographicUniverse.Instances
-import Mathlib.Analysis.SpecialFunctions.Sqrt
+module
+
+public import HolographicUniverse.Instances
+public import Mathlib.Analysis.SpecialFunctions.Sqrt
+
+@[expose] public section
 
 /-!
 # An expanding instance with a bulk black hole and radiation (ROADMAP M2.2)
@@ -132,7 +136,7 @@ lemma bounce_accel (hK : 0 < K) (hr : 0 < r) (hrh : 0 ≤ rh) (hrr : 2 * rh ≤ 
 end Closed
 
 /-- `ρ_BH` along a history has derivative `-4 ρ_BH ȧ/a`. -/
-private lemma hasDerivAt_rhoBH_comp {GN K rh : ℝ} {a : ℝ → ℝ} {a' t : ℝ} (ha : HasDerivAt a a' t)
+lemma hasDerivAt_rhoBH_comp {GN K rh : ℝ} {a : ℝ → ℝ} {a' t : ℝ} (ha : HasDerivAt a a' t)
     (hne : a t ≠ 0) :
     HasDerivAt (fun t ↦ WhiteHole.rhoBH GN K 1 rh (a t))
       (-4 * WhiteHole.rhoBH GN K 1 rh (a t) * a' / a t) t := by
@@ -150,7 +154,7 @@ private lemma hasDerivAt_rhoBH_comp {GN K rh : ℝ} {a : ℝ → ℝ} {a' t : �
 variable {K rh : ℝ}
 
 /-- `H² + 𝒦/a² - 𝒦²r_h²/a⁴ = 1/r_c²` along the bounce. -/
-private lemma bounce_arg (c : Couplings) (hK : 0 < K) (hrh : 0 ≤ rh) (hrc : 2 * rh ≤ c.rc)
+lemma bounce_arg (c : Couplings) (hK : 0 < K) (hrh : 0 ≤ rh) (hrc : 2 * rh ≤ c.rc)
     (t : ℝ) :
     (deriv (bounceA K c.rc rh) t / bounceA K c.rc rh t) ^ 2 + K / bounceA K c.rc rh t ^ 2
       - K ^ 2 * rh ^ 2 / bounceA K c.rc rh t ^ 4 = (1 / c.rc) ^ 2 := by

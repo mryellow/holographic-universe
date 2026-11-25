@@ -222,6 +222,27 @@ on the paper's conclusions (ROADMAP M3.5).
 `Audit.lean` runs on every build. It fails if any declaration in the library depends on an
 axiom other than `propext`, `Classical.choice` and `Quot.sound`, which also catches `sorry`.
 
+## Palomar submission
+
+The repository is laid out for the [Palomar](https://palomar-registry.org/) registry of
+Lean-verified results:
+
+- `Challenge.lean` states the advertised results and restates the definitions they use. It
+  imports only Mathlib.
+- `Solution.lean` proves them from the library.
+- `comparator.json` lists the definitions and theorems that `lake comparator` checks between the
+  two, with only `propext`, `Classical.choice` and `Quot.sound` permitted.
+- `formalization.yaml` records provenance, authorship, automation, scope and review.
+- Every Lean file uses the module system (`module`, `public import`), as Palomar requires.
+
+To check the statement against the solution locally (needs `bwrap`):
+
+```bash
+lake comparator --config comparator.json
+```
+
+Submissions go through the form at https://submit.palomar-registry.org/ with the full commit SHA.
+
 ## Roadmap
 
 - [`docs/ROADMAP.md`](docs/ROADMAP.md): the Lean side. Closes the numerical gaps in Sec. 4,

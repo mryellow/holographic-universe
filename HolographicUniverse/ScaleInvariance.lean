@@ -1,4 +1,8 @@
-import HolographicUniverse.ObsData
+module
+
+public import HolographicUniverse.ObsData
+
+@[expose] public section
 
 /-!
 # Scale invariance at leading order, and the first falsification theorem (ROADMAP M7.2)

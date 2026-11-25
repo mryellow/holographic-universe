@@ -1,6 +1,10 @@
-import HolographicUniverse.Orientation
-import Mathlib.Analysis.Calculus.Deriv.MeanValue
-import Mathlib.Analysis.Calculus.MeanValue
+module
+
+public import HolographicUniverse.Orientation
+public import Mathlib.Analysis.Calculus.Deriv.MeanValue
+public import Mathlib.Analysis.Calculus.MeanValue
+
+@[expose] public section
 
 /-!
 # Time dependence of `ρ_BH/ρ`, and what the orientation allows along a history (ROADMAP M3.2)

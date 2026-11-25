@@ -1,4 +1,8 @@
-import HolographicUniverse.Pressure
+module
+
+public import HolographicUniverse.Pressure
+
+@[expose] public section
 
 /-!
 # A brane cosmology in a general static bulk (ROADMAP M5.1)

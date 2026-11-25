@@ -1,5 +1,9 @@
-import HolographicUniverse.Acceleration
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+module
+
+public import HolographicUniverse.Acceleration
+public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+
+@[expose] public section
 
 /-!
 # Non-vacuity: explicit brane cosmologies (ROADMAP M2.1)
@@ -144,13 +148,13 @@ theorem exists_normal_branch_eps_neg :
 
 /-! ### The self-accelerating de Sitter vacuum -/
 
-private lemma hasDerivAt_dS {r : ℝ} (hr : r ≠ 0) (t : ℝ) :
+lemma hasDerivAt_dS {r : ℝ} (hr : r ≠ 0) (t : ℝ) :
     HasDerivAt (fun t ↦ r * cosh (t / r)) (sinh (t / r)) t := by
   have h := ((hasDerivAt_cosh (t / r)).comp t ((hasDerivAt_id t).div_const r)).const_mul r
   exact h.congr_deriv (by field_simp)
 
 /-- For `a = r cosh(t/r)` and `𝒦 = 1`, `H² + 𝒦/a² = 1/r²` at all times. -/
-private lemma dS_hubble {r : ℝ} (hr : 0 < r) (t : ℝ) :
+lemma dS_hubble {r : ℝ} (hr : 0 < r) (t : ℝ) :
     (deriv (fun t ↦ r * cosh (t / r)) t / (r * cosh (t / r))) ^ 2 + 1 / (r * cosh (t / r)) ^ 2
       = 1 / r ^ 2 := by
   have hc := cosh_pos (t / r)

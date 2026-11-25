@@ -1,4 +1,8 @@
-import HolographicUniverse.GeneralBulk
+module
+
+public import HolographicUniverse.GeneralBulk
+
+@[expose] public section
 
 /-!
 # A brane cosmology in the 5D Schwarzschild bulk

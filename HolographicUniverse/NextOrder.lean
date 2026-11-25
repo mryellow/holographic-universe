@@ -1,8 +1,12 @@
-import HolographicUniverse.ThermalIntegral
-import HolographicUniverse.ScaleInvariance
-import Mathlib.Analysis.SpecialFunctions.Gaussian.GaussianIntegral
-import Mathlib.Analysis.Convex.Integral
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+module
+
+public import HolographicUniverse.ThermalIntegral
+public import HolographicUniverse.ScaleInvariance
+public import Mathlib.Analysis.SpecialFunctions.Gaussian.GaussianIntegral
+public import Mathlib.Analysis.Convex.Integral
+public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+
+@[expose] public section
 
 /-!
 # The thermal integral away from `κ = 0` (ROADMAP M7.3, first part)

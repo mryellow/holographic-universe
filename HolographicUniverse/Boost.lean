@@ -1,4 +1,8 @@
-import HolographicUniverse.Running
+module
+
+public import HolographicUniverse.Running
+
+@[expose] public section
 
 /-!
 # P2, Part B: what an infrared boost would have to look like

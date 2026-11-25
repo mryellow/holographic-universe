@@ -1,5 +1,9 @@
-import Mathlib.NumberTheory.LSeries.RiemannZeta
-import Mathlib.Analysis.PSeries
+module
+
+public import Mathlib.NumberTheory.LSeries.RiemannZeta
+public import Mathlib.Analysis.PSeries
+
+@[expose] public section
 
 /-!
 # Numerical bounds on `ζ(5)` (ROADMAP M1.2)

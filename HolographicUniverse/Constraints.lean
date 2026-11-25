@@ -1,4 +1,8 @@
-import HolographicUniverse.InducedFluid
+module
+
+public import HolographicUniverse.InducedFluid
+
+@[expose] public section
 
 /-!
 # Observational bounds on `ρ̃_s` (Eqs. (32)–(35))

@@ -1,4 +1,8 @@
-import HolographicUniverse.ObsData
+module
+
+public import HolographicUniverse.ObsData
+
+@[expose] public section
 
 /-!
 # Hubble, Planck-mass and temperature bounds, Eqs. (50)–(52) (ROADMAP M1.6)

@@ -1,5 +1,9 @@
-import HolographicUniverse.NextOrder
-import Mathlib.NumberTheory.ZetaValues
+module
+
+public import HolographicUniverse.NextOrder
+public import Mathlib.NumberTheory.ZetaValues
+
+@[expose] public section
 
 /-!
 # Radial integrals of `φ′` (ROADMAP M7.3, step 1)

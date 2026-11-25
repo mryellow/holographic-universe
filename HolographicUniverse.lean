@@ -1,41 +1,45 @@
-import HolographicUniverse.Basic
-import HolographicUniverse.Bulk
-import HolographicUniverse.Integrals
-import HolographicUniverse.Zeta
-import HolographicUniverse.InducedFluid
-import HolographicUniverse.Pressure
-import HolographicUniverse.GeneralBulk
-import HolographicUniverse.Constraints
-import HolographicUniverse.Perturbations
-import HolographicUniverse.ObsData
-import HolographicUniverse.Monopoles
-import HolographicUniverse.ScaleInvariance
-import HolographicUniverse.Model
-import HolographicUniverse.Acceleration
-import HolographicUniverse.Instances
-import HolographicUniverse.Orientation
-import HolographicUniverse.History
-import HolographicUniverse.Singularity
-import HolographicUniverse.Bounce
-import HolographicUniverse.Dynamics
-import HolographicUniverse.LocalExistence
-import HolographicUniverse.TurningPoint
-import HolographicUniverse.MaximalSolution
-import HolographicUniverse.FromSolution
-import HolographicUniverse.NormalBranch
-import HolographicUniverse.Horizon
-import HolographicUniverse.Asymptotics
-import HolographicUniverse.AdSBulk
-import HolographicUniverse.ChargedBulk
-import HolographicUniverse.ThermalIntegral
-import HolographicUniverse.NextOrder
-import HolographicUniverse.RadialIntegrals
-import HolographicUniverse.SecondOrder
-import HolographicUniverse.BlueTilt
-import HolographicUniverse.Cascade
-import HolographicUniverse.DarkRadiation
-import HolographicUniverse.Running
-import HolographicUniverse.Jeans
-import HolographicUniverse.Boost
-import HolographicUniverse.Golden
-import HolographicUniverse.Audit
+module
+
+public import HolographicUniverse.Basic
+public import HolographicUniverse.Bulk
+public import HolographicUniverse.Integrals
+public import HolographicUniverse.Zeta
+public import HolographicUniverse.InducedFluid
+public import HolographicUniverse.Pressure
+public import HolographicUniverse.GeneralBulk
+public import HolographicUniverse.Constraints
+public import HolographicUniverse.Perturbations
+public import HolographicUniverse.ObsData
+public import HolographicUniverse.Monopoles
+public import HolographicUniverse.ScaleInvariance
+public import HolographicUniverse.Model
+public import HolographicUniverse.Acceleration
+public import HolographicUniverse.Instances
+public import HolographicUniverse.Orientation
+public import HolographicUniverse.History
+public import HolographicUniverse.Singularity
+public import HolographicUniverse.Bounce
+public import HolographicUniverse.Dynamics
+public import HolographicUniverse.LocalExistence
+public import HolographicUniverse.TurningPoint
+public import HolographicUniverse.MaximalSolution
+public import HolographicUniverse.FromSolution
+public import HolographicUniverse.NormalBranch
+public import HolographicUniverse.Horizon
+public import HolographicUniverse.Asymptotics
+public import HolographicUniverse.AdSBulk
+public import HolographicUniverse.ChargedBulk
+public import HolographicUniverse.ThermalIntegral
+public import HolographicUniverse.NextOrder
+public import HolographicUniverse.RadialIntegrals
+public import HolographicUniverse.SecondOrder
+public import HolographicUniverse.BlueTilt
+public import HolographicUniverse.Cascade
+public import HolographicUniverse.DarkRadiation
+public import HolographicUniverse.Running
+public import HolographicUniverse.Jeans
+public import HolographicUniverse.Boost
+public import HolographicUniverse.Golden
+public import HolographicUniverse.Audit
+
+@[expose] public section

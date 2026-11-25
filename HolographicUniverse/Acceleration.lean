@@ -1,5 +1,9 @@
-import HolographicUniverse.Model
-import Mathlib.Analysis.Calculus.Darboux
+module
+
+public import HolographicUniverse.Model
+public import Mathlib.Analysis.Calculus.Darboux
+
+@[expose] public section
 
 /-!
 # The acceleration equation (ROADMAP M2.4)

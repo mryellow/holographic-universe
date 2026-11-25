@@ -1,7 +1,11 @@
-import HolographicUniverse.RadialIntegrals
-import Mathlib.Analysis.Calculus.ParametricIntegral
-import Mathlib.Analysis.InnerProductSpace.Calculus
-import Mathlib.MeasureTheory.Measure.Haar.InnerProductSpace
+module
+
+public import HolographicUniverse.RadialIntegrals
+public import Mathlib.Analysis.Calculus.ParametricIntegral
+public import Mathlib.Analysis.InnerProductSpace.Calculus
+public import Mathlib.MeasureTheory.Measure.Haar.InnerProductSpace
+
+@[expose] public section
 
 /-!
 # The second-order term of `M(κ)` (ROADMAP M7.3, steps 2 and 3)

@@ -1,0 +1,133 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+version: "v0.4"
+
+project:
+  name: "Holographic Universe: the primordial tilt of a brane-world white-hole cosmology"
+  description: >-
+    A Lean 4 and Mathlib formalization of the mathematics of Pourhasan, Afshordi and Mann,
+    "Out of the White Hole: A Holographic Origin for the Big Bang" (arXiv:1309.1487), in which
+    a 3-brane outside a 5D black hole carries a thermal plasma whose fluctuations set the
+    primordial power spectrum. The advertised results compute the paper's constants
+    (ζ(5) with rigorous bounds, the Bose–Einstein integral ∫₀^∞ x⁵eˣ/(eˣ−1)² dx = 120ζ(5),
+    and the thermal integral M(0) = 15ζ(5)/π² of its Eq. (46)); prove that the thermal
+    integral M(κ) on ℝ⁴ is strictly increasing in |κ|, with second-order coefficient
+    (10ζ(5) − ζ(3))/(16π²) > 0, so that every spectrum C·M(k/s) has spectral index n_s > 1
+    at every scale; and, for a Jeans-instability alternative, prove the exact running
+    α_s = (1 + 1/(1 − y²))(n_s − 1) and that the total tilt ∫₀^b (n_s − 1) d ln k of the
+    brane-projected spectrum is exactly −2 ln cosh τ.
+  authors:
+    - "Mr-Yellow"
+  license: "MIT"
+  responsible_maintainers:
+    - "Mr-Yellow"
+
+classification:
+  arxiv: ["astro-ph.CO", "gr-qc"]
+  msc2020: ["83F05", "85A40", "83E15", "11M06"]
+
+sources:
+  - title: >-
+      The blue tilt of the thermal spectrum (M strictly increasing in |κ|, n_s > 1 at every
+      scale), the second-order coefficient of M, and the Jeans running and tilt-budget
+      identities, first presented in this formalization
+    type: original-proof
+    relationship: other
+    note: >-
+      The paper evaluates its thermal integral only at κ = 0 and attributes the observed red
+      tilt to higher-order corrections. The monotonicity of M, its second derivative at 0, and
+      the Jeans results are not in the paper; they were derived for this project.
+  - title: "Out of the White Hole: A Holographic Origin for the Big Bang"
+    authors:
+      - "Razieh Pourhasan"
+      - "Niayesh Afshordi"
+      - "Robert B. Mann"
+    id: "arXiv:1309.1487v2"
+    type: "article"
+    location: "https://arxiv.org/abs/1309.1487 (JCAP 04 (2014) 005)"
+    relationship: background
+    note: >-
+      The physical model and the definition of the thermal integral M(κ) (Eq. (46)) and the
+      projection of Eq. (48) come from this paper. The value M(0) ≈ 1.576 is the paper's; this
+      project proves the closed form 15ζ(5)/π².
+    license: "arXiv non-exclusive distribution licence"
+    author_endorsement: not-contacted
+
+related_formalizations: []
+
+status:
+  scope: >-
+    Formalized: the definitions in Challenge.lean, taken verbatim from the library, and the nine
+    advertised theorems, with no sorry and no axioms beyond propext, Classical.choice and
+    Quot.sound. The library (HolographicUniverse/) also proves the paper's background
+    cosmology (Friedmann, junction and pressure equations, horizon crossing, maximal solutions)
+    from explicit hypotheses; those results are not advertised here. Not formalized: the
+    derivation of Eq. (46) and Eq. (48) from thermal quantum field theory on the brane, and the
+    brane geometry (extrinsic curvature of a hypersurface in a 5D Lorentzian manifold), which
+    Mathlib cannot yet express. The advertised theorems are statements about the integrals and
+    spectra as defined; their physical interpretation depends on those unformalized steps. The
+    Jeans growth law cosh²(τ√(1 − z²)) is a modelling assumption, not derived from a fluid
+    equation in Lean.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: []
+
+automation:
+  methods:
+    - method: agent
+      models: ["Claude (Anthropic), via Claude Code", "OpenAI Codex models, via the Codex CLI"]
+      framework: "Claude Code; OpenAI Codex CLI"
+      tool_setup: >-
+        Coding agents wrote and edited the Lean sources, ran lake build, and iterated on
+        compiler errors, under the maintainer's direction. The maintainer chose the results to
+        formalize and reviewed the statements.
+      cost:
+        wall_time: "about ten days of elapsed project time"
+        spend_usd: "subscription-based"
+        hardware: "local machine"
+      prompting_notes: >-
+        Work was planned as roadmap milestones (docs/ROADMAP.md); each prompt asked for one
+        milestone, with the definition of done being a clean build of the axiom audit in
+        HolographicUniverse/Audit.lean.
+  spend_usd: "subscription-based"
+  notes: >-
+    The maintainer directed the project and reviewed statements; coding agents produced most of
+    the Lean proofs. A build-time audit (HolographicUniverse/Audit.lean) checks every declaration
+    in the library for non-standard axioms and pins #print axioms output for the headline
+    theorems, so CI fails if a sorry or axiom enters.
+
+fidelity:
+  divergences: >-
+    The library documents its divergences from the paper in docs/NOTE.md: two errata (issues
+    1 and 5), a circular inference of the brane orientation (issues 2 and 3), an orientation
+    change needed by the white-hole history (issue 6), and the pressure singularity and horizon
+    (issue 7). The advertised blue-tilt theorem contradicts the paper's expectation that
+    next-order corrections give a red tilt. None of these divergences changes the definitions
+    of M(κ) or of the spectra in Challenge.lean.
+
+review:
+  status: "self-assessed"
+  reviewers:
+    - "none"
+  notes: >-
+    The maintainer audited the Challenge statements against the paper's Eqs. (46) and (48) and
+    against the library definitions. No independent human mathematical review has been
+    performed.
+
+alignment:
+  namespace: "HolographicUniverse"
+  statements:
+    - source: "M(0) ≈ 1.576, below Eq. (48) of arXiv:1309.1487"
+      lean: "HolographicUniverse.thermalM_zero"
+      module: "Challenge"
+      status: "proved"
+      note: "Proves the closed form M(0) = 15ζ(5)/π² and 1.5758 ≤ M(0) ≤ 1.5761."
+    - source: "Eq. (46) of arXiv:1309.1487, beyond leading order"
+      lean: "HolographicUniverse.spectralIndex_thermal_gt_one"
+      module: "Challenge"
+      status: "proved"
+      note: >-
+        Not a result of the paper. It shows that the next-order behaviour of the paper's
+        thermal spectrum is blue, not red.
+
+acknowledgements: >-
+  Mathlib and the Lean FRO toolchain; the authors of arXiv:1309.1487 for the model.

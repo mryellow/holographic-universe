@@ -1,5 +1,9 @@
-import HolographicUniverse.Asymptotics
-import HolographicUniverse.ObsData
+module
+
+public import HolographicUniverse.Asymptotics
+public import HolographicUniverse.ObsData
+
+@[expose] public section
 
 /-!
 # The bulk black hole is not dark radiation (TESTABILITY P3)

@@ -1,5 +1,9 @@
-import HolographicUniverse.SecondOrder
-import Mathlib.Analysis.InnerProductSpace.Projection.Reflection
+module
+
+public import HolographicUniverse.SecondOrder
+public import Mathlib.Analysis.InnerProductSpace.Projection.Reflection
+
+@[expose] public section
 
 /-!
 # `M(κ)` increases at every scale (ROADMAP M7.3, all `κ`)

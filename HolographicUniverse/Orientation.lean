@@ -1,4 +1,8 @@
-import HolographicUniverse.Acceleration
+module
+
+public import HolographicUniverse.Acceleration
+
+@[expose] public section
 
 /-!
 # Orientation of the brane normal (ROADMAP M3.1, M3.3)

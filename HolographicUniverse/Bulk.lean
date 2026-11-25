@@ -1,4 +1,8 @@
-import HolographicUniverse.Basic
+module
+
+public import HolographicUniverse.Basic
+
+@[expose] public section
 
 /-!
 # The 5D Schwarzschild bulk (Sec. 3)

@@ -1,4 +1,8 @@
-import HolographicUniverse.TurningPoint
+module
+
+public import HolographicUniverse.TurningPoint
+
+@[expose] public section
 
 /-!
 # Maximal solutions (ROADMAP M4.2, global part)

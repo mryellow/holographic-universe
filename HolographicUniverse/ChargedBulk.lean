@@ -1,4 +1,8 @@
-import HolographicUniverse.AdSBulk
+module
+
+public import HolographicUniverse.AdSBulk
+
+@[expose] public section
 
 /-!
 # A charged bulk: Reissner–Nordström₅ (ROADMAP M5.3)

@@ -1,4 +1,8 @@
-import HolographicUniverse.Bulk
+module
+
+public import HolographicUniverse.Bulk
+
+@[expose] public section
 
 /-!
 # The induced (holographic) fluid (Secs. 2–3)

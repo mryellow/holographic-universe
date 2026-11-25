@@ -1,5 +1,9 @@
-import HolographicUniverse.Perturbations
-import Mathlib.Analysis.Complex.ExponentialBounds
+module
+
+public import HolographicUniverse.Perturbations
+public import Mathlib.Analysis.Complex.ExponentialBounds
+
+@[expose] public section
 
 /-!
 # Observational data as parameters (ROADMAP M1.5)

@@ -1,5 +1,9 @@
-import HolographicUniverse.Dynamics
-import Mathlib.Analysis.Calculus.Deriv.MeanValue
+module
+
+public import HolographicUniverse.Dynamics
+public import Mathlib.Analysis.Calculus.Deriv.MeanValue
+
+@[expose] public section
 
 /-!
 # No eternal normal-branch solution with `ε = -1` (ROADMAP M2.3)

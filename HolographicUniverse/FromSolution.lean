@@ -1,4 +1,8 @@
-import HolographicUniverse.MaximalSolution
+module
+
+public import HolographicUniverse.MaximalSolution
+
+@[expose] public section
 
 /-!
 # From a global solution to a brane cosmology (ROADMAP M4.2)

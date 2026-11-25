@@ -1,5 +1,9 @@
-import HolographicUniverse.GeneralBulk
-import HolographicUniverse.Asymptotics
+module
+
+public import HolographicUniverse.GeneralBulk
+public import HolographicUniverse.Asymptotics
+
+@[expose] public section
 
 /-!
 # A Schwarzschild–AdS₅ bulk (ROADMAP M5.2)

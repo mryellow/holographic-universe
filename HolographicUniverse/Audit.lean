@@ -1,3 +1,5 @@
+module
+
 import HolographicUniverse.Basic
 import HolographicUniverse.Bulk
 import HolographicUniverse.Integrals
@@ -38,6 +40,7 @@ import HolographicUniverse.Running
 import HolographicUniverse.Jeans
 import HolographicUniverse.Boost
 import HolographicUniverse.Golden
+public meta import Lean.Elab.Command
 
 /-!
 # Axiom audit (ROADMAP M0.1)
@@ -62,7 +65,7 @@ open Lean Elab Command
 namespace WhiteHole.Audit
 
 /-- The axioms a finished theorem may depend on. -/
-def standardAxioms : List Name := [``propext, ``Classical.choice, ``Quot.sound]
+meta def standardAxioms : List Name := [``propext, ``Classical.choice, ``Quot.sound]
 
 /-- `audit_axioms` checks every declaration of every imported module whose name starts with
 `HolographicUniverse`. It fails if a declaration depends on an axiom outside `standardAxioms`

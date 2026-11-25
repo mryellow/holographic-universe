@@ -1,6 +1,10 @@
-import HolographicUniverse.Bounce
-import HolographicUniverse.Singularity
-import Mathlib.Analysis.SpecialFunctions.Pow.Deriv
+module
+
+public import HolographicUniverse.Bounce
+public import HolographicUniverse.Singularity
+public import Mathlib.Analysis.SpecialFunctions.Pow.Deriv
+
+@[expose] public section
 
 /-!
 # Solutions, and the reduction to an ODE (ROADMAP M2.5, M4.1)

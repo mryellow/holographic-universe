@@ -1,4 +1,8 @@
-import HolographicUniverse.LocalExistence
+module
+
+public import HolographicUniverse.LocalExistence
+
+@[expose] public section
 
 /-!
 # Turning points (ROADMAP M4.2, second-order part)

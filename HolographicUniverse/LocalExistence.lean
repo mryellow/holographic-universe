@@ -1,5 +1,9 @@
-import HolographicUniverse.Dynamics
-import Mathlib.Analysis.ODE.ExistUnique
+module
+
+public import HolographicUniverse.Dynamics
+public import Mathlib.Analysis.ODE.ExistUnique
+
+@[expose] public section
 
 /-!
 # Local existence and uniqueness (ROADMAP M4.2, first-order part)

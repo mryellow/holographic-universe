@@ -1,5 +1,9 @@
-import HolographicUniverse.Dynamics
-import HolographicUniverse.Horizon
+module
+
+public import HolographicUniverse.Dynamics
+public import HolographicUniverse.Horizon
+
+@[expose] public section
 
 /-!
 # Asymptotics (ROADMAP M4.4)

@@ -1,0 +1,30 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "HolographicUniverse.zeta5_spec",
+    "HolographicUniverse.integral_bose",
+    "HolographicUniverse.thermalM_zero",
+    "HolographicUniverse.thermalM_lt_of_norm_lt",
+    "HolographicUniverse.mRay_second_order",
+    "HolographicUniverse.spectralIndex_thermal_gt_one",
+    "HolographicUniverse.jeans_tilt_and_running",
+    "HolographicUniverse.spectralIndex_jeansProjected_above",
+    "HolographicUniverse.tilt_budget"
+  ],
+  "definition_names": [
+    "WhiteHole.zeta5",
+    "WhiteHole.zeta3",
+    "WhiteHole.bose",
+    "WhiteHole.E4",
+    "WhiteHole.omegaPM",
+    "WhiteHole.thermalM",
+    "WhiteHole.eR",
+    "WhiteHole.mRay",
+    "WhiteHole.spectralIndex",
+    "WhiteHole.runningIndex",
+    "WhiteHole.jeansGrowthExact",
+    "WhiteHole.jeansProjected"
+  ],
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"]
+}

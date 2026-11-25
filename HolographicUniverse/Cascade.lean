@@ -1,4 +1,8 @@
-import HolographicUniverse.BlueTilt
+module
+
+public import HolographicUniverse.BlueTilt
+
+@[expose] public section
 
 /-!
 # Cascading gravity cannot make the spectrum red (P2; fourth falsification theorem)

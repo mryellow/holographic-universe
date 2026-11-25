@@ -1,5 +1,9 @@
-import HolographicUniverse.Jeans
-import HolographicUniverse.Boost
+module
+
+public import HolographicUniverse.Jeans
+public import HolographicUniverse.Boost
+
+@[expose] public section
 
 /-!
 # Golden values (ROADMAP M8.4)

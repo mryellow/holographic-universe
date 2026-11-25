@@ -1,5 +1,9 @@
-import HolographicUniverse.Running
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+module
+
+public import HolographicUniverse.Running
+public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+
+@[expose] public section
 
 /-!
 # P1: the shape of a Jeans tilt

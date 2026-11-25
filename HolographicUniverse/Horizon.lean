@@ -1,7 +1,11 @@
-import HolographicUniverse.Model
-import Mathlib.Analysis.Calculus.Darboux
-import Mathlib.Analysis.Calculus.Deriv.MeanValue
-import Mathlib.Analysis.Calculus.Deriv.Shift
+module
+
+public import HolographicUniverse.Model
+public import Mathlib.Analysis.Calculus.Darboux
+public import Mathlib.Analysis.Calculus.Deriv.MeanValue
+public import Mathlib.Analysis.Calculus.Deriv.Shift
+
+@[expose] public section
 
 /-!
 # The horizon-crossing time (ROADMAP M4.3)

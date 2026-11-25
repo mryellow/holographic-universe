@@ -1,4 +1,8 @@
-import HolographicUniverse.ScaleInvariance
+module
+
+public import HolographicUniverse.ScaleInvariance
+
+@[expose] public section
 
 /-!
 # No local, static extension gives the observed tilt (P4)

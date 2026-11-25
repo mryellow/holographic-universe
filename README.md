@@ -1,22 +1,64 @@
 # Holographic Universe — a Lean 4 formalization
 
-This project formalizes the mathematics of
+This project takes a cosmological model,
 
 > R. Pourhasan, N. Afshordi, R. B. Mann, *Out of the White Hole: A Holographic Origin for the
-> Big Bang*, [arXiv:1309.1487](https://arxiv.org/abs/1309.1487), JCAP 04 (2014) 005.
+> Big Bang*, [arXiv:1309.1487](https://arxiv.org/abs/1309.1487), JCAP 04 (2014) 005,
 
-## What "proving the paper" means here
+formalizes its mathematics in Lean 4 with Mathlib, and uses the formalization to decide which of
+its predictions observations can test. In the model, our universe is a 3-brane outside a 5D
+black hole, and a thermal plasma on the brane sets the primordial power spectrum.
 
-The paper is a physics model, not a theorem. Its physical claims (that our universe *is* a
-3-brane outside a 5D black hole) cannot be proven. What can be checked is that the stated
-conclusions **follow from the stated assumptions**. In this project:
+## Formalization
 
-- The **assumptions** are explicit hypotheses. Most are bundled as fields of
-  `WhiteHole.BraneCosmology` in `Model.lean`.
-- The **derivations** are Lean theorems checked against Mathlib.
-- **Inputs that Mathlib cannot yet express** are listed as hypotheses, not `axiom`s, so the
-  development stays sound. Examples are extrinsic curvature of a hypersurface in a 5D Lorentzian
-  manifold, and thermal QFT correlators.
+The model's assumptions are explicit hypotheses. Most are fields of `WhiteHole.BraneCosmology`
+in `Model.lean`, and `BulkCosmology` in `GeneralBulk.lean` generalizes them to any bulk. Every
+result derived from them is a Lean theorem checked against Mathlib, with no `sorry` and no axioms
+beyond Lean's standard three (see [Soundness](#soundness)). Inputs that Mathlib cannot yet
+express, such as the extrinsic curvature of a hypersurface in a 5D Lorentzian manifold and
+thermal QFT correlators, are hypotheses, not `axiom`s.
+
+The formalization covers:
+
+- **The background cosmology.** The induced Friedmann equation, its two branches, the induced
+  pressure, the horizon crossing and the pressure singularity. It also covers existence,
+  uniqueness and maximality of solutions, and AdS and charged bulks. See the
+  [equation map](#equation-map).
+- **The primordial spectrum.** The paper's constants are computed exactly: `ζ(5)` with rigorous
+  bounds, `∫₀^∞ x⁵eˣ/(eˣ − 1)² dx = 120ζ(5)`, and the thermal integral `M(0) = 15ζ(5)/π²` of
+  Eq. (46). Beyond the paper, `M(κ)` is strictly increasing in `|κ|` (`thermalM_lt_of_norm_lt`),
+  so the thermal spectrum is blue at every scale (`spectralIndex_thermal_gt_one`).
+- **Issues in the paper.** Errata, a circular inference of the brane orientation, and an
+  orientation change that the white-hole history needs. See
+  [Issues the formalization surfaced](#issues-the-formalization-surfaced) and
+  [`docs/NOTE.md`](docs/NOTE.md).
+
+The headline results are packaged for the Palomar registry (see
+[Palomar submission](#palomar-submission)).
+
+## Testability
+
+A formal derivation tells you what a model predicts, including where it fails.
+[`docs/TESTABILITY.md`](docs/TESTABILITY.md) turns the theorems into observational tests, each
+with a falsification criterion, and the code in [`phenomenology/`](phenomenology) computes them.
+The current state, all proved in Lean:
+
+- **The model as written is ruled out.** At leading order its spectrum is scale-invariant,
+  `n_s = 1`, and fits neither Planck release for any parameter value
+  (`leading_order_ruled_out_planck2018`). Planck 2018 puts `n_s = 1` more than 8σ away.
+- **The next order makes it worse.** The full thermal spectrum is blue, `n_s > 1`, at every
+  scale (`ObsData.not_fits_thermal`).
+- **The paper's two proposed fixes fail.** A Jeans instability gives a red tilt, but with a
+  running that Planck 2018 excludes (`planck2018Running_not_fits_jeans`, for the unprojected
+  spectrum). Cascading gravity tilts the spectrum the wrong
+  way for every `M₆` (`ObsData.not_fits_cascade`).
+- **No local fix works.** Any local extension of the mechanism has `α_s ≤ 2(n_s − 1)`, which
+  Planck 2018 excludes (`planck2018Running_not_fits_local`). A fix has to come from outside
+  the paper's mechanism, and a factor multiplying the spectrum must fall faster than the
+  observed tilt at the pivot (`planck2018_factor_slope`).
+
+`Golden.lean` pins exact values that the numerical code must reproduce, and CI checks them
+against `phenomenology/tests/test_golden.py`.
 
 ## Layout
 
@@ -251,9 +293,7 @@ Submissions go through the form at https://submit.palomar-registry.org/ with the
 - [`docs/NOTE.md`](docs/NOTE.md): a short note on the issues above, for readers of the paper.
 - [`docs/TESTABILITY.md`](docs/TESTABILITY.md): the physics side. Lists the candidate
   observational tests with a verdict on each, decision gates, and a template for building each
-  test into a pathway. Note: the paper's simple model predicts `n_s = 1` and is ruled out by its
-  own Sec. 5 (proved as `leading_order_ruled_out_planck2018`), so any testable version needs an
-  extension that produces a red tilt.
+  test into a pathway. See [Testability](#testability) for where it stands.
 
 ## Building
 
